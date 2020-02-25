@@ -13,6 +13,7 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/lib)
 
 file(GLOB HEADERS "src/*.h")
 file(GLOB SOURCES "src/*.cpp")
+#list(FILTER SOURCES EXCLUDE REGEX ".*QT.cpp$")
 
 INCLUDE_DIRECTORIES(
     /usr/local/include/
@@ -27,10 +28,9 @@ add_library(SpFoundation
     ${SOURCES}
 )
 
-add_definitions(-DUNIX -DENV_32BITS -DGLFW)
+add_definitions(-DUNIX -DENV_32BITS -DGLFW -Wno-dangling-else)
 
 target_link_libraries(SpFoundation
     ${OPENGL_LIBRARY}
     glfw3
-    ${GLEW_LIBRARIES}
 )

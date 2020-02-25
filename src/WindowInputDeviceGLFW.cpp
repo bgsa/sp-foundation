@@ -48,7 +48,7 @@ void WindowInputDeviceGLFW::addHandler(WindowInputDeviceHandler* handler)
 
 void WindowInputDeviceGLFW::removeHandler(WindowInputDeviceHandler* handler)
 {
-	vector<WindowInputDeviceHandler*>::iterator item = find(handlers.begin(), handlers.end(), handler);
+	std::vector<WindowInputDeviceHandler*>::iterator item = find(handlers.begin(), handlers.end(), handler);
 
 	if (item != handlers.end())
 		handlers.erase(item);
@@ -60,13 +60,13 @@ void WindowInputDeviceGLFW::update(sp_longlong elapsedTime)
 
 void WindowInputDeviceGLFW::close()
 {
-	for (sp_uinti = 0; i < handlers.size(); i++)
+	for (unsigned int i = 0; i < handlers.size(); i++)
 		handlers[i]->onClose();
 }
 
 void WindowInputDeviceGLFW::resize(sp_int width, sp_int height)
 {
-	for (sp_uint i = 0; i < handlers.size(); i++)
+	for (unsigned int i = 0; i < handlers.size(); i++)
 		handlers[i]->onResize(width, height);
 }
 

@@ -41,7 +41,7 @@ void KeyboardInputDeviceGLFW::addHandler(KeyboardInputDeviceHandler* handler)
 
 void KeyboardInputDeviceGLFW::removeHandler(KeyboardInputDeviceHandler* handler)
 {
-	vector<KeyboardInputDeviceHandler*>::iterator item = std::find(handlersKeyboard.begin(), handlersKeyboard.end(), handler);
+	std::vector<KeyboardInputDeviceHandler*>::iterator item = std::find(handlersKeyboard.begin(), handlersKeyboard.end(), handler);
 
 	if (item != handlersKeyboard.end())
 		handlersKeyboard.erase(item);

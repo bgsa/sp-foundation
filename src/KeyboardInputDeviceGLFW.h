@@ -8,8 +8,6 @@
 #include <algorithm>
 #include <GLFW/glfw3.h>
 
-using namespace std;
-
 class KeyboardInputDeviceGLFW : public KeyboardInputDevice
 {
 private:

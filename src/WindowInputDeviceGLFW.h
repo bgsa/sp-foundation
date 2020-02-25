@@ -14,7 +14,7 @@ private:
 	WindowInputDeviceGLFW();
 
 	GLFWwindow* window;
-	vector<WindowInputDeviceHandler*> handlers;
+	std::vector<WindowInputDeviceHandler*> handlers;
 
 public:
 

@@ -8,12 +8,16 @@
 #include "PointerInputDevice.h"
 #include "PointerInputDeviceHandler.h"
 #include <GLFW/glfw3.h>
+#include "RendererSize.h"
 
 class PointerInputDeviceGLFW : public PointerInputDevice
 {
 private:
 		
 public:
+
+	API_INTERFACE PointerInputDeviceGLFW();
+
 	API_INTERFACE void init(GLFWwindow* window);
 	API_INTERFACE void update(sp_longlong elapsedTime);
 	

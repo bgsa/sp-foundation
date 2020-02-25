@@ -16,8 +16,6 @@
 #include "HttpOperationResult.h"
 #include "StringHelper.h"
 
-using namespace std;
-
 class HttpConnectionManager;
 
 class HttpConnection

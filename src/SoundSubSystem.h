@@ -8,8 +8,6 @@
 
 #include "ISubSystem.h"
 
-using namespace std;
-
 class SoundSubSystem : public ISubSystem
 {
 private:
