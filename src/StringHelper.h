@@ -1,6 +1,7 @@
 #pragma once
 
 #include "apollo.h"
+#include <cstring>
 #include <sstream>
 
 #ifdef __cplusplus
