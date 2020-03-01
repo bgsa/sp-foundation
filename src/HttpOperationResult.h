@@ -1,7 +1,7 @@
 #ifndef HTTP_OPERATION_RESULT_HEADER
 #define HTTP_OPERATION_RESULT_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"|
 #include <iostream>
 
 struct DownloadData

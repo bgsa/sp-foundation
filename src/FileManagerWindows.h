@@ -3,10 +3,9 @@
 #ifndef FILE_MANAGER_WINDOWS_HEADER
 #define FILE_MANAGER_WINDOWS_HEADER
 
+#include "SpectrumFoundation.h"
 #include <fstream>
 #include <iostream>
-
-#include "apollo.h"
 
 #ifdef APIENTRY // avoid Windows.h redefine APIENTRY symbol
 	#undef APIENTRY

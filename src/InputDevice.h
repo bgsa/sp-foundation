@@ -1,7 +1,7 @@
 #ifndef INPUT_DEVICE_HEADER
 #define INPUT_DEVICE_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 
 class InputDevice
 {

@@ -1,16 +1,14 @@
 #ifndef RENDERER_SIZE_HEADER
 #define RENDERER_SIZE_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 
 class RendererSize
 {
 private:
     sp_int width = 0;
     sp_int height = 0;
-
-    static RendererSize* instance;
-
+	
     RendererSize()
     {
         ;
@@ -18,15 +16,9 @@ private:
 	
 public:
 
-    API_INTERFACE static void init()
-    {
-        instance = ALLOC_NEW(RendererSize);
-    }
+	API_INTERFACE static void init();
 
-    API_INTERFACE static RendererSize* getInstance()
-    {
-        return instance;
-    }
+	API_INTERFACE static RendererSize* getInstance();
 
     API_INTERFACE sp_int getWidth()
     {

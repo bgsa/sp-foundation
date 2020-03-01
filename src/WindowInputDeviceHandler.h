@@ -1,7 +1,7 @@
 #ifndef WINDOW_INPUT_DEVICE_HANDLER_HEADER
 #define WINDOW_INPUT_DEVICE_HANDLER_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 #include "InputDeviceHandler.h"
 
 class WindowMoveEvent 

@@ -1,7 +1,7 @@
 #ifndef KEYBOARD_INPUT_DEVICE_HANDLER_HEADER
 #define KEYBOARD_INPUT_DEVICE_HANDLER_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 #include "InputDeviceHandler.h"
 
 class KeyboardInputDeviceHandler : public InputDeviceHandler

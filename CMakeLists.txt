@@ -16,7 +16,8 @@ file(GLOB SOURCES "src/*.cpp")
 #list(FILTER SOURCES EXCLUDE REGEX ".*QT.cpp$")
 
 INCLUDE_DIRECTORIES(
-    /usr/local/include/
+	../vendor/glfw/include
+    /usr/local/include
     ${HEADERS}
 )
 

@@ -1,7 +1,7 @@
-#ifndef  DISPLAY_DEVICE_HEADER
+#ifndef DISPLAY_DEVICE_HEADER
 #define DISPLAY_DEVICE_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 
 class DisplayDevice
 {

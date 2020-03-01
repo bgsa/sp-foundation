@@ -7,7 +7,7 @@
 	#undef Q_COMPILER_CONSTEXPR
 #endif
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 #include "DisplayDevice.h"
 #include <QWidget>
 #include <QGuiApplication>
@@ -27,6 +27,6 @@ public:
 	API_INTERFACE void swapBuffer() override;
 };
 
-#endif
+#endif !DISPLAY_DEVICE_QT_HEADER
 
-#endif // !DISPLAY_DEVICE_QT_HEADER
+#endif // !QT_ENABLED

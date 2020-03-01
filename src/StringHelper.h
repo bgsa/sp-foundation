@@ -1,7 +1,9 @@
-#pragma once
+#ifndef STRING_HELPER_HEADER
+#define STRING_HELPER_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 #include <cstring>
+#include <cctype>
 #include <sstream>
 
 #ifdef __cplusplus
@@ -112,3 +114,4 @@ public:
 
 };
 
+#endif // !STRING_HELPER_HEADER

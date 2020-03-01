@@ -1,4 +1,4 @@
-#ifdef GLFW
+#ifdef GLFW_ENABLED
 
 #include "PointerInputDeviceGLFW.h"
 
@@ -152,4 +152,4 @@ void PointerInputDeviceGLFW::update(sp_longlong elapsedTime)
 {
 }
 
-#endif
+#endif // !GLFW_ENABLED

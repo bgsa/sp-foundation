@@ -1,7 +1,7 @@
 #ifndef I_FILE_HEADER
 #define I_FILE_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 
 class IFile 
 {

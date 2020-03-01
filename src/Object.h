@@ -1,6 +1,7 @@
-#pragma once
+#ifndef OBJECT_HEADER
+#define OBJECT_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 //#include "IEquatable.h"
 
 class Object //: public IEquatable<Object>
@@ -11,3 +12,4 @@ public:
 
 };
 
+#endif // !OBJECT_HEADER

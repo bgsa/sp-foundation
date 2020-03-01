@@ -1,4 +1,4 @@
-#ifdef GLFW
+#ifdef GLFW_ENABLED
 
 #include "WindowInputDeviceGLFW.h"
 
@@ -70,4 +70,4 @@ void WindowInputDeviceGLFW::resize(sp_int width, sp_int height)
 		handlers[i]->onResize(width, height);
 }
 
-#endif
+#endif // !GLFW_ENABLED

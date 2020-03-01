@@ -1,6 +1,7 @@
-#pragma once
+#ifndef COLOR_RGB_HEADER
+#define COLOR_RGB_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 
 template<typename T>
 class ColorRGB
@@ -17,9 +18,9 @@ public:
 		Blue = blue;
 	}
 
-	API_INTERFACE ColorRGB<float> normalizeColor()
+	API_INTERFACE ColorRGB<sp_float> normalizeColor()
 	{
-		return ColorRGB<float>(
+		return ColorRGB<sp_float>(
 			Red / 255.0f,
 			Green / 255.0f,
 			Blue / 255.0f);
@@ -28,3 +29,5 @@ public:
 
 typedef ColorRGB<sp_float> ColorRGBf;
 typedef ColorRGB<sp_uchar> ColorRGBc;
+
+#endif // !COLOR_RGB+HEADER

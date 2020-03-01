@@ -1,6 +1,6 @@
 #include "DisplayDeviceGLFW.h"
 
-#ifdef GLFW
+#ifdef GLFW_ENABLED
 
 void DisplayDeviceGLFW::init(GLFWwindow* window)
 {
@@ -80,4 +80,4 @@ void ChangeResolution(int width, int height)
 }
 */
 
-#endif
+#endif // !GLFW_ENABLED

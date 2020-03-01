@@ -1,9 +1,9 @@
-#ifdef GLFW
+#ifdef GLFW_ENABLED
 
 #ifndef KEYBOARD_INPUT_DEVICE_GLFW_HEADER
 #define KEYBOARD_INPUT_DEVICE_GLFW_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 #include "KeyboardInputDevice.h"
 #include <algorithm>
 #include <GLFW/glfw3.h>
@@ -25,4 +25,4 @@ public:
 
 #endif // KEYBOARD_INPUT_DEVICE_GLFW_HEADER
 
-#endif // GLFW
+#endif // !GLFW_ENABLED

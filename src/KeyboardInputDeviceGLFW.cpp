@@ -1,4 +1,4 @@
-#ifdef GLFW
+#ifdef GLFW_ENABLED
 
 #include "KeyboardInputDeviceGLFW.h"
 
@@ -57,4 +57,4 @@ bool KeyboardInputDeviceGLFW::isKeyPressed(sp_int virtualKey)
 	return isKeyPressedA(virtualKey);
 }
 
-#endif
+#endif // !GLFW_ENABLED

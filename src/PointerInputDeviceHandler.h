@@ -1,7 +1,7 @@
 #ifndef POINTER_INPUT_DEVICE_HANDLER_HEADER
 #define POINTER_INPUT_DEVICE_HANDLER_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 #include "InputDeviceHandler.h"
 
 enum MouseButton {

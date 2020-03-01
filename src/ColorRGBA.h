@@ -1,6 +1,7 @@
-#pragma once
+#ifndef COLOR_RGBA_HEADER
+#define COLOR_RGBA_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 
 template<typename T>
 class ColorRGBA
@@ -47,7 +48,7 @@ public:
 	/// <summary>
 	/// Get a index component color from the color
 	/// </summary>
-	API_INTERFACE T& operator[](int index)
+	API_INTERFACE T& operator[](sp_int index)
 	{
 		assert(index >= 0 && index < 4);
 
@@ -58,3 +59,5 @@ public:
 
 typedef ColorRGBA<sp_float> ColorRGBAf;
 typedef ColorRGBA<sp_uchar> ColorRGBAc;
+
+#endif // !COLOR_RGBA_HEADER

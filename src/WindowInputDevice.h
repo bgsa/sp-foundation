@@ -1,7 +1,7 @@
 #ifndef WINDOW_INPUT_DEVICE_HEADER
 #define WINDOW_INPUT_DEVICE_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 #include "InputDevice.h"
 #include "WindowInputDeviceHandler.h"
 

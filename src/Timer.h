@@ -1,6 +1,7 @@
-#pragma once
+#ifndef TIMER_HEADER
+#define TIMER_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 #include <chrono>
 
 using namespace std::chrono;
@@ -31,3 +32,4 @@ public:
 	API_INTERFACE sp_float getSkipTick();
 };
 
+#endif // !TIMER_HEADER

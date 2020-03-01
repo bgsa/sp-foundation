@@ -1,7 +1,6 @@
 #ifndef LOG_HEADER
 #define LOG_HEADER
 
-#include "apollo.h"
 #include <cstdio>
 #include <iostream>
 #include <string>

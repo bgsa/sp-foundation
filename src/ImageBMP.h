@@ -1,7 +1,7 @@
 #ifndef IMAGE_BMP_HEADER
 #define IMAGE_BMP_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 #include <fstream>
 #include "Image.h"
 #include <cstdio>

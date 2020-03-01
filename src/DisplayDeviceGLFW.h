@@ -1,4 +1,4 @@
-#ifdef GLFW
+#ifdef GLFW_ENABLED
 
 #ifndef DISPLAY_DEVICE_GLFW_HEADER
 #define DISPLAY_DEVICE_GLFW_HEADER
@@ -12,10 +12,10 @@ private:
 	GLFWwindow* window;
 
 public:
-	API_INTERFACE void API_INTERFACE init(GLFWwindow* window);
-	API_INTERFACE void API_INTERFACE swapBuffer() override;
+	API_INTERFACE void init(GLFWwindow* window);
+	API_INTERFACE void swapBuffer() override;
 };
 
 #endif // DISPLAY_DEVICE_GLFW_HEADER
 
-#endif
+#endif // !GLFW_ENABLED

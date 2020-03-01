@@ -7,7 +7,7 @@
 	#undef Q_COMPILER_CONSTEXPR
 #endif
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 #include "PointerInputDevice.h"
 #include <qwindow.h>
 #include <qguiapplication.h>

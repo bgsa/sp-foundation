@@ -1,6 +1,7 @@
-#pragma once
+#ifndef IMAGE_HEADER
+#define IMAGE_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 #include "ColorRGB.h"
 
 class Image 
@@ -23,3 +24,6 @@ public:
 	sp_uint getColorFormat();
 	virtual ColorRGBc getPixelRGB(sp_int x, sp_int y) = 0;
 };
+
+
+#endif // !IMAGE_HEADER

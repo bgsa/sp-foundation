@@ -1,9 +1,9 @@
-#ifdef GLFW
+#ifdef GLFW_ENABLED
 
 #ifndef WINDOW_INPUT_DEVICE_GLFW_HEADER
 #define WINDOW_INPUT_DEVICE_GLFW_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 #include "WindowInputDevice.h"
 #include <algorithm>
 #include <GLFW/glfw3.h>
@@ -32,4 +32,4 @@ public:
 
 #endif // !WINDOW_INPUT_DEVICE_GLFW_HEADER
 
-#endif // GLFW
+#endif // GLFW_ENABLED

@@ -1,9 +1,9 @@
-#ifdef GLFW
+#ifdef GLFW_ENABLED
 
 #ifndef POINTER_INPUT_DEVICE_GLFW_HEADER
 #define POINTER_INPUT_DEVICE_GLFW_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 #include <algorithm>
 #include "PointerInputDevice.h"
 #include "PointerInputDeviceHandler.h"
@@ -27,4 +27,4 @@ public:
 
 #endif // !POINTER_INPUT_DEVICE_GLFW_HEADER
 
-#endif // GLFW
+#endif // !GLFW_ENABLED

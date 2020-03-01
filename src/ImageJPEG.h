@@ -1,7 +1,7 @@
 #ifndef IMAGE_JPEG_HEADER
 #define IMAGE_JPEG_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 #include <fstream>
 #include "Image.h"
 
@@ -29,14 +29,14 @@ public:
 	
 	static ImageJPEG * load(const sp_char* filename)
 	{
-		ImageJPEG *image = new ImageJPEG;
+		ImageJPEG *image = ALLOC_NEW(ImageJPEG)();
 		FILE *file = fopen(filename, "rb");
 
 		JFIFHeader fileHeader;
 		fread(&fileHeader, sizeof(JFIFHeader), 1, file);
 
 		fclose(file);
-		delete image;
+		ALLOC_DELETE(image, ImageJPEG);
 
 		//NOT IMPLEMENTED EXCEPTION		
 

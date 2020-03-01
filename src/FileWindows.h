@@ -3,8 +3,8 @@
 #ifndef FILE_WINDOWS_HEADER
 #define FILE_WINDOWS_HEADER
 
+#include "SpectrumFoundation.h"
 #include <fstream>
-#include "apollo.h"
 #include "IFile.h"
 
 class FileWindows : public IFile

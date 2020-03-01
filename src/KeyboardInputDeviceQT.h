@@ -7,8 +7,8 @@
 	#undef Q_COMPILER_CONSTEXPR
 #endif
 
+#include "SpectrumFoundation.h"
 #include <algorithm>
-#include "apollo.h"
 #include "KeyboardInputDevice.h"
 #include <qguiapplication.h>
 #include <qevent.h>

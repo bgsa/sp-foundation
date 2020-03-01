@@ -1,6 +1,7 @@
-#pragma once
+#ifndef THREAD_USE_HEADER
+#define THREAD_USE_HEADER
 
-#include "apollo.h"
+#include "SpectrumFoundation.h"
 #include <thread>
 #include <chrono>
 
@@ -23,3 +24,4 @@ public:
 	~ThreadUser();
 };
 
+#endif // !THREAD_USE_HEADER
