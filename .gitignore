@@ -3,4 +3,6 @@
 x64/
 GeneratedFiles/
 build/
+Debug/
+Release/
 lib/
