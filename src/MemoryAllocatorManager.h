@@ -2,6 +2,7 @@
 #define MEMORY_ALLOCATOR_MANAGER_HEADER
 
 #include <cassert>
+#include <cstring>
 #include <mutex>
 
 #define ALLOC(type) (type*)MemoryAllocatorManager::alloc(sizeof(type))
