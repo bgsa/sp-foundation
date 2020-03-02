@@ -48,19 +48,23 @@ link_directories(
 	/usr/local/lib/
 )
 
-add_library(SpFoundation ${SOURCES})
+if(BUILD_SHARED_LIBS)
+	add_library(${PROJECT_NAME} SHARED ${SOURCES})
+else()
+	add_library(${PROJECT_NAME} STATIC ${SOURCES})
+endif()
 
 if ( ${OPERATING_SYSTEM} STREQUAL "WINDOWS" )
-    add_definitions(-DENV_32BITS -DGLFW_ENABLED -Wno-dangling-else -DWINDOWS)
+    add_definitions(-DENV_32BITS -DAPI_EXPORT -DGLFW_ENABLED -DOPENGL -Wno-dangling-else -DWINDOWS -D_CRT_SECURE_NO_WARNINGS)
 elseif ( ${OPERATING_SYSTEM} STREQUAL "LINUX" )
-    add_definitions(-DENV_32BITS -DGLFW_ENABLED -Wno-dangling-else -DLINUX)
+    add_definitions(-DENV_32BITS -DAPI_EXPORT -DGLFW_ENABLED -DOPENGL -Wno-dangling-else -DLINUX)
 elseif ( ${OPERATING_SYSTEM} STREQUAL "UNIX" )
-    add_definitions(-DENV_32BITS -DGLFW_ENABLED -Wno-dangling-else -DUNIX)
+    add_definitions(-DENV_32BITS -DAPI_EXPORT -DGLFW_ENABLED -DOPENGL -Wno-dangling-else -DUNIX)
 else()
     message(FATAL_ERROR "Operating System not defined!")
 endif()
 
-target_link_libraries(SpFoundation
+target_link_libraries(${PROJECT_NAME}
     ${OPENGL_LIBRARY}
     ../vendor/lib/${GLFW_LIB_NAME}
 )
