@@ -17,7 +17,10 @@
 #define SIZEOF_ULONG     (8)
 
 #ifdef ENV_32BITS
-	#define SHIFT_BIT 1
+	#define SHIFT_BIT_ONE   1
+	#define SHIFT_BIT_TWO   2
+	#define SHIFT_BIT_THREE 3
+	#define SHIFT_BIT_FOUR  4
 
 	typedef bool      sp_bool;
 	typedef char      sp_char;
@@ -33,11 +36,15 @@
 	typedef unsigned char       sp_ubyte;
 	typedef unsigned short      sp_ushort;
 	typedef unsigned int        sp_uint;
+	typedef unsigned int        sp_size;
 	typedef unsigned long       sp_ulong;
 	typedef unsigned long long  sp_ulonglong;
-
+	
 #elif defined(ENV_64BITS)
-	#define SHIFT_BIT 1i64
+	#define SHIFT_BIT_ONE   1i64
+	#define SHIFT_BIT_TWO   2L
+	#define SHIFT_BIT_THREE 3L
+	#define SHIFT_BIT_FOUR  4L
 
 	typedef bool      sp_bool;
 	typedef char      sp_char;
@@ -53,6 +60,7 @@
 	typedef unsigned char          sp_ubyte;
 	typedef unsigned short         sp_ushort;
 	typedef unsigned long long     sp_uint;
+	typedef unsigned long long     sp_size;
 	typedef unsigned long int      sp_ulong;
 	typedef unsigned long long int sp_ulonglong;
 
@@ -103,6 +111,19 @@
 #define radiansToHour(x) degreesToHout(radiansToDegrees(x))
 
 #define DECIMAL_BASE (10)
+
+#define divideBy(value, bit) (value >> bit)
+#define divideBy2(value) divideBy(value, SHIFT_BIT_ONE)
+#define divideBy4(value) (value >> SHIFT_BIT_TWO)
+#define divideBy8(value) (value >> SHIFT_BIT_THREE)
+#define divideBy16(value) (value >> SHIFT_BIT_FOUR)
+
+#define multiplyBy(value, bit) (value << bit)
+#define multiplyBy2(value) multiplyBy(value, SHIFT_BIT_ONE)
+#define multiplyBy4(value) multiplyBy(value, SHIFT_BIT_TWO)
+#define multiplyBy8(value) multiplyBy(value, SHIFT_BIT_THREE)
+#define multiplyBy10(value) ((value << SHIFT_BIT_THREE) + (value << SHIFT_BIT_ONE));
+#define multiplyBy16(value) multiplyBy(value, SHIFT_BIT_FOUR)
 
 extern "C" {
 
