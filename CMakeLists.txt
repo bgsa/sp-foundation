@@ -1,5 +1,12 @@
 cmake_minimum_required(VERSION 3.0.0)
-cmake_policy(SET CMP0054 NEW)
+
+if (POLICY CMP0054)
+    cmake_policy(SET CMP0054 NEW)
+endif()
+
+if (POLICY CMP0077)
+    cmake_policy(SET CMP0077 NEW)
+endif()
 
 set (MAJOR_VERSION 0)
 set (MINOR_VERSION 1)
@@ -9,11 +16,22 @@ project(SpFoundation VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
 option(OPERATING_SYSTEM "Defined which operating system will be built for" "WINDOWS")
 option(GLFW_ENABLED     "Defined if GLFW will be used" ON)
 option(QT_ENABLED       "Defined if QT will be used"   OFF)
+option(ARCH_BITS        "Defined the compilation to 64 bits"   "64")
 
 set (CMAKE_C_STANDARD 11)
 set (CMAKE_C_STANDARD_REQUIRED ON)
 set (CMAKE_CXX_STANDARD 11)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
+
+if ( ${ARCH_BITS} STREQUAL "64" )
+	set (ARCH "x86_64")
+	set (CMAKE_C_FLAGS   "${CMAKE_C_FLAGS} -m64 -std=c11" )
+	set (CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -m64 -std=c++11" )
+else()
+	set(ARCH "x86")	
+	set (CMAKE_C_FLAGS   "${CMAKE_C_FLAGS} -m32 -std=c11" )
+	set (CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -m32 -std=c++11" )
+endif()
 
 if ( ${OPERATING_SYSTEM} STREQUAL "WINDOWS" )
     set (GLFW_LIB_NAME "glfw3.lib")
