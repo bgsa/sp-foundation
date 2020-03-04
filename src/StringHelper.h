@@ -26,7 +26,7 @@ public:
 
 	API_INTERFACE static inline void copy(const sp_char* source, sp_char* destination, sp_uint maxLength = 1024)
 	{
-		const sp_uint sourceLength = strnlen(source, maxLength);
+		const sp_size sourceLength = strnlen(source, maxLength);
 
 		std::strcpy(destination, source);
 
@@ -44,7 +44,7 @@ public:
 	{
 		sp_char* stringAsArray = (sp_char*)value.c_str();
 
-		for (sp_uint i = 0; i < value.length(); i++)
+		for (sp_size i = 0; i < value.length(); i++)
 			stringAsArray[i] = (sp_char) tolower(stringAsArray[i]);
 
 		return std::string(stringAsArray);
@@ -54,7 +54,7 @@ public:
 	{
 		sp_char* stringAsArray = (sp_char*) value.c_str();
 
-		for (sp_uint i = 0; i < value.length(); i++)
+		for (sp_size i = 0; i < value.length(); i++)
 			stringAsArray[i] = (sp_char) std::toupper(stringAsArray[i]);
 
 		return std::string(stringAsArray);
@@ -62,8 +62,8 @@ public:
 
 	static sp_bool startWith(std::string text, std::string value)
 	{
-		sp_uint textLength = text.length();
-		sp_uint valueLength = value.length();
+		sp_size textLength = text.length();
+		sp_size valueLength = value.length();
 
 		if (valueLength > textLength)
 			return false;
@@ -78,8 +78,8 @@ public:
 		if (text == nullptr || suffix == nullptr)
 			return false;
 
-		sp_uint textLength = std::strlen(text);
-		sp_uint suffixLength = std::strlen(suffix);
+		sp_size textLength = std::strlen(text);
+		sp_size suffixLength = std::strlen(suffix);
 
 		if (suffixLength > textLength)
 			return false;

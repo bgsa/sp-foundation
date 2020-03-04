@@ -6,7 +6,7 @@
 #define SIZEOF_SHORT     (2)
 #define SIZEOF_INT       (4)
 #define SIZEOF_LONG      (8)
-//#define SIZEOF_LONG_LONG (8)
+#define SIZEOF_LONG_LONG (8)
 #define SIZEOF_FLOAT     (4)
 #define SIZEOF_DOUBLE    (8)
 #define SIZEOF_LDOUBLE   (10)
@@ -15,55 +15,92 @@
 #define SIZEOF_USHORT    (2)
 #define SIZEOF_UINT      (4)
 #define SIZEOF_ULONG     (8)
+#define SIZEOF_ULONGLONG (8)
+
+#define SP_HUGE_VALUE_FLOAT ((sp_float) 1e50)
+#define SP_INFINITY         SP_HUGE_VALUE_FLOAT
+
+#if defined(WINDOWS)
+
+	typedef bool   sp_bool;
+	typedef char   sp_char;
+	typedef float  sp_float;
+	typedef double sp_double;
+	
+	typedef signed __int8    sp_int8;
+	typedef signed __int16   sp_short;
+	typedef signed __int16   sp_int16;
+	typedef signed __int32   sp_int;
+	typedef signed __int32   sp_int32;
+	typedef signed __int64   sp_long;
+	typedef signed __int64   sp_int64;
+	typedef signed long long sp_longlong;
+
+	typedef unsigned __int8     sp_uint8;
+	typedef unsigned __int8     sp_byte;
+	typedef unsigned __int8     sp_uchar;
+	typedef unsigned __int16    sp_uint16;
+	typedef unsigned __int16    sp_ushort;
+	typedef unsigned __int16    sp_half;
+	typedef unsigned __int32    sp_uint32;
+	typedef unsigned __int32    sp_uint;
+	typedef unsigned __int64    sp_uint64;
+	typedef unsigned __int64    sp_ulong;
+	typedef unsigned __int64    sp_size;
+	typedef unsigned long long  sp_long_size;
+	
+	#define SP_NOT_A_NUMBER     (CL_INFINITY - CL_INFINITY)
+
+#else
+
+	#include <stdint.h>
+
+	typedef bool   sp_bool;
+	typedef char   sp_char;
+	typedef float  sp_float  __attribute__((aligned(4)));
+	typedef double sp_double __attribute__((aligned(8)));
+
+	typedef int8_t    sp_int8;
+	typedef int16_t   sp_int16     __attribute__((aligned(SIZEOF_SHORT)));
+	typedef int16_t   sp_short     __attribute__((aligned(SIZEOF_SHORT)));
+	typedef int32_t   sp_int32     __attribute__((aligned(SIZEOF_INT)));
+	typedef int32_t   sp_int       __attribute__((aligned(SIZEOF_INT)));
+	typedef int64_t   sp_int64     __attribute__((aligned(SIZEOF_LONG)));
+	typedef int64_t   sp_long      __attribute__((aligned(SIZEOF_LONG)));
+	typedef long long sp_longlong  __attribute__((aligned(SIZEOF_LONG_LONG)));
+
+	typedef uint8_t        sp_uint8;
+	typedef uint8_t        sp_byte;
+	typedef uint8_t        sp_uchar;
+	typedef uint16_t       sp_uint16     __attribute__((aligned(SIZEOF_SHORT)));;
+	typedef uint16_t       sp_ushort     __attribute__((aligned(SIZEOF_SHORT)));;
+	typedef uint16_t       sp_half       __attribute__((aligned(SIZEOF_SHORT)));
+	typedef uint32_t       sp_uint32     __attribute__((aligned(SIZEOF_INT)));
+	typedef uint32_t       sp_uint       __attribute__((aligned(SIZEOF_INT)));
+	typedef uint64_t       sp_uint64     __attribute__((aligned(SIZEOF_LONG)));
+	typedef uint64_t       sp_ulong      __attribute__((aligned(SIZEOF_LONG)));
+	typedef uint64_t       sp_size       __attribute__((aligned(SIZEOF_LONG)));
+	typedef uint_least64_t sp_long_size  __attribute__((aligned(SIZEOF_LONG_LONG)));
+
+	#if defined( __GNUC__ )
+		#define SP_NOT_A_NUMBER   __builtin_nanf( "" )
+	#else
+		float nanf(const char *);
+		#define SP_NOT_A_NUMBER   nanf( "" )  
+	#endif
+
+#endif
 
 #ifdef ENV_32BITS
 	#define SHIFT_BIT_ONE   1
 	#define SHIFT_BIT_TWO   2
 	#define SHIFT_BIT_THREE 3
 	#define SHIFT_BIT_FOUR  4
-
-	typedef bool      sp_bool;
-	typedef char      sp_char;
-	typedef char      sp_byte;
-	typedef short     sp_short;
-	typedef int       sp_int;
-	typedef float     sp_float;
-	typedef long      sp_long;
-	typedef long long sp_longlong;
-	typedef double    sp_double;
-
-	typedef unsigned char       sp_uchar;
-	typedef unsigned char       sp_ubyte;
-	typedef unsigned short      sp_ushort;
-	typedef unsigned int        sp_uint;
-	typedef unsigned int        sp_size;
-	typedef unsigned long       sp_ulong;
-	typedef unsigned long long  sp_ulonglong;
-	
 #elif defined(ENV_64BITS)
 	#define SHIFT_BIT_ONE   1i64
 	#define SHIFT_BIT_TWO   2L
 	#define SHIFT_BIT_THREE 3L
 	#define SHIFT_BIT_FOUR  4L
-
-	typedef bool      sp_bool;
-	typedef char      sp_char;
-	typedef char      sp_byte;
-	typedef short     sp_short;
-	typedef int       sp_int;
-	typedef float     sp_float;
-	typedef long      sp_long;
-	typedef long long sp_longlong;
-	typedef double    sp_double;
-
-	typedef unsigned char          sp_uchar;
-	typedef unsigned char          sp_ubyte;
-	typedef unsigned short         sp_ushort;
-	typedef unsigned long long     sp_uint;
-	typedef unsigned long long     sp_size;
-	typedef unsigned long int      sp_ulong;
-	typedef unsigned long long int sp_ulonglong;
-
 #else
 	#error "Environment not 32 or 64-bit"
 #endif
