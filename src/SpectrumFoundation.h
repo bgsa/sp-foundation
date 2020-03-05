@@ -54,6 +54,7 @@
 #else
 
 	#include <stdint.h>
+	#include <cfloat>
 
 	typedef bool   sp_bool;
 	typedef char   sp_char;
@@ -84,6 +85,8 @@
 
 	#if defined( __GNUC__ )
 		#define SP_NOT_A_NUMBER   __builtin_nanf( "" )
+		#define FLT_MAX           __FLT_MAX__
+		#define FLT_MIN           __FLT_MIN__
 	#else
 		float nanf(const char *);
 		#define SP_NOT_A_NUMBER   nanf( "" )  
@@ -91,13 +94,13 @@
 
 #endif
 
-#ifdef ENV_32BITS
+#if defined(ENV_32BITS)
 	#define SHIFT_BIT_ONE   1
 	#define SHIFT_BIT_TWO   2
 	#define SHIFT_BIT_THREE 3
 	#define SHIFT_BIT_FOUR  4
 #elif defined(ENV_64BITS)
-	#define SHIFT_BIT_ONE   1i64
+	#define SHIFT_BIT_ONE   1L
 	#define SHIFT_BIT_TWO   2L
 	#define SHIFT_BIT_THREE 3L
 	#define SHIFT_BIT_FOUR  4L
