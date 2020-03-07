@@ -5,6 +5,28 @@
 #include <cstring>
 #include <mutex>
 
+#ifdef WINDOWS
+	#ifdef API_IMPORT
+		#define API_INTERFACE __declspec(dllimport)		
+	#else
+		#ifdef API_EXPORT
+			#define API_INTERFACE __declspec(dllexport)
+		#else
+			#define API_INTERFACE
+		#endif
+	#endif	
+#else
+	#ifdef API_IMPORT
+		#define API_INTERFACE __attribute__((visibility("hidden")))
+	#else
+		#ifdef API_EXPORT
+			#define API_INTERFACE __attribute__((visibility("default")))
+		#else
+			#define API_INTERFACE
+		#endif
+	#endif	
+#endif 
+
 #define ALLOC(type) (type*)MemoryAllocatorManager::alloc(sizeof(type))
 #define ALLOC_SIZE(size) MemoryAllocatorManager::alloc(size)
 #define ALLOC_ARRAY(type, count) (type*) MemoryAllocatorManager::alloc(sizeof(type) * count)
@@ -31,62 +53,62 @@ public:
 	/// <summary>
 	/// Define the initial size of memory
 	/// </summary>
-	static void init(size_t initialSize = DEFAULT_MEMORY_SIZE) noexcept;
+	API_INTERFACE static void init(size_t initialSize = DEFAULT_MEMORY_SIZE) noexcept;
 
 	/// <summary>
 	/// Get the memory size available in manager
 	/// </summary>
-	static size_t memorySize() noexcept;
+	API_INTERFACE static size_t memorySize() noexcept;
 
 	/// <summary>
 	/// Get the RAM size in device
 	/// </summary>
-	static size_t deviceMemorySize() noexcept;
+	API_INTERFACE static size_t deviceMemorySize() noexcept;
 
 	/// <summary>
 	/// Get the available memory size in manager
 	/// </summary>
-	static size_t availableMemorySize() noexcept;
+	API_INTERFACE static size_t availableMemorySize() noexcept;
 
 	/// <summary>
 	/// Check if the manager has available memory
 	/// </summary>
-	static bool hasAvailableMemory(size_t size) noexcept;
+	API_INTERFACE static bool hasAvailableMemory(size_t size) noexcept;
 
 	/// <summary>
 	/// Alloc in the memory
 	/// </summary>
-	static void* alloc(size_t size) noexcept;
+	API_INTERFACE static void* alloc(size_t size) noexcept;
 
 	/// <summary>
 	/// Alloc (count * size) in the memory
 	/// </summary>
-	static void* alloc(size_t count, size_t size) noexcept;
+	API_INTERFACE static void* alloc(size_t count, size_t size) noexcept;
 
 	/// <summary>
 	/// Copy the source to a new memory buffer
 	/// </summary>
-	static void* copy(const void* source, size_t size) noexcept;
+	API_INTERFACE static void* copy(const void* source, size_t size) noexcept;
 
 	/// <summary>
 	/// Copy the source to the destiny
 	/// </summary>
-	static void copy(const void* source, void* destiny, size_t size) noexcept;
+	API_INTERFACE static void copy(const void* source, void* destiny, size_t size) noexcept;
 
 	/// <summary>
 	/// Resize the current memory in manager
 	/// </summary>
-	static void resize(size_t newSize) noexcept;
+	API_INTERFACE static void resize(size_t newSize) noexcept;
 
 	/// <summary>
 	/// Release the memory
 	/// </summary>
-	static void free(void* buffers) noexcept;
+	API_INTERFACE static void free(void* buffers) noexcept;
 	
 	/// <summary>
 	/// Release all allocated memory in manager
 	/// </summary>
-	static void release() noexcept;
+	API_INTERFACE static void release() noexcept;
 };
 
 #undef DEFAULT_MEMORY_SIZE

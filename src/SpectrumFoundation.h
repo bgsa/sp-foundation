@@ -100,10 +100,17 @@
 	#define SHIFT_BIT_THREE 3
 	#define SHIFT_BIT_FOUR  4
 #elif defined(ENV_64BITS)
-	#define SHIFT_BIT_ONE   1L
-	#define SHIFT_BIT_TWO   2L
-	#define SHIFT_BIT_THREE 3L
-	#define SHIFT_BIT_FOUR  4L
+	#ifdef WINDOWS
+		#define SHIFT_BIT_ONE   1i64
+		#define SHIFT_BIT_TWO   2i64
+		#define SHIFT_BIT_THREE 3i64
+		#define SHIFT_BIT_FOUR  4i64
+	#else
+		#define SHIFT_BIT_ONE   1L
+		#define SHIFT_BIT_TWO   2L
+		#define SHIFT_BIT_THREE 3L
+		#define SHIFT_BIT_FOUR  4L
+	#endif // WINDOWS
 #else
 	#error "Environment not 32 or 64-bit"
 #endif
