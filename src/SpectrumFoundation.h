@@ -17,6 +17,23 @@
 #define SIZEOF_ULONG     (8)
 #define SIZEOF_ULONGLONG (8)
 
+#define SP_SHORT_MAX        SHRT_MAX
+#define SP_USHORT_MAX       USHRT_MAX
+#define SP_INT_MAX          INT_MAX
+#define SP_UINT_MAX         UINT_MAX
+#define SP_SIZE_MAX         UINTMAX_MAX
+#define SP_FLOAT_MAX        FLT_MAX
+#define SP_DOUBLE_MAX       DBL_MAX
+
+#define SP_FLOAT_MIN        (-FLT_MAX)
+#define SP_SHORT_MIN        (-SHRT_MAX)
+#define SP_USHORT_MIN       (-USHRT_MAX)
+#define SP_INT_MIN          (-INT_MAX)
+#define SP_UINT_MIN         (-UINT_MAX)
+#define SP_SIZE_MIN         (-UINTMAX_MAX)
+#define SP_FLOAT_MIN        (-FLT_MAX)
+#define SP_DOUBLE_MIN       (-DBL_MAX)
+
 #define SP_HUGE_VALUE_FLOAT ((sp_float) 1e50)
 #define SP_INFINITY         SP_HUGE_VALUE_FLOAT
 
@@ -48,6 +65,16 @@
 	typedef unsigned __int64    sp_ulong;
 	typedef unsigned __int64    sp_size;
 	typedef unsigned long long  sp_long_size;
+
+	#define ONE_SHORT  (1i16)
+	#define ONE_USHORT (1ui16)
+	#define ONE_INT    (1i32)
+	#define ONE_UINT   (1ui32)
+	#define ONE_LONG   (1i64)
+	#define ONE_ULONG  (1ui64)
+	#define ONE_SIZE   (1ui64)
+	#define ONE_FLOAT  (1.0f)
+	#define ONE_DOUBLE (1.0)
 	
 	#define SP_NOT_A_NUMBER     (CL_INFINITY - CL_INFINITY)
 
@@ -58,8 +85,8 @@
 
 	typedef bool   sp_bool;
 	typedef char   sp_char;
-	typedef float  sp_float  __attribute__((aligned(4)));
-	typedef double sp_double __attribute__((aligned(8)));
+	typedef float  sp_float  __attribute__((aligned(SIZEOF_FLOAT)));
+	typedef double sp_double __attribute__((aligned(SIZEOF_DOUBLE)));
 
 	typedef int8_t    sp_int8;
 	typedef int16_t   sp_int16     __attribute__((aligned(SIZEOF_SHORT)));
@@ -82,6 +109,16 @@
 	typedef uint64_t       sp_ulong      __attribute__((aligned(SIZEOF_LONG)));
 	typedef uint64_t       sp_size       __attribute__((aligned(SIZEOF_LONG)));
 	typedef uint_least64_t sp_long_size  __attribute__((aligned(SIZEOF_LONG_LONG)));
+
+	#define ONE_SHORT  ((sp_short)  1)
+	#define ONE_USHORT ((sp_ushort) 1)
+	#define ONE_INT    (1)
+	#define ONE_UINT   (1U)
+	#define ONE_LONG   (1L)
+	#define ONE_ULONG  (1UL)
+	#define ONE_SIZE   (1UL)
+	#define ONE_FLOAT  (1.0f)
+	#define ONE_DOUBLE (1.0)
 
 	#if defined( __GNUC__ )
 		#define SP_NOT_A_NUMBER   __builtin_nanf( "" )
