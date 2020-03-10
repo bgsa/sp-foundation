@@ -6,11 +6,13 @@
 #include "SpectrumFoundation.h"
 #include <fstream>
 #include <iostream>
+#include <dirent.h>
+#include <sys/stat.h>
 
 #include "StringHelper.h"
 #include "IFileManager.h"
 #include "IFile.h"
-#include "FileWindows.h"
+#include "FileLinux.h"
 
 class FileManagerLinux : public IFileManager
 {

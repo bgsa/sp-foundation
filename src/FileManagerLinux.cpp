@@ -1,6 +1,6 @@
 #ifdef LINUX
 
-#include "FileManagerWindows.h"
+#include "FileManagerLinux.h"
 
 #include <stdio.h>
 #include <errno.h>
@@ -12,9 +12,8 @@ sp_bool checkFile(std::ifstream& file, const sp_char * filename)
 {
     if ( file.fail() || file.bad() || ! file.is_open() ) 
     {
-		const sp_uint errorMessageLength = 1024;
-		char errorMessage[errorMessageLength];
-		strerror_s(errorMessage, errorMessageLength, errno);
+		char errorMessage[1024];
+		strerror_r(errno, errorMessage, 1024);
 
 		std::string str1 = std::string(errorMessage);
 		std::string str = ": ";
@@ -39,38 +38,51 @@ std::vector<std::string> FileManagerLinux::getFilesFromFolder(std::string folder
 {
 	std::vector<std::string> files;
 	std::string search_path = folder + "/*.*";
-	WIN32_FIND_DATA fd;
-	HANDLE hFind = FindFirstFile(search_path.c_str(), &fd);
 
-	if (hFind != INVALID_HANDLE_VALUE) 
-	{
-		do 
-		{
-			bool isDirectory = fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY;
-			
-			if ( ! isDirectory )
-			{
-				std::string filename = fd.cFileName;
+	DIR *dp;
+	struct dirent *entry;
 
-				if (suffix.empty())
-					files.push_back(filename);
-				else
-					if (StringHelper::endWith(filename.c_str(), suffix.c_str()))
-						files.push_back(filename);
-			}
-		} while (FindNextFile(hFind, &fd));
+	if((dp  = opendir(search_path.c_str())) == NULL) {
 
-		FindClose(hFind);
+		char errorMessage[1024];
+		strerror_r(errno, errorMessage, 1024);
+
+		std::string str1 = std::string(errorMessage);
+		std::string str = ": ";
+		std::string message = str1 + str + search_path;
+        
+		Log::error(message);
+
+		return files;
 	}
 
+	struct stat sb;
+
+	while ((entry = readdir(dp)) != NULL) {
+		if( std::strcmp(entry->d_name, ".") != 0 && std::strcmp(entry->d_name, "..") != 0 )
+		{
+			stat(entry->d_name, &sb);
+
+			if( S_ISREG(sb.st_mode) ) // is regular file?
+				files.push_back(std::string(entry->d_name));
+		}
+	}
+
+	closedir(dp);
+	
 	return files;
 }
 
 sp_bool FileManagerLinux::exists(const sp_char* filename)
 {
+	struct stat status;
+
+	if (stat(filename, &status) != 0) // file exists?
+		return false;
+
 	std::ifstream file(filename);
 
-	bool result = file.good();
+	sp_bool result = file.good();
 
 	file.close();
 
@@ -86,9 +98,9 @@ std::string FileManagerLinux::readTextFile(const sp_char* filename)
 
 	file.seekg(0, file.end);
 
-	size_t size = (size_t) file.tellg();
+	sp_size size = (sp_size) file.tellg();
 
-	char* content = (char*) std::malloc(size);
+	sp_char* content = (sp_char*) ALLOC_SIZE(size);
 
 	file.seekg(0, file.beg);
 	file.read(content, size);
@@ -96,7 +108,11 @@ std::string FileManagerLinux::readTextFile(const sp_char* filename)
 
 	file.close();
 
-	return std::string(content);
+	std::string result(content);
+
+	ALLOC_RELEASE(content);
+
+	return result;
 }
 
 sp_char* FileManagerLinux::readBinaryFile(const sp_char* filename, sp_uint& size)
