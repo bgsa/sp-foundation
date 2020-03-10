@@ -13,6 +13,9 @@ set (MINOR_VERSION 1)
 set (PATCH_VERSION 0)
 project(SpFoundation VERSION ${MAJOR_VERSION}.${MINOR_VERSION}.${PATCH_VERSION})
 
+set (PROJECT_DIR  ${CMAKE_CURRENT_SOURCE_DIR})
+set (SOLUTION_DIR ${CMAKE_CURRENT_SOURCE_DIR}/..)
+
 option(OPERATING_SYSTEM "Defined which operating system will be built for" "WINDOWS")
 option(ARCH_BITS        "Defined the compilation to 64 bits"   "64")
 option(GLFW_ENABLED     "Defined if GLFW will be used" ON)
@@ -28,12 +31,12 @@ set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if ( ${ARCH_BITS} STREQUAL "64" )
 	set (ARCH "x86_64")
-	set (CMAKE_C_FLAGS   "${CMAKE_C_FLAGS} -m64 -std=c11" )
-	set (CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -m64 -std=c++11" )
+	set (CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -m64 -fPIC -std=c11" )
+	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64 -fPIC -std=c++11" )
 else()
 	set(ARCH "x86")	
-	set (CMAKE_C_FLAGS   "${CMAKE_C_FLAGS} -m32 -std=c11" )
-	set (CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} -m32 -std=c++11" )
+	set (CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -m32 -fPIC -std=c11" )
+	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32 -fPIC -std=c++11" )
 endif()
 
 if ( ${OPERATING_SYSTEM} STREQUAL "WINDOWS" )
@@ -73,11 +76,13 @@ endif()
 
 include_directories(
     /usr/local/include
-	../vendor/glfw/include
+	${SOLUTION_DIR}/vendor/glfw/include
     src
 )
 
 link_directories(
+	${SOLUTION_DIR}/vendor/lib/x86_64
+	${SOLUTION_DIR}/vendor/lib
 	/usr/local/lib/
 )
 
@@ -88,16 +93,16 @@ else()
 endif()
 
 if ( ${OPERATING_SYSTEM} STREQUAL "WINDOWS" )
-    add_definitions(-DENV_64BITS -DAPI_EXPORT -DOPENGL ${CUSTOM_DEFINITIONS} -DWINDOWS)
+    add_definitions(-DENV_64BITS -DAPI_EXPORT ${CUSTOM_DEFINITIONS} -DWINDOWS)
 elseif ( ${OPERATING_SYSTEM} STREQUAL "LINUX" )
-    add_definitions(-DENV_64BITS -DAPI_EXPORT -DOPENGL ${CUSTOM_DEFINITIONS} -DLINUX)
+    add_definitions(-DENV_64BITS -DAPI_EXPORT ${CUSTOM_DEFINITIONS} -DLINUX)
 elseif ( ${OPERATING_SYSTEM} STREQUAL "UNIX" )
-    add_definitions(-DENV_64BITS -DAPI_EXPORT -DOPENGL ${CUSTOM_DEFINITIONS} -DUNIX)
+    add_definitions(-DENV_64BITS -DAPI_EXPORT ${CUSTOM_DEFINITIONS} -DUNIX)
 else()
     message(FATAL_ERROR "Operating System not defined!")
 endif()
 
 target_link_libraries(${PROJECT_NAME}
     ${OPENGL_LIBRARY}
-    ../vendor/lib/${GLFW_LIB_NAME}
+    ${SOLUTION_DIR}/vendor/lib/${GLFW_LIB_NAME}
 )
