@@ -6,6 +6,4 @@ GeneratedFiles/
 build/
 Debug/
 Release/
-lib/Release
-lib/Debug
 *vcxproj.user
