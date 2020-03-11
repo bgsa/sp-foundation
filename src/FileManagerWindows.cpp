@@ -8,120 +8,123 @@
 #include <locale.h>
 #include <cassert>
 
-bool checkFile(std::ifstream& file, const sp_char * filename)
+namespace NAMESPACE_FOUNDATION
 {
-    if ( file.fail() || file.bad() || ! file.is_open() ) 
-    {
-		const sp_uint errorMessageLength = 1024;
-		char errorMessage[errorMessageLength];
-		strerror_s(errorMessage, errorMessageLength, errno);
-
-		std::string str1 = std::string(errorMessage);
-		std::string str = ": ";
-		std::string message = str1 + str + filename;
-        
-		Log::error(message);
-        
-        return false;
-    }
-    
-    return true;
-}
-
-std::vector<std::string> FileManagerWindows::getFilesFromResource()
-{
-	std::vector<std::string> files;
-	files.push_back("teste.txt");
-	return files;
-}
-
-std::vector<std::string> FileManagerWindows::getFilesFromFolder(std::string folder, std::string suffix)
-{
-	std::vector<std::string> files;
-	std::string search_path = folder + "/*.*";
-	WIN32_FIND_DATA fd;
-	HANDLE hFind = FindFirstFile(search_path.c_str(), &fd);
-
-	if (hFind != INVALID_HANDLE_VALUE) 
+	bool checkFile(std::ifstream& file, const sp_char * filename)
 	{
-		do 
+		if ( file.fail() || file.bad() || ! file.is_open() ) 
 		{
-			bool isDirectory = fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY;
+			const sp_uint errorMessageLength = 1024;
+			char errorMessage[errorMessageLength];
+			strerror_s(errorMessage, errorMessageLength, errno);
+
+			std::string str1 = std::string(errorMessage);
+			std::string str = ": ";
+			std::string message = str1 + str + filename;
 			
-			if ( ! isDirectory )
-			{
-				std::string filename = fd.cFileName;
-
-				if (suffix.empty())
-					files.push_back(filename);
-				else
-					if (StringHelper::endWith(filename.c_str(), suffix.c_str()))
-						files.push_back(filename);
-			}
-		} while (FindNextFile(hFind, &fd));
-
-		FindClose(hFind);
+			Log::error(message);
+			
+			return false;
+		}
+		
+		return true;
 	}
 
-	return files;
-}
+	std::vector<std::string> FileManagerWindows::getFilesFromResource()
+	{
+		std::vector<std::string> files;
+		files.push_back("teste.txt");
+		return files;
+	}
 
-bool FileManagerWindows::exists(const sp_char* filename)
-{
-	std::ifstream file(filename);
+	std::vector<std::string> FileManagerWindows::getFilesFromFolder(std::string folder, std::string suffix)
+	{
+		std::vector<std::string> files;
+		std::string search_path = folder + "/*.*";
+		WIN32_FIND_DATA fd;
+		HANDLE hFind = FindFirstFile(search_path.c_str(), &fd);
 
-	bool result = file.good();
+		if (hFind != INVALID_HANDLE_VALUE) 
+		{
+			do 
+			{
+				bool isDirectory = fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY;
+				
+				if ( ! isDirectory )
+				{
+					std::string filename = fd.cFileName;
 
-	file.close();
+					if (suffix.empty())
+						files.push_back(filename);
+					else
+						if (StringHelper::endWith(filename.c_str(), suffix.c_str()))
+							files.push_back(filename);
+				}
+			} while (FindNextFile(hFind, &fd));
 
-    return result;
-}
+			FindClose(hFind);
+		}
 
-std::string FileManagerWindows::readTextFile(const sp_char* filename)
-{
-	std::ifstream file(filename, std::ios::in);
+		return files;
+	}
 
-	assert(file.is_open());
-	assert(file.good());
+	bool FileManagerWindows::exists(const sp_char* filename)
+	{
+		std::ifstream file(filename);
 
-	file.seekg(0, file.end);
+		bool result = file.good();
 
-	size_t size = (size_t) file.tellg();
+		file.close();
 
-	char* content = (char*) std::malloc(size);
+		return result;
+	}
 
-	file.seekg(0, file.beg);
-	file.read(content, size);
-	content[size] = '\0';
+	std::string FileManagerWindows::readTextFile(const sp_char* filename)
+	{
+		std::ifstream file(filename, std::ios::in);
 
-	file.close();
+		assert(file.is_open());
+		assert(file.good());
 
-	return std::string(content);
-}
+		file.seekg(0, file.end);
 
-char* FileManagerWindows::readBinaryFile(const sp_char* filename, sp_uint& size)
-{
-	std::ifstream file(filename, std::ios::in | std::ios::binary | std::ios::ate);
+		size_t size = (size_t) file.tellg();
 
-	assert(file.is_open());
-	assert(file.good());
+		char* content = (char*) std::malloc(size);
 
-	size = (sp_uint) file.tellg();
+		file.seekg(0, file.beg);
+		file.read(content, size);
+		content[size] = '\0';
 
-	file.seekg(0, std::ios::beg);
+		file.close();
 
-	sp_char* content = (sp_char*) ALLOC_SIZE(size);
+		return std::string(content);
+	}
 
-	file.read(content, size);
+	char* FileManagerWindows::readBinaryFile(const sp_char* filename, sp_uint& size)
+	{
+		std::ifstream file(filename, std::ios::in | std::ios::binary | std::ios::ate);
 
-	file.close();
+		assert(file.is_open());
+		assert(file.good());
 
-	return content;
-}
+		size = (sp_uint) file.tellg();
 
-IFile* FileManagerWindows::open(std::string filename)
-{
-	return new FileWindows(filename);
+		file.seekg(0, std::ios::beg);
+
+		sp_char* content = (sp_char*) ALLOC_SIZE(size);
+
+		file.read(content, size);
+
+		file.close();
+
+		return content;
+	}
+
+	IFile* FileManagerWindows::open(std::string filename)
+	{
+		return new FileWindows(filename);
+	}
 }
 
 #endif

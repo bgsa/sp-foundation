@@ -28,6 +28,6 @@ namespace NAMESPACE_FOUNDATION
 
 		virtual ~DisplayDevice() {}
 	};
-}}
+}
 
 #endif // ! DISPLAY_DEVICE_HEADER

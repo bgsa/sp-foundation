@@ -1,30 +1,33 @@
 #include "Image.h"
 
-Image::Image() {
-}
-
-sp_int Image::getWidth() 
+namespace NAMESPACE_FOUNDATION
 {
-	return width;
-}
+	Image::Image() {
+	}
 
-sp_int Image::getHeight()
-{
-	return height;
-}
+	sp_int Image::getWidth() 
+	{
+		return width;
+	}
 
-sp_uchar* Image::getData() 
-{
-	return data;
-}
+	sp_int Image::getHeight()
+	{
+		return height;
+	}
 
-sp_uint Image::getColorFormat()
-{
-	return colorFormat;
-}
+	sp_uchar* Image::getData() 
+	{
+		return data;
+	}
 
-Image::~Image() 
-{
-	if (data != nullptr)
-		delete[] data;
+	sp_uint Image::getColorFormat()
+	{
+		return colorFormat;
+	}
+
+	Image::~Image() 
+	{
+		if (data != nullptr)
+			delete[] data;
+	}
 }

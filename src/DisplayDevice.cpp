@@ -1,13 +1,14 @@
 #include "DisplayDevice.h"
 
-
-void DisplayDevice::setWidth(sp_int width)
+namespace NAMESPACE_FOUNDATION
 {
-	this->width = width;
-}
+	void DisplayDevice::setWidth(sp_int width)
+	{
+		this->width = width;
+	}
 
-void DisplayDevice::setHeight(sp_int height)
-{
-	this->height = height;
+	void DisplayDevice::setHeight(sp_int height)
+	{
+		this->height = height;
+	}
 }
-

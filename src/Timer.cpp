@@ -1,61 +1,64 @@
 #include "Timer.h"
 
-sp_longlong timeCounter = 0;
-sp_int fpsCounter = 0;
-
-void Timer::calculateFramesPerSecond() 
+namespace NAMESPACE_FOUNDATION
 {
-	sp_bool oneSecondPassed = timeCounter > 1000;
+	sp_longlong timeCounter = 0;
+	sp_int fpsCounter = 0;
 
-	if (oneSecondPassed)
+	void Timer::calculateFramesPerSecond() 
 	{
-		framesPerSecond = fpsCounter;
-		timeCounter = 0;
-		fpsCounter = 0;
+		sp_bool oneSecondPassed = timeCounter > 1000;
+
+		if (oneSecondPassed)
+		{
+			framesPerSecond = fpsCounter;
+			timeCounter = 0;
+			fpsCounter = 0;
+		}
+
+		timeCounter += getElapsedTime();
+		fpsCounter ++;
 	}
 
-	timeCounter += getElapsedTime();
-	fpsCounter ++;
-}
+	void Timer::start()
+	{
+		timeLastFrame = Clock::now();
+	}
 
-void Timer::start()
-{
-	timeLastFrame = Clock::now();
-}
+	void Timer::update()
+	{
+		high_resolution_clock::time_point currentTime = Clock::now();
+		
+		deltaTime = duration_cast<milliseconds>(currentTime - timeLastFrame);
 
-void Timer::update()
-{
-	high_resolution_clock::time_point currentTime = Clock::now();
-	
-	deltaTime = duration_cast<milliseconds>(currentTime - timeLastFrame);
+		timeLastFrame = currentTime;
 
-	timeLastFrame = currentTime;
+		calculateFramesPerSecond();
+	}
 
-	calculateFramesPerSecond();
-}
+	sp_longlong Timer::getElapsedTime()
+	{
+		return deltaTime.count();
+	}
 
-sp_longlong Timer::getElapsedTime()
-{
-	return deltaTime.count();
-}
+	sp_int Timer::getFramesPerSecond()
+	{
+		return framesPerSecond;
+	}
 
-sp_int Timer::getFramesPerSecond()
-{
-	return framesPerSecond;
-}
+	sp_float Timer::getFramePerSecondLimit()
+	{
+		return framePerSecondLimit;
+	}
 
-sp_float Timer::getFramePerSecondLimit()
-{
-	return framePerSecondLimit;
-}
+	void Timer::setFramePerSecondLimit(sp_float limit)
+	{
+		framePerSecondLimit = limit;
+		skipTick = 1000.0f / limit;
+	}
 
-void Timer::setFramePerSecondLimit(sp_float limit)
-{
-	framePerSecondLimit = limit;
-	skipTick = 1000.0f / limit;
-}
-
-sp_float Timer::getSkipTick()
-{
-	return skipTick;
+	sp_float Timer::getSkipTick()
+	{
+		return skipTick;
+	}
 }

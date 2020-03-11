@@ -2,59 +2,62 @@
 
 #include "KeyboardInputDeviceGLFW.h"
 
-std::vector<KeyboardInputDeviceHandler*> handlersKeyboard;
-GLFWwindow* keyboardWindow;
-
-void onKeyboardEvent(GLFWwindow* window, sp_int key, sp_int scancode, sp_int action, sp_int mods)
+namespace NAMESPACE_FOUNDATION
 {
-	if (action == GLFW_PRESS)
-		for ( KeyboardInputDeviceHandler* handler : handlersKeyboard)
-			handler->onKeyDown(key);
+	std::vector<KeyboardInputDeviceHandler*> handlersKeyboard;
+	GLFWwindow* keyboardWindow;
 
-	if (action == GLFW_RELEASE)
-		for (KeyboardInputDeviceHandler* handler : handlersKeyboard)
-			handler->onKeyUp(key);
-}
+	void onKeyboardEvent(GLFWwindow* window, sp_int key, sp_int scancode, sp_int action, sp_int mods)
+	{
+		if (action == GLFW_PRESS)
+			for ( KeyboardInputDeviceHandler* handler : handlersKeyboard)
+				handler->onKeyDown(key);
 
-bool isKeyPressedA(int virtualKey)
-{
-	int state = glfwGetKey(keyboardWindow, virtualKey);
+		if (action == GLFW_RELEASE)
+			for (KeyboardInputDeviceHandler* handler : handlersKeyboard)
+				handler->onKeyUp(key);
+	}
 
-	return state == GLFW_PRESS;
-}
+	bool isKeyPressedA(int virtualKey)
+	{
+		int state = glfwGetKey(keyboardWindow, virtualKey);
 
-void KeyboardInputDeviceGLFW::init(GLFWwindow* window)
-{
-	this->window = window;
-	keyboardWindow = window;
+		return state == GLFW_PRESS;
+	}
 
-	glfwSetInputMode(window, GLFW_STICKY_KEYS, 1); // for pooling do not lose any event
+	void KeyboardInputDeviceGLFW::init(GLFWwindow* window)
+	{
+		this->window = window;
+		keyboardWindow = window;
 
-	glfwSetKeyCallback(window, onKeyboardEvent);
-}
+		glfwSetInputMode(window, GLFW_STICKY_KEYS, 1); // for pooling do not lose any event
 
-void KeyboardInputDeviceGLFW::addHandler(KeyboardInputDeviceHandler* handler)
-{
-	handler->init(&isKeyPressedA);
-	handlersKeyboard.push_back(handler);
-}
+		glfwSetKeyCallback(window, onKeyboardEvent);
+	}
 
-void KeyboardInputDeviceGLFW::removeHandler(KeyboardInputDeviceHandler* handler)
-{
-	std::vector<KeyboardInputDeviceHandler*>::iterator item = std::find(handlersKeyboard.begin(), handlersKeyboard.end(), handler);
+	void KeyboardInputDeviceGLFW::addHandler(KeyboardInputDeviceHandler* handler)
+	{
+		handler->init(&isKeyPressedA);
+		handlersKeyboard.push_back(handler);
+	}
 
-	if (item != handlersKeyboard.end())
-		handlersKeyboard.erase(item);
-}
+	void KeyboardInputDeviceGLFW::removeHandler(KeyboardInputDeviceHandler* handler)
+	{
+		std::vector<KeyboardInputDeviceHandler*>::iterator item = std::find(handlersKeyboard.begin(), handlersKeyboard.end(), handler);
 
-void KeyboardInputDeviceGLFW::update(sp_longlong elapsedTime)
-{
+		if (item != handlersKeyboard.end())
+			handlersKeyboard.erase(item);
+	}
 
-}
+	void KeyboardInputDeviceGLFW::update(sp_longlong elapsedTime)
+	{
 
-bool KeyboardInputDeviceGLFW::isKeyPressed(sp_int virtualKey)
-{
-	return isKeyPressedA(virtualKey);
+	}
+
+	bool KeyboardInputDeviceGLFW::isKeyPressed(sp_int virtualKey)
+	{
+		return isKeyPressedA(virtualKey);
+	}
 }
 
 #endif // !GLFW_ENABLED

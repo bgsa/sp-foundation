@@ -3,18 +3,21 @@
 #include <mutex>
 #include <iostream>
 
-static std::mutex locker;
-
-void ThreadTest::run()
+namespace NAMESPACE_FOUNDATION
 {
-	//thread_local int x = 0;  // declaring x variable in current thread context!!!
+	static std::mutex locker;
 
-	while (true) 
+	void ThreadTest::run()
 	{
-		locker.lock();
-		std::cout << "TESTE" << '\n'; // critical region
-		locker.unlock();
+		//thread_local int x = 0;  // declaring x variable in current thread context!!!
 
-		sleep(1000);
-	}	
+		while (true) 
+		{
+			locker.lock();
+			std::cout << "TESTE" << '\n'; // critical region
+			locker.unlock();
+
+			sleep(1000);
+		}	
+	}
 }

@@ -1,13 +1,16 @@
 #include "RendererSize.h"
 
-static RendererSize* instance;
-
-void RendererSize::init()
+namespace NAMESPACE_FOUNDATION
 {
-	instance = ALLOC_NEW(RendererSize);
-}
+	static RendererSize* instance;
 
-RendererSize* RendererSize::getInstance()
-{
-	return instance;
+	void RendererSize::init()
+	{
+		instance = ALLOC_NEW(RendererSize);
+	}
+
+	RendererSize* RendererSize::getInstance()
+	{
+		return instance;
+	}
 }

@@ -2,72 +2,75 @@
 
 #include "WindowInputDeviceGLFW.h"
 
-WindowInputDeviceGLFW* instanceWindowDevice;
-
-WindowInputDeviceGLFW::WindowInputDeviceGLFW()
+namespace NAMESPACE_FOUNDATION
 {
-}
+	WindowInputDeviceGLFW* instanceWindowDevice;
 
-WindowInputDeviceGLFW* WindowInputDeviceGLFW::getInstance()
-{
-	if (instanceWindowDevice == nullptr)
-		instanceWindowDevice = new WindowInputDeviceGLFW;
+	WindowInputDeviceGLFW::WindowInputDeviceGLFW()
+	{
+	}
 
-	return instanceWindowDevice;
-}
+	WindowInputDeviceGLFW* WindowInputDeviceGLFW::getInstance()
+	{
+		if (instanceWindowDevice == nullptr)
+			instanceWindowDevice = new WindowInputDeviceGLFW;
 
-static void onClose(GLFWwindow* window)
-{
-	if (instanceWindowDevice != nullptr)
-		instanceWindowDevice->close();
-}
+		return instanceWindowDevice;
+	}
 
-static void onResize(GLFWwindow* window, sp_int width, sp_int height)
-{
-	if (instanceWindowDevice != nullptr)
-		instanceWindowDevice->resize(width, height);
-}
+	static void onClose(GLFWwindow* window)
+	{
+		if (instanceWindowDevice != nullptr)
+			instanceWindowDevice->close();
+	}
 
-void WindowInputDeviceGLFW::init(GLFWwindow* window)
-{
-	this->window = window;
+	static void onResize(GLFWwindow* window, sp_int width, sp_int height)
+	{
+		if (instanceWindowDevice != nullptr)
+			instanceWindowDevice->resize(width, height);
+	}
 
-	glfwSetWindowSizeCallback(window, onResize);
+	void WindowInputDeviceGLFW::init(GLFWwindow* window)
+	{
+		this->window = window;
 
-	//glfwSetWindowPos(window, positionX, positionY);
-	//glfwSetWindowPosCallback(window, onWindowMove);
+		glfwSetWindowSizeCallback(window, onResize);
 
-	glfwSetWindowCloseCallback(window, onClose);
+		//glfwSetWindowPos(window, positionX, positionY);
+		//glfwSetWindowPosCallback(window, onWindowMove);
 
-}
+		glfwSetWindowCloseCallback(window, onClose);
 
-void WindowInputDeviceGLFW::addHandler(WindowInputDeviceHandler* handler)
-{
-	handlers.push_back(handler);
-}
+	}
 
-void WindowInputDeviceGLFW::removeHandler(WindowInputDeviceHandler* handler)
-{
-	std::vector<WindowInputDeviceHandler*>::iterator item = find(handlers.begin(), handlers.end(), handler);
+	void WindowInputDeviceGLFW::addHandler(WindowInputDeviceHandler* handler)
+	{
+		handlers.push_back(handler);
+	}
 
-	if (item != handlers.end())
-		handlers.erase(item);
-}
+	void WindowInputDeviceGLFW::removeHandler(WindowInputDeviceHandler* handler)
+	{
+		std::vector<WindowInputDeviceHandler*>::iterator item = find(handlers.begin(), handlers.end(), handler);
 
-void WindowInputDeviceGLFW::update(sp_longlong elapsedTime)
-{
-}
+		if (item != handlers.end())
+			handlers.erase(item);
+	}
 
-void WindowInputDeviceGLFW::close()
-{
-	for (unsigned int i = 0; i < handlers.size(); i++)
-		handlers[i]->onClose();
-}
+	void WindowInputDeviceGLFW::update(sp_longlong elapsedTime)
+	{
+	}
 
-void WindowInputDeviceGLFW::resize(sp_int width, sp_int height)
-{
-	for (unsigned int i = 0; i < handlers.size(); i++)
-		handlers[i]->onResize(width, height);
+	void WindowInputDeviceGLFW::close()
+	{
+		for (unsigned int i = 0; i < handlers.size(); i++)
+			handlers[i]->onClose();
+	}
+
+	void WindowInputDeviceGLFW::resize(sp_int width, sp_int height)
+	{
+		for (unsigned int i = 0; i < handlers.size(); i++)
+			handlers[i]->onResize(width, height);
+	}
 }
 
 #endif // !GLFW_ENABLED
