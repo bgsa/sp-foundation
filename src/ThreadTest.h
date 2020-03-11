@@ -1,12 +1,18 @@
-#pragma once
+#ifndef THREAD_USER_HEADER
+#define THREAD_USER_HEADER
 
 #include "ThreadUser.h"
 
-class ThreadTest : public ThreadUser
+namespace NAMESPACE_FOUNDATION
 {
-public:
-	
-	void run();
+	class ThreadTest : public ThreadUser
+	{
+	public:
+		
+		void run();
 
-};
+	};
+}
 
+
+#endif // THREAD_USER_HEADER

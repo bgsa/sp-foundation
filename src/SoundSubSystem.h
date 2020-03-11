@@ -1,6 +1,6 @@
+/*
 #pragma once
 
-/*
 #include "GlobalHeader.h"
 
 #include <OPENAL/al.h>

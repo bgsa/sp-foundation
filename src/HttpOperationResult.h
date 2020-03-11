@@ -1,28 +1,31 @@
 #ifndef HTTP_OPERATION_RESULT_HEADER
 #define HTTP_OPERATION_RESULT_HEADER
 
-#include "SpectrumFoundation.h"|
+#include "SpectrumFoundation.h"
 #include <iostream>
 
-struct DownloadData
+namespace NAMESPACE_FOUNDATION
 {
-	void* content = malloc(1);
-	sp_uint size = 0;
-};
+	struct DownloadData
+	{
+		void* content = malloc(1);
+		sp_uint size = 0;
+	};
 
-class HttpOperationResult
-{
-public:
-	sp_long httpStatusCode;
-	DownloadData data;
+	class HttpOperationResult
+	{
+	public:
+		sp_long httpStatusCode;
+		DownloadData data;
 
-	sp_double connectionSpeed;
-	sp_double downloadTime;
-	sp_double totalSize;
+		sp_double connectionSpeed;
+		sp_double downloadTime;
+		sp_double totalSize;
 
-	/*
-	~HttpOperationResult();
-	*/
-};
+		/*
+		~HttpOperationResult();
+		*/
+	};
+}
 
 #endif // !HTTP_OPERATION_RESULT_HEADER

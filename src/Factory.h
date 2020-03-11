@@ -14,23 +14,26 @@
 	#include "FileManagerLinux.h"
 #endif
 
-class Factory
+namespace NAMESPACE_FOUNDATION
 {
-public:
-
-	static IFileManager * getFileManagerInstance()
+	class Factory
 	{
-#ifdef ANDROID
-		return new FileManagerAndroid;
-#endif
-#ifdef WINDOWS
-		return new FileManagerWindows;
-#endif
-#ifdef LINUX
-		return new FileManagerLinux;
-#endif
-	}
+	public:
 
-};
+		static IFileManager * getFileManagerInstance()
+		{
+	#ifdef ANDROID
+			return new FileManagerAndroid;
+	#endif
+	#ifdef WINDOWS
+			return new FileManagerWindows;
+	#endif
+	#ifdef LINUX
+			return new FileManagerLinux;
+	#endif
+		}
+
+	};
+}
 
 #endif // FACTORY_HEADER

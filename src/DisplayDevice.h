@@ -3,28 +3,31 @@
 
 #include "SpectrumFoundation.h"
 
-class DisplayDevice
+namespace NAMESPACE_FOUNDATION
 {
-private:
-	int width;
-	int height;
+	class DisplayDevice
+	{
+	private:
+		int width;
+		int height;
 
-protected:
-	void setWidth(sp_int width);
-	void setHeight(sp_int height);
+	protected:
+		void setWidth(sp_int width);
+		void setHeight(sp_int height);
 
-public:
-	virtual sp_int getWidth() {
-		return width;
-	}
+	public:
+		virtual sp_int getWidth() {
+			return width;
+		}
 
-	virtual sp_int getHeight() {
-		return height;
-	}
+		virtual sp_int getHeight() {
+			return height;
+		}
 
-	virtual void swapBuffer() {};
+		virtual void swapBuffer() {};
 
-	virtual ~DisplayDevice() {}
-};
+		virtual ~DisplayDevice() {}
+	};
+}}
 
 #endif // ! DISPLAY_DEVICE_HEADER

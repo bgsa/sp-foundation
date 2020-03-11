@@ -5,45 +5,48 @@
 #include <map>
 #include "InputDeviceHandler.h"
 
-struct TouchPosition {
-	sp_float x;
-	sp_float y;
-};
-
-struct TouchEvent {
-	sp_int pointerId;
-	sp_float pointerSize;
-	TouchPosition position;
-};
-
-struct TouchItem {
-	sp_int pointerId;
-	sp_float pointerSize;
-	TouchPosition initialPosition;
-	TouchPosition previousPosition;
-	TouchPosition currentPosition;
-};
-
-class TouchInputDeviceHandler : public InputDeviceHandler
+namespace NAMESPACE_FOUNDATION
 {
-private:
-	std::map<sp_int, TouchItem*> *touchItems;
+	struct TouchPosition {
+		sp_float x;
+		sp_float y;
+	};
 
-public:
-	void updateTouchItems(std::map<sp_int, TouchItem*> *touchItems) {
-		this->touchItems = touchItems;
-	}
+	struct TouchEvent {
+		sp_int pointerId;
+		sp_float pointerSize;
+		TouchPosition position;
+	};
 
-	std::map<sp_int, TouchItem*> *getTouchPointers() {
-		return touchItems;
-	}
+	struct TouchItem {
+		sp_int pointerId;
+		sp_float pointerSize;
+		TouchPosition initialPosition;
+		TouchPosition previousPosition;
+		TouchPosition currentPosition;
+	};
 
-	virtual void onTouchPointerIn(TouchEvent e) {};
-	virtual void onTouchPointerOut(TouchEvent e) {};
+	class TouchInputDeviceHandler : public InputDeviceHandler
+	{
+	private:
+		std::map<sp_int, TouchItem*> *touchItems;
 
-	virtual void onTouchDown(TouchItem* touchItem) {};
-	virtual void onTouchUp(TouchItem* touchItem) {};
-	virtual void onTouchMove(TouchItem* touchItem) {};
-};
+	public:
+		void updateTouchItems(std::map<sp_int, TouchItem*> *touchItems) {
+			this->touchItems = touchItems;
+		}
+
+		std::map<sp_int, TouchItem*> *getTouchPointers() {
+			return touchItems;
+		}
+
+		virtual void onTouchPointerIn(TouchEvent e) {};
+		virtual void onTouchPointerOut(TouchEvent e) {};
+
+		virtual void onTouchDown(TouchItem* touchItem) {};
+		virtual void onTouchUp(TouchItem* touchItem) {};
+		virtual void onTouchMove(TouchItem* touchItem) {};
+	};
+}
 
 #endif // !TOUCH_INPUT_DEVICE_HANDLER_HEADER

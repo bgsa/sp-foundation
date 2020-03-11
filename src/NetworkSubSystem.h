@@ -1,6 +1,7 @@
-#pragma once
-
 /*
+#ifndef NETWORK_SUBSYSTEM_HEADER
+#define NETWORK_SUBSYSTEM_HEADER
+
 #include "ISubSystem.h"
 #include "HttpConnectionManager.h"
 
@@ -20,4 +21,6 @@ public:
 };
 
 #endif
+
+#endif // NETWORK_SUBSYSTEM_HEADER
 */

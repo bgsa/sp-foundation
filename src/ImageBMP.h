@@ -36,93 +36,96 @@ typedef struct
 } BMPHeaderInfo;
 #pragma pack(pop)
 
-class ImageBMP : public Image
+namespace NAMESPACE_FOUNDATION
 {
-private:
-
-public:
-	
-	ColorRGBc getPixelRGB(sp_int x, sp_int y);
-	
-	static ImageBMP * load(const sp_char* filename)
+	class ImageBMP : public Image
 	{
-		const sp_uint opengl_RGB = 0x1907; //TODO: REMOVE!
+	private:
 
-		ImageBMP *image = ALLOC_NEW(ImageBMP)();
-		image->colorFormat = opengl_RGB;
-
-		BMPFileHeader fileHeader;
-		BMPHeaderInfo headerInfo;
-				
-#ifdef ANDROID
-		FileManagerAndroid fileManager;
-		AAssetManager *assetManager = fileManager.getAssetManager();
-		AAsset* file = AAssetManager_open(assetManager, filename, AASSET_MODE_RANDOM);
-
-		AAsset_read(file, &fileHeader, sizeof(BMPFileHeader));
-		AAsset_read(file, &headerInfo, sizeof(BMPHeaderInfo));
+	public:
 		
-		image->width = headerInfo.width;
-		image->height = headerInfo.height;
-
-		sp_uint size = 3 * image->width * image->height;
-		image->data = ALLOC_ARRAY(sp_uchar, size); // allocate 3 bytes per pixel
-		AAsset_read(file, image->data, size);
-
-		AAsset_close(file);
-#endif
-#ifdef WINDOWS
-		FILE *file;
-		fopen_s(&file, filename, "rb");
+		ColorRGBc getPixelRGB(sp_int x, sp_int y);
 		
-		fread(&fileHeader, sizeof(BMPFileHeader), 1, file);
-		fread(&headerInfo, sizeof(BMPHeaderInfo), 1, file);
-
-		image->width = headerInfo.width;
-		image->height = headerInfo.height;
-
-		fseek(file, 54 * SIZEOF_CHAR, SEEK_SET); //move o cursor para a posição 54 do arquivo, contando do início
-		
-		unsigned int size = 3 * image->width * image->height;
-		image->data = ALLOC_ARRAY(sp_uchar, size); // allocate 3 bytes per pixel
-		fread(image->data, SIZEOF_UCHAR, size, file); // read the rest of the data at once
-
-		fclose(file);
-#endif
-		//coloca no formato RGB ao invés de BGR
-		/*		
-		for (int i = 0; i < size; i += 3)		
+		static ImageBMP * load(const sp_char* filename)
 		{
-			unsigned char tmp = image->data[i];
-			image->data[i] = image->data[i + 2];
-			image->data[i + 2] = tmp;
-		}
-		*/
+			const sp_uint opengl_RGB = 0x1907; //TODO: REMOVE!
 
-		/*
-		int padding = 0;
-		int scanlinebytes = image->width * 3;
-		while ((scanlinebytes + padding) % 4 != 0)
-			padding++;
-		int psw = scanlinebytes + padding;
-		
-		long bufpos = 0;
-		long newpos = 0;
-		for (int y = 0; y < image->height; y++)
-			for (int x = 0; x < 3 * image->width; x += 3)
+			ImageBMP *image = ALLOC_NEW(ImageBMP)();
+			image->colorFormat = opengl_RGB;
+
+			BMPFileHeader fileHeader;
+			BMPHeaderInfo headerInfo;
+					
+	#ifdef ANDROID
+			FileManagerAndroid fileManager;
+			AAssetManager *assetManager = fileManager.getAssetManager();
+			AAsset* file = AAssetManager_open(assetManager, filename, AASSET_MODE_RANDOM);
+
+			AAsset_read(file, &fileHeader, sizeof(BMPFileHeader));
+			AAsset_read(file, &headerInfo, sizeof(BMPHeaderInfo));
+			
+			image->width = headerInfo.width;
+			image->height = headerInfo.height;
+
+			sp_uint size = 3 * image->width * image->height;
+			image->data = ALLOC_ARRAY(sp_uchar, size); // allocate 3 bytes per pixel
+			AAsset_read(file, image->data, size);
+
+			AAsset_close(file);
+	#endif
+	#ifdef WINDOWS
+			FILE *file;
+			fopen_s(&file, filename, "rb");
+			
+			fread(&fileHeader, sizeof(BMPFileHeader), 1, file);
+			fread(&headerInfo, sizeof(BMPHeaderInfo), 1, file);
+
+			image->width = headerInfo.width;
+			image->height = headerInfo.height;
+
+			fseek(file, 54 * SIZEOF_CHAR, SEEK_SET); //move o cursor para a posiï¿½ï¿½o 54 do arquivo, contando do inï¿½cio
+			
+			unsigned int size = 3 * image->width * image->height;
+			image->data = ALLOC_ARRAY(sp_uchar, size); // allocate 3 bytes per pixel
+			fread(image->data, SIZEOF_UCHAR, size, file); // read the rest of the data at once
+
+			fclose(file);
+	#endif
+			//coloca no formato RGB ao invï¿½s de BGR
+			/*		
+			for (int i = 0; i < size; i += 3)		
 			{
-				newpos = y * 3 * image->width + x;
-				bufpos = (image->height - y - 1) * psw + x;
-
-				image->data[newpos] = image->data[bufpos + 2];
-				image->data[newpos + 1] = image->data[bufpos + 1];
-				image->data[newpos + 2] = image->data[bufpos];
+				unsigned char tmp = image->data[i];
+				image->data[i] = image->data[i + 2];
+				image->data[i + 2] = tmp;
 			}
 			*/
 
-		return image;
-	}
+			/*
+			int padding = 0;
+			int scanlinebytes = image->width * 3;
+			while ((scanlinebytes + padding) % 4 != 0)
+				padding++;
+			int psw = scanlinebytes + padding;
+			
+			long bufpos = 0;
+			long newpos = 0;
+			for (int y = 0; y < image->height; y++)
+				for (int x = 0; x < 3 * image->width; x += 3)
+				{
+					newpos = y * 3 * image->width + x;
+					bufpos = (image->height - y - 1) * psw + x;
 
-};
+					image->data[newpos] = image->data[bufpos + 2];
+					image->data[newpos + 1] = image->data[bufpos + 1];
+					image->data[newpos + 2] = image->data[bufpos];
+				}
+				*/
+
+			return image;
+		}
+
+	};
+}
 
 #endif // !IMAGE_BMP_HEADER

@@ -13,19 +13,22 @@
 #include <QGuiApplication>
 #include <QScreen>
 
-class DisplayDeviceQT : public QObject, public DisplayDevice
+namespace NAMESPACE_FOUNDATION
 {
-	Q_OBJECT
+	class DisplayDeviceQT : public QObject, public DisplayDevice
+	{
+		Q_OBJECT
 
-private:
-	QWidget* window;
+	private:
+		QWidget* window;
 
-public:
-	API_INTERFACE DisplayDeviceQT();
+	public:
+		API_INTERFACE DisplayDeviceQT();
 
-	API_INTERFACE void init(QWidget* window);
-	API_INTERFACE void swapBuffer() override;
-};
+		API_INTERFACE void init(QWidget* window);
+		API_INTERFACE void swapBuffer() override;
+	};
+}
 
 #endif !DISPLAY_DEVICE_QT_HEADER
 

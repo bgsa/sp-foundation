@@ -3,14 +3,17 @@
 
 #include "SpectrumFoundation.h"
 
-class InputDevice
+namespace NAMESPACE_FOUNDATION
 {
-public:
-	
-	virtual void update(sp_longlong elapsedTime) = 0;
+	class InputDevice
+	{
+	public:
+		
+		virtual void update(sp_longlong elapsedTime) = 0;
 
-	virtual ~InputDevice() {}
+		virtual ~InputDevice() {}
 
-};
+	};
+}
 
 #endif // INPUT_DEVICE_HEADER

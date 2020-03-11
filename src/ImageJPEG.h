@@ -19,30 +19,32 @@ typedef struct
 	BYTE YThumbnail;        // Thumbnail vertical pixel density
 } JFIFHeader;
 
-
-class ImageJPEG : public Image
+namespace NAMESPACE_FOUNDATION
 {
-private:
-
-public:	
-	ColorRGBc getPixelRGB(sp_int x, sp_int y);
-	
-	static ImageJPEG * load(const sp_char* filename)
+	class ImageJPEG : public Image
 	{
-		ImageJPEG *image = ALLOC_NEW(ImageJPEG)();
-		FILE *file = fopen(filename, "rb");
+	private:
 
-		JFIFHeader fileHeader;
-		fread(&fileHeader, sizeof(JFIFHeader), 1, file);
+	public:	
+		ColorRGBc getPixelRGB(sp_int x, sp_int y);
+		
+		static ImageJPEG * load(const sp_char* filename)
+		{
+			ImageJPEG *image = ALLOC_NEW(ImageJPEG)();
+			FILE *file = fopen(filename, "rb");
 
-		fclose(file);
-		ALLOC_DELETE(image, ImageJPEG);
+			JFIFHeader fileHeader;
+			fread(&fileHeader, sizeof(JFIFHeader), 1, file);
 
-		//NOT IMPLEMENTED EXCEPTION		
+			fclose(file);
+			ALLOC_DELETE(image, ImageJPEG);
 
-		return nullptr;
-	}
+			//NOT IMPLEMENTED EXCEPTION		
 
-};
+			return nullptr;
+		}
+
+	};
+}
 
 #endif // !IMAGE_JPEG_HEADER

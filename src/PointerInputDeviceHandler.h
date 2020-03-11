@@ -4,64 +4,67 @@
 #include "SpectrumFoundation.h"
 #include "InputDeviceHandler.h"
 
-enum MouseButton {
-	NONE,
-	LEFT,
-	RIGHT,
-	MIDDLE	
-};
-
-enum WheelDirection {
-	UP,
-	DOWN
-};
-
-struct MouseState {
-	sp_float position[2];
-	sp_bool leftButtonPressed;
-	sp_bool rightButtonPressed;
-	sp_bool middleButtonPressed;
-};
-
-class MouseEvent 
+namespace NAMESPACE_FOUNDATION
 {
-public:
-	MouseButton button;	
-	sp_float previousPosition[2];
-	sp_float currentPosition[2];
-	WheelDirection direction;
-	sp_float scrollOffset[2];
-	MouseState state;
+	enum MouseButton {
+		NONE,
+		LEFT,
+		RIGHT,
+		MIDDLE	
+	};
 
-	void log() {
-		Log::info("MOUSE POSITION (" + StringHelper::toString(currentPosition[0]) + " , " + StringHelper::toString(currentPosition[1]) + ")");
-	}
-};
+	enum WheelDirection {
+		UP,
+		DOWN
+	};
 
-class PointerInputDeviceHandler : public InputDeviceHandler
-{
-private:
-	MouseState(*getMouseStateFunction)();
+	struct MouseState {
+		sp_float position[2];
+		sp_bool leftButtonPressed;
+		sp_bool rightButtonPressed;
+		sp_bool middleButtonPressed;
+	};
 
-public:
-	void init(MouseState(*getMouseStateFunction)()) {
-		this->getMouseStateFunction = getMouseStateFunction;
-	}
+	class MouseEvent 
+	{
+	public:
+		MouseButton button;	
+		sp_float previousPosition[2];
+		sp_float currentPosition[2];
+		WheelDirection direction;
+		sp_float scrollOffset[2];
+		MouseState state;
 
-	MouseState getMouseState() {
-		return getMouseStateFunction();
-	}
+		void log() {
+			Log::info("MOUSE POSITION (" + StringHelper::toString(currentPosition[0]) + " , " + StringHelper::toString(currentPosition[1]) + ")");
+		}
+	};
 
-	virtual void onMouseMove(MouseEvent& e) {};
-	
-	virtual void onMouseDown(MouseEvent& e) {};
-	virtual void onMouseUp(MouseEvent& e) {};
+	class PointerInputDeviceHandler : public InputDeviceHandler
+	{
+	private:
+		MouseState(*getMouseStateFunction)();
 
-	virtual void onDoubleClick(MouseEvent& e) {};
+	public:
+		void init(MouseState(*getMouseStateFunction)()) {
+			this->getMouseStateFunction = getMouseStateFunction;
+		}
 
-	virtual void onScroll(MouseEvent& e) {}
+		MouseState getMouseState() {
+			return getMouseStateFunction();
+		}
 
-	virtual void onMouseEnter(MouseEvent& e) {};
-};
+		virtual void onMouseMove(MouseEvent& e) {};
+		
+		virtual void onMouseDown(MouseEvent& e) {};
+		virtual void onMouseUp(MouseEvent& e) {};
+
+		virtual void onDoubleClick(MouseEvent& e) {};
+
+		virtual void onScroll(MouseEvent& e) {}
+
+		virtual void onMouseEnter(MouseEvent& e) {};
+	};
+}
 
 #endif // !POINTER_INPUT_DEVICE_HANDLER_HEADER

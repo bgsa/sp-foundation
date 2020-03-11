@@ -4,12 +4,15 @@
 #include "SpectrumFoundation.h"
 //#include "IEquatable.h"
 
-class Object //: public IEquatable<Object>
+namespace NAMESPACE_FOUNDATION
 {
-public:
+	class Object //: public IEquatable<Object>
+	{
+	public:
 
-	virtual sp_char* toString() = 0;
+		virtual sp_char* toString() = 0;
 
-};
+	};
+}
 
 #endif // !OBJECT_HEADER

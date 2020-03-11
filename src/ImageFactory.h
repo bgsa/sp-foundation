@@ -7,28 +7,31 @@
 #include "ImageBMP.h"
 #include "ImageJPEG.h"
 
-class ImageFactory 
+namespace NAMESPACE_FOUNDATION
 {
-public:
-
-    static Image * load(const sp_char* filename) 
+	class ImageFactory 
 	{
-		Image *image = nullptr;
+	public:
 
-		/*
-if (StringHelper::endWith(filename, ".png"))
-	image = (Image*)ImagePNG::load(filename);
-else
-*/
-		if (StringHelper::endWith(filename, ".bmp")) 
-			image = (Image*) ImageBMP::load(filename);
-		else 
-		if (StringHelper::endWith(filename, ".jpg"))
-			image = (Image*)ImageJPEG::load(filename);
+		static Image * load(const sp_char* filename) 
+		{
+			Image *image = nullptr;
 
-		return image;
-	}
+			/*
+	if (StringHelper::endWith(filename, ".png"))
+		image = (Image*)ImagePNG::load(filename);
+	else
+	*/
+			if (StringHelper::endWith(filename, ".bmp")) 
+				image = (Image*) ImageBMP::load(filename);
+			else 
+			if (StringHelper::endWith(filename, ".jpg"))
+				image = (Image*)ImageJPEG::load(filename);
 
-};
+			return image;
+		}
+
+	};
+}
 
 #endif // !IMAGE_FACTORY_HEADER

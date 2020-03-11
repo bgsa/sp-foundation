@@ -1,6 +1,7 @@
-#pragma once
-
 /*
+
+#ifndef IMAGE_PNG_HEADER
+#define IMAGE_PNG_HEADER
 
 #include <stdlib.h>
 #include <PNG/png.h>
@@ -187,4 +188,6 @@ the second IF SHOULD work on libpng12
 
 };
 
+
+#endif // IMAGE_PNG_HEADER
 */

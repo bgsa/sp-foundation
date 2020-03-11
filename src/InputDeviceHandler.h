@@ -1,11 +1,14 @@
 #ifndef INPUT_DEVICE_HANDLER
 #define INPUT_DEVICE_HANDLER
 
-class InputDeviceHandler
+namespace NAMESPACE_FOUNDATION
 {
-public:
+    class InputDeviceHandler
+    {
+    public:
 
-};
+    };
+}
 
 #endif
 

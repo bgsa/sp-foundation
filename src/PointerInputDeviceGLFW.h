@@ -10,20 +10,23 @@
 #include <GLFW/glfw3.h>
 #include "RendererSize.h"
 
-class PointerInputDeviceGLFW : public PointerInputDevice
+namespace NAMESPACE_FOUNDATION
 {
-private:
+	class PointerInputDeviceGLFW : public PointerInputDevice
+	{
+	private:
+			
+	public:
+
+		API_INTERFACE PointerInputDeviceGLFW();
+
+		API_INTERFACE void init(GLFWwindow* window);
+		API_INTERFACE void update(sp_longlong elapsedTime);
 		
-public:
-
-	API_INTERFACE PointerInputDeviceGLFW();
-
-	API_INTERFACE void init(GLFWwindow* window);
-	API_INTERFACE void update(sp_longlong elapsedTime);
-	
-	API_INTERFACE void addHandler(PointerInputDeviceHandler* handler);
-	API_INTERFACE void removeHandler(PointerInputDeviceHandler* handler);
-};
+		API_INTERFACE void addHandler(PointerInputDeviceHandler* handler);
+		API_INTERFACE void removeHandler(PointerInputDeviceHandler* handler);
+	};
+}
 
 #endif // !POINTER_INPUT_DEVICE_GLFW_HEADER
 

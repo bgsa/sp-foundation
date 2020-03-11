@@ -1,6 +1,8 @@
 #ifndef SPECTRUM_FOUNDATION_HEADER
 #define SPECTRUM_FOUNDATION_HEADER
 
+#define NAMESPACE_FOUNDATION SpFoundation
+
 #define SIZEOF_BOOL      (1)
 #define SIZEOF_CHAR      (1)
 #define SIZEOF_SHORT     (2)

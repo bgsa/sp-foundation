@@ -19,21 +19,24 @@
 #include "IFile.h"
 #include "FileWindows.h"
 
-class FileManagerWindows : public IFileManager
+namespace NAMESPACE_FOUNDATION
 {
-public:
-	API_INTERFACE std::vector<std::string> getFilesFromResource();
+	class FileManagerWindows : public IFileManager
+	{
+	public:
+		API_INTERFACE std::vector<std::string> getFilesFromResource();
 
-	API_INTERFACE std::vector<std::string> getFilesFromFolder(std::string folder, std::string suffix = "");
+		API_INTERFACE std::vector<std::string> getFilesFromFolder(std::string folder, std::string suffix = "");
 
-	API_INTERFACE std::string readTextFile(const sp_char* filename);
+		API_INTERFACE std::string readTextFile(const sp_char* filename);
 
-	API_INTERFACE char* readBinaryFile(const sp_char* filename, sp_uint& size);
-    
-	API_INTERFACE  bool exists(const sp_char* filename);
+		API_INTERFACE char* readBinaryFile(const sp_char* filename, sp_uint& size);
+		
+		API_INTERFACE  bool exists(const sp_char* filename);
 
-	API_INTERFACE IFile* open(std::string filename);
-};
+		API_INTERFACE IFile* open(std::string filename);
+	};
+}
 
 #endif // FILE_MANAGER_WINDOWS_HEADER
 

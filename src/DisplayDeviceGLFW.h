@@ -6,15 +6,18 @@
 #include "DisplayDevice.h"
 #include <GLFW/glfw3.h>
 
-class DisplayDeviceGLFW : public DisplayDevice
+namespace NAMESPACE_FOUNDATION
 {
-private:
-	GLFWwindow* window;
+	class DisplayDeviceGLFW : public DisplayDevice
+	{
+	private:
+		GLFWwindow* window;
 
-public:
-	API_INTERFACE void init(GLFWwindow* window);
-	API_INTERFACE void swapBuffer() override;
-};
+	public:
+		API_INTERFACE void init(GLFWwindow* window);
+		API_INTERFACE void swapBuffer() override;
+	};
+}
 
 #endif // DISPLAY_DEVICE_GLFW_HEADER
 

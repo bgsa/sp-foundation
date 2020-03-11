@@ -14,23 +14,26 @@
 #include <qevent.h>
 #include <qscreen.h>
 
-class PointerInputDeviceQT : public QObject, public PointerInputDevice
+namespace NAMESPACE_FOUNDATION
 {
-	Q_OBJECT
+	class PointerInputDeviceQT : public QObject, public PointerInputDevice
+	{
+		Q_OBJECT
 
-private:
-	QWidget* window = nullptr;
-	sp_float previousPosition[2] = {0.0f, 0.0f};
+	private:
+		QWidget* window = nullptr;
+		sp_float previousPosition[2] = {0.0f, 0.0f};
 
-public:
-	API_INTERFACE void init(QWidget* window);
-	API_INTERFACE void update(sp_longlong elapsedTime);
+	public:
+		API_INTERFACE void init(QWidget* window);
+		API_INTERFACE void update(sp_longlong elapsedTime);
 
-	API_INTERFACE void addHandler(PointerInputDeviceHandler* handler);
-	API_INTERFACE void removeHandler(PointerInputDeviceHandler* handler);
+		API_INTERFACE void addHandler(PointerInputDeviceHandler* handler);
+		API_INTERFACE void removeHandler(PointerInputDeviceHandler* handler);
 
-	API_INTERFACE sp_bool eventFilter(QObject *object, QEvent *event);
-};
+		API_INTERFACE sp_bool eventFilter(QObject *object, QEvent *event);
+	};
+}
 
 #endif // !POINTER_INPUT_DEVICE_QT_HEADER
 
