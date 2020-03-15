@@ -1,14 +1,15 @@
 #ifndef SPECTRUM_FOUNDATION_HEADER
 #define SPECTRUM_FOUNDATION_HEADER
 
-#define NAMESPACE_FOUNDATION SpFoundation
+#ifndef NAMESPACE_FOUNDATION
+	#define NAMESPACE_FOUNDATION SpFoundation
+#endif
 
 #define SIZEOF_BOOL      (1)
 #define SIZEOF_CHAR      (1)
 #define SIZEOF_SHORT     (2)
 #define SIZEOF_INT       (4)
 #define SIZEOF_LONG      (8)
-#define SIZEOF_SIZE      (8)
 #define SIZEOF_LONG_LONG (8)
 #define SIZEOF_FLOAT     (4)
 #define SIZEOF_DOUBLE    (8)
@@ -24,7 +25,6 @@
 #define SP_USHORT_MAX       USHRT_MAX
 #define SP_INT_MAX          INT_MAX
 #define SP_UINT_MAX         UINT_MAX
-#define SP_SIZE_MAX         UINTMAX_MAX
 #define SP_FLOAT_MAX        FLT_MAX
 #define SP_DOUBLE_MAX       DBL_MAX
 
@@ -33,9 +33,18 @@
 #define SP_USHORT_MIN       (-USHRT_MAX)
 #define SP_INT_MIN          (-INT_MAX)
 #define SP_UINT_MIN         (-UINT_MAX)
-#define SP_SIZE_MIN         (-UINTMAX_MAX)
 #define SP_FLOAT_MIN        (-FLT_MAX)
 #define SP_DOUBLE_MIN       (-DBL_MAX)
+
+#ifdef ENV_32BITS
+	#define SIZEOF_SIZE      (4)
+	#define SP_SIZE_MAX      UINT32_MAX
+	#define SP_SIZE_MIN      (-SP_SIZE_MAX)
+#else
+	#define SIZEOF_SIZE      (8)
+	#define SP_SIZE_MAX      UINT64_MAX
+	#define SP_SIZE_MIN      (-SP_SIZE_MAX)
+#endif
 
 #define SP_HUGE_VALUE_FLOAT ((sp_float) 1e50)
 #define SP_INFINITY         SP_HUGE_VALUE_FLOAT
@@ -66,8 +75,17 @@
 	typedef unsigned __int32    sp_uint;
 	typedef unsigned __int64    sp_uint64;
 	typedef unsigned __int64    sp_ulong;
-	typedef unsigned __int64    sp_size;
 	typedef unsigned long long  sp_long_size;
+
+#ifdef ENV_32BITS
+	typedef unsigned int     sp_size;
+//	typedef int              ptrdiff_t;
+//	typedef int              intptr_t;
+#else
+	typedef unsigned __int64 sp_size;
+//	typedef __int64          ptrdiff_t;
+//	typedef __int64          intptr_t;
+#endif
 
 	#define ONE_SHORT  (1i16)
 	#define ONE_USHORT (1ui16)
@@ -79,7 +97,7 @@
 	#define ONE_FLOAT  (1.0f)
 	#define ONE_DOUBLE (1.0)
 	
-	#define SP_NOT_A_NUMBER     (CL_INFINITY - CL_INFINITY)
+	#define SP_NOT_A_NUMBER     (INFINITY - INFINITY)
 
 #else
 

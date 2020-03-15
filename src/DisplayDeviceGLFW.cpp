@@ -80,7 +80,7 @@ namespace NAMESPACE_FOUNDATION
 			PostQuitMessage(0);
 		}
 	}
+	*/
 }
-*/
 
 #endif // !GLFW_ENABLED
