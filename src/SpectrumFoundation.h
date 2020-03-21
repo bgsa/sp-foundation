@@ -227,8 +227,9 @@
 #define multiplyBy2(value) multiplyBy(value, SHIFT_BIT_ONE)
 #define multiplyBy4(value) multiplyBy(value, SHIFT_BIT_TWO)
 #define multiplyBy8(value) multiplyBy(value, SHIFT_BIT_THREE)
-#define multiplyBy10(value) ((value << SHIFT_BIT_THREE) + (value << SHIFT_BIT_ONE));
+#define multiplyBy10(value) ((value << SHIFT_BIT_THREE) + (value << SHIFT_BIT_ONE))
 #define multiplyBy16(value) multiplyBy(value, SHIFT_BIT_FOUR)
+#define multiplyBy5(value) divideBy2(multiplyBy10(value, SHIFT_BIT_TWO))
 
 extern "C" {
 

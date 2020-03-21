@@ -51,7 +51,7 @@ MemoryAllocatorManager::MemoryAllocatorManager()
 	;
 }
 
-void MemoryAllocatorManager::init(size_t initialSize) noexcept
+void MemoryAllocatorManager::init(const size_t initialSize) noexcept
 {
 	locker.lock();
 
@@ -91,7 +91,7 @@ size_t MemoryAllocatorManager::deviceMemorySize() noexcept
 #endif
 }
 
-void* MemoryAllocatorManager::alloc(size_t size) noexcept
+void* MemoryAllocatorManager::alloc(const size_t size) noexcept
 {
 	locker.lock();
 
@@ -107,7 +107,7 @@ void* MemoryAllocatorManager::alloc(size_t size) noexcept
 	return buffer;
 }
 
-void* MemoryAllocatorManager::alloc(size_t count, size_t size) noexcept
+void* MemoryAllocatorManager::alloc(const size_t count, const size_t size) noexcept
 {
 	return MemoryAllocatorManager::alloc(count * size);
 }
@@ -140,7 +140,7 @@ void MemoryAllocatorManager::resize(size_t newSize) noexcept
 	locker.unlock();
 }
 
-bool MemoryAllocatorManager::hasAvailableMemory(size_t size) noexcept
+bool MemoryAllocatorManager::hasAvailableMemory(const size_t size) noexcept
 {
 #ifdef ENV_32BITS
 	return (unsigned long) (((size_t)lastPointer) - ((size_t)currentPointer) - size) > 0;
