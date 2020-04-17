@@ -77,25 +77,78 @@
 	typedef unsigned __int64    sp_ulong;
 	typedef unsigned long long  sp_long_size;
 
-#ifdef ENV_32BITS
-	typedef unsigned int     sp_size;
-//	typedef int              ptrdiff_t;
-//	typedef int              intptr_t;
-#else
-	typedef unsigned __int64 sp_size;
-//	typedef __int64          ptrdiff_t;
-//	typedef __int64          intptr_t;
-#endif
+	#ifdef ENV_32BITS
+		typedef unsigned int     sp_size;
+	//	typedef int              ptrdiff_t;
+	//	typedef int              intptr_t;
+	#else
+		typedef unsigned __int64 sp_size;
+	//	typedef __int64          ptrdiff_t;
+	//	typedef __int64          intptr_t;
+	#endif
 
-	#define ONE_SHORT  (1i16)
-	#define ONE_USHORT (1ui16)
-	#define ONE_INT    (1i32)
-	#define ONE_UINT   (1ui32)
-	#define ONE_LONG   (1i64)
-	#define ONE_ULONG  (1ui64)
-	#define ONE_SIZE   (1ui64)
-	#define ONE_FLOAT  (1.0f)
-	#define ONE_DOUBLE (1.0)
+	#define ZERO_SHORT   0i16
+	#define ONE_SHORT    1i16
+	#define TWO_SHORT    2i16
+	#define THREE_SHORT  3i16
+	#define FOUR_SHORT   4i16
+	#define TEN_SHORT   10i16
+
+	#define ZERO_USHORT   0ui16
+	#define ONE_USHORT    1ui16
+	#define TWO_USHORT    2ui16
+	#define THREE_USHORT  3ui16
+	#define FOUR_USHORT   4ui16
+	#define TEN_USHORT   10ui16
+
+	#define ZERO_INT   0i32
+	#define ONE_INT    1i32
+	#define TWO_INT    2i32
+	#define THREE_INT  3i32
+	#define FOUR_INT   4i32
+	#define TEN_INT   10i32
+
+	#define ZERO_UINT   0ui32
+	#define ONE_UINT    1ui32
+	#define TWO_UINT    2ui32
+	#define THREE_UINT  3ui32
+	#define FOUR_UINT   4ui32
+	#define TEN_UINT   10ui32
+
+	#define ZERO_LONG   0i64
+	#define ONE_LONG    1i64
+	#define TWO_LONG    2i64
+	#define TRHEE_LONG  3i64
+	#define FOUR_LONG   4i64
+	#define TEN_LONG   10i64
+
+	#define ZERO_ULONG   0ui64
+	#define ONE_ULONG    1ui64
+	#define TWO_ULONG    2ui64
+	#define THREE_ULONG  3ui64
+	#define FOUR_ULONG   4ui64
+	#define TEN_ULONG   10ui64
+
+	#define ZERO_SIZE   0ui64
+	#define ONE_SIZE    1ui64
+	#define TWO_SIZE    2ui64
+	#define THREE_SIZE  3ui64
+	#define FOUR_SIZE   4ui64
+	#define TEN_SIZE   10ui64
+
+	#define ZERO_FLOAT  0.0f
+	#define ONE_FLOAT   1.0f
+	#define TWO_FLOAT   2.0f
+	#define THREE_FLOAT 3.0f
+	#define FOUT_FLOAT  4.0f
+	#define TEN_FLOAT  10.0f
+
+	#define ZERO_DOUBLE  0.0
+	#define ONE_DOUBLE   1.0
+	#define TWO_DOUBLE   2.0
+	#define THREE_DOUBLE 3.0
+	#define FOUR_DOUBLE  4.0
+	#define TEN_DOUBLE  10.0
 	
 	#define SP_NOT_A_NUMBER     (INFINITY - INFINITY)
 
@@ -103,6 +156,55 @@
 
 	#include <stdint.h>
 	#include <cfloat>
+
+	#define ZERO_INT  0
+	#define ONE_INT   1
+	#define TWO_INT   2
+	#define THREE_INT 3
+	#define FOUR_INT  4
+	#define TEN_INT  10
+
+	#define ZERO_LONG   0L
+	#define ONE_LONG    1L
+	#define TWO_LONG    2L
+	#define THREE_LONG  3L
+	#define FOUR_LONG   4L
+	#define TEN_LONG   10L
+
+	#define ZERO_UINT  0u
+	#define ONE_UINT   1u
+	#define TWO_UINT   2u
+	#define THREE_UINT 3u
+	#define FOUR_UINT  4u
+	#define TEN_UINT  10u
+
+	#define ZERO_ULONG   0UL
+	#define ONE_ULONG    1UL
+	#define TWO_ULONG    2UL
+	#define THREE_ULONG  3UL
+	#define FOUR_ULONG   4UL
+	#define TEN_ULONG   10UL
+
+	#define ZERO_SIZE  0UL
+	#define ONE_SIZE   1UL
+	#define TWO_SIZE   2UL
+	#define THREE_SIZE 3UL
+	#define FOUR_SIZE  4UL
+	#define TEN_SIZE  10UL
+
+	#define ZERO_FLOAT  0.0f
+	#define ONE_FLOAT   1.0f
+	#define TWO_FLOAT   2.0f
+	#define THREE_FLOAT 3.0f
+	#define FOUT_FLOAT  4.0f
+	#define TEN_FLOAT  10.0f
+
+	#define ZERO_DOUBLE  0.0d
+	#define ONE_DOUBLE   1.0d
+	#define TWO_DOUBLE   2.0d
+	#define THREE_DOUBLE 3.0d
+	#define FOUR_DOUBLE  4.0d
+	#define TEN_DOUBLE  10.0d
 
 	typedef bool   sp_bool;
 	typedef char   sp_char;
@@ -130,16 +232,6 @@
 	typedef uint64_t       sp_ulong      __attribute__((aligned(SIZEOF_LONG)));
 	typedef uint64_t       sp_size       __attribute__((aligned(SIZEOF_LONG)));
 	typedef uint_least64_t sp_long_size  __attribute__((aligned(SIZEOF_LONG_LONG)));
-
-	#define ONE_SHORT  ((sp_short)  1)
-	#define ONE_USHORT ((sp_ushort) 1)
-	#define ONE_INT    (1)
-	#define ONE_UINT   (1U)
-	#define ONE_LONG   (1L)
-	#define ONE_ULONG  (1UL)
-	#define ONE_SIZE   (1UL)
-	#define ONE_FLOAT  (1.0f)
-	#define ONE_DOUBLE (1.0)
 
 	#if defined( __GNUC__ )
 		#define SP_NOT_A_NUMBER   __builtin_nanf( "" )
