@@ -10,7 +10,7 @@ namespace NAMESPACE_FOUNDATION
 	{
 	public:
 
-		virtual sp_char* toString() = 0;
+		virtual const sp_char* toString() = 0;
 
 	};
 }
