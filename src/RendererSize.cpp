@@ -2,11 +2,12 @@
 
 namespace NAMESPACE_FOUNDATION
 {
-	static RendererSize* instance;
+	static RendererSize* instance = NULL;
 
 	void RendererSize::init()
 	{
-		instance = ALLOC_NEW(RendererSize);
+		if (instance == NULL)
+			instance = ALLOC_NEW(RendererSize);
 	}
 
 	RendererSize* RendererSize::getInstance()

@@ -53,7 +53,7 @@ namespace NAMESPACE_FOUNDATION
 		API_INTERFACE T& operator[](sp_int index)
 		{
 			assert(index >= 0 && index < 4);
-
+			
 			return toVec4()[index];
 		}
 

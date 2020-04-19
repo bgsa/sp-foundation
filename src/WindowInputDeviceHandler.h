@@ -26,15 +26,15 @@ namespace NAMESPACE_FOUNDATION
 	class WindowInputDeviceHandler : public InputDeviceHandler
 	{
 	public:
-		virtual void onHide() {};
-		virtual void onShow() {};
-		virtual void onMove(WindowMoveEvent& moveEvent) {};
-		virtual void onClose() {};
-		virtual void onResize(sp_int width, sp_int height) {};
-		virtual void onMaximized() {};
-		virtual void onFullScreen() {};
-		virtual void onFocusIn() {};
-		virtual void onFocusOut() {};
+		API_INTERFACE virtual void onHide() {};
+		API_INTERFACE virtual void onShow() {};
+		API_INTERFACE virtual void onMove(WindowMoveEvent& moveEvent) {};
+		API_INTERFACE virtual void onClose() {};
+		API_INTERFACE virtual void onResize(sp_int width, sp_int height) {};
+		API_INTERFACE virtual void onMaximized() {};
+		API_INTERFACE virtual void onFullScreen() {};
+		API_INTERFACE virtual void onFocusIn() {};
+		API_INTERFACE virtual void onFocusOut() {};
 	};
 }
 

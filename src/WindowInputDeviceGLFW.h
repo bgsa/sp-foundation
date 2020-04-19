@@ -15,7 +15,7 @@ namespace NAMESPACE_FOUNDATION
 	private:
 		WindowInputDeviceGLFW();
 
-		GLFWwindow* window;
+		GLFWwindow* window = NULL;
 		std::vector<WindowInputDeviceHandler*> handlers;
 
 	public:
