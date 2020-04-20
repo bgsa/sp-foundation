@@ -19,7 +19,7 @@ namespace NAMESPACE_FOUNDATION
 		sp_double posx, posy;
 		glfwGetCursorPos(mouseWindow, &posx, &posy);
 
-		sp_int screenHeight = RendererSize::getInstance()->getHeight();
+		sp_float screenHeight = RendererSize::getInstance()->getHeight();
 
 		MouseEvent e;
 		e.currentPosition[0] = sp_float(posx);
@@ -50,7 +50,7 @@ namespace NAMESPACE_FOUNDATION
 
 	void onMove(GLFWwindow* window, sp_double posx, sp_double posy)
 	{
-		int screenHeight = RendererSize::getInstance()->getHeight();
+		sp_float screenHeight = RendererSize::getInstance()->getHeight();
 
 		MouseEvent e;
 		e.previousPosition[0] = previousPointerPositionDevice[0];
@@ -80,7 +80,7 @@ namespace NAMESPACE_FOUNDATION
 		sp_double posx, posy;
 		glfwGetCursorPos(mouseWindow, &posx, &posy);
 
-		sp_int screenHeight = RendererSize::getInstance()->getHeight();
+		sp_float screenHeight = RendererSize::getInstance()->getHeight();
 
 		sp_float position[2];
 		position[0] = sp_float(posx);

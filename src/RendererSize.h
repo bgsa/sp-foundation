@@ -8,8 +8,8 @@ namespace NAMESPACE_FOUNDATION
     class RendererSize
     {
     private:
-        sp_int width = 0;
-        sp_int height = 0;
+		sp_float width = ZERO_FLOAT;
+		sp_float height = ZERO_FLOAT;
         
         RendererSize()
         {
@@ -22,19 +22,19 @@ namespace NAMESPACE_FOUNDATION
 
         API_INTERFACE static RendererSize* getInstance();
 
-        API_INTERFACE sp_int getWidth()
+        API_INTERFACE inline sp_float getWidth()
         {
             return width;
         }
-        API_INTERFACE sp_int getHeight()
+        API_INTERFACE inline sp_float getHeight()
         {
             return height;
         }
 
-        API_INTERFACE void resize(sp_int newWidth, sp_int newHeight)
+        API_INTERFACE inline void resize(sp_float width, sp_float height)
         {
-            this->width = newWidth;
-            this->height = newHeight;
+			this->width = width;
+			this->height = height;
         }
 
     };
