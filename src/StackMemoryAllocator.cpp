@@ -1,4 +1,4 @@
-#include "MemoryAllocatorManager.h"
+#include "StackMemoryAllocator.h"
 
 #ifdef WINDOWS
 	#include <windows.h>
@@ -46,12 +46,12 @@ static void* initialPointer = NULL;
 static void* lastPointer = NULL;
 static void* currentPointer = NULL;
 
-MemoryAllocatorManager::MemoryAllocatorManager()
+StackMemoryAllocator::StackMemoryAllocator()
 {
 	;
 }
 
-void MemoryAllocatorManager::init(const size_t initialSize) noexcept
+void StackMemoryAllocator::init(const size_t initialSize) noexcept
 {
 	locker.lock();
 
@@ -65,7 +65,7 @@ void MemoryAllocatorManager::init(const size_t initialSize) noexcept
 	locker.unlock();
 }
 
-void MemoryAllocatorManager::free(void* buffer) noexcept
+void StackMemoryAllocator::free(void* buffer) noexcept
 {
 	assert(buffer != NULL);
 	assert(buffer >= initialPointer && buffer <= lastPointer);
@@ -78,7 +78,7 @@ void MemoryAllocatorManager::free(void* buffer) noexcept
 	locker.unlock();
 }
 
-size_t MemoryAllocatorManager::deviceMemorySize() noexcept
+size_t StackMemoryAllocator::deviceMemorySize() noexcept
 {
 #ifdef WINDOWS
 	MEMORYSTATUSEX status;
@@ -91,7 +91,7 @@ size_t MemoryAllocatorManager::deviceMemorySize() noexcept
 #endif
 }
 
-void* MemoryAllocatorManager::alloc(const size_t size) noexcept
+void* StackMemoryAllocator::alloc(const size_t size) noexcept
 {
 	locker.lock();
 
@@ -107,12 +107,12 @@ void* MemoryAllocatorManager::alloc(const size_t size) noexcept
 	return buffer;
 }
 
-void* MemoryAllocatorManager::alloc(const size_t count, const size_t size) noexcept
+void* StackMemoryAllocator::alloc(const size_t count, const size_t size) noexcept
 {
-	return MemoryAllocatorManager::alloc(count * size);
+	return StackMemoryAllocator::alloc(count * size);
 }
 
-void* MemoryAllocatorManager::copy(const void* source, size_t size) noexcept
+void* StackMemoryAllocator::copy(const void* source, size_t size) noexcept
 {
 	void* newBuffer = ALLOC_SIZE(size);
 
@@ -121,12 +121,12 @@ void* MemoryAllocatorManager::copy(const void* source, size_t size) noexcept
 	return newBuffer;
 }
 
-void MemoryAllocatorManager::copy(const void* source, void* destiny, size_t size) noexcept
+void StackMemoryAllocator::copy(const void* source, void* destiny, size_t size) noexcept
 {
 	std::memcpy(destiny, source, size);
 }
 
-void MemoryAllocatorManager::resize(size_t newSize) noexcept
+void StackMemoryAllocator::resize(size_t newSize) noexcept
 {
 	locker.lock();
 
@@ -140,7 +140,7 @@ void MemoryAllocatorManager::resize(size_t newSize) noexcept
 	locker.unlock();
 }
 
-bool MemoryAllocatorManager::hasAvailableMemory(const size_t size) noexcept
+bool StackMemoryAllocator::hasAvailableMemory(const size_t size) noexcept
 {
 #ifdef ENV_32BITS
 	return (unsigned long) (((size_t)lastPointer) - ((size_t)currentPointer) - size) > 0;
@@ -149,17 +149,17 @@ bool MemoryAllocatorManager::hasAvailableMemory(const size_t size) noexcept
 #endif
 }
 
-size_t MemoryAllocatorManager::memorySize() noexcept
+size_t StackMemoryAllocator::memorySize() noexcept
 {
 	return ((size_t)lastPointer) - ((size_t)initialPointer);
 }
 
-size_t MemoryAllocatorManager::availableMemorySize() noexcept
+size_t StackMemoryAllocator::availableMemorySize() noexcept
 {
 	return ((size_t)lastPointer) - ((size_t)currentPointer);
 }
 
-void MemoryAllocatorManager::release() noexcept
+void StackMemoryAllocator::release() noexcept
 {
 	locker.lock();
 

@@ -1,52 +1,36 @@
-#ifndef MEMORY_ALLOCATOR_MANAGER_HEADER
-#define MEMORY_ALLOCATOR_MANAGER_HEADER
+#ifndef STACK_MEMORY_ALLOCATOR_HEADER
+#define STACK_MEMORY_ALLOCATOR_HEADER
+
+#ifdef WINDOWS
+	#include "WindowsPlatform.h"
+#else
+	#include "LinuxPlatform.h"	
+#endif
 
 #include <cassert>
 #include <cstring>
 #include <mutex>
 
-#ifdef WINDOWS
-	#ifdef API_IMPORT
-		#define API_INTERFACE __declspec(dllimport)		
-	#else
-		#ifdef API_EXPORT
-			#define API_INTERFACE __declspec(dllexport)
-		#else
-			#define API_INTERFACE
-		#endif
-	#endif	
-#else
-	#ifdef API_IMPORT
-		#define API_INTERFACE __attribute__((visibility("hidden")))
-	#else
-		#ifdef API_EXPORT
-			#define API_INTERFACE __attribute__((visibility("default")))
-		#else
-			#define API_INTERFACE
-		#endif
-	#endif	
-#endif 
-
-#define ALLOC(type) (type*)MemoryAllocatorManager::alloc(sizeof(type))
-#define ALLOC_SIZE(size) MemoryAllocatorManager::alloc(size)
-#define ALLOC_ARRAY(type, count) (type*) MemoryAllocatorManager::alloc(sizeof(type) * count)
-#define ALLOC_RELEASE(object) MemoryAllocatorManager::free(object)
-#define ALLOC_COPY(source, type, count) (type*) MemoryAllocatorManager::copy(source, sizeof(type) * count)
-#define ALLOC_COPY_TO(source, destiny, type, count) MemoryAllocatorManager::copy(source, destiny, sizeof(type) * count)
+#define ALLOC(type) (type*)StackMemoryAllocator::alloc(sizeof(type))
+#define ALLOC_SIZE(size) StackMemoryAllocator::alloc(size)
+#define ALLOC_ARRAY(type, count) (type*) StackMemoryAllocator::alloc(sizeof(type) * count)
+#define ALLOC_RELEASE(object) StackMemoryAllocator::free(object)
+#define ALLOC_COPY(source, type, count) (type*) StackMemoryAllocator::copy(source, sizeof(type) * count)
+#define ALLOC_COPY_TO(source, destiny, type, count) StackMemoryAllocator::copy(source, destiny, sizeof(type) * count)
 
 #ifdef __cplusplus
-	#define ALLOC_NEW(type) new (MemoryAllocatorManager::alloc(sizeof(type))) type
-	#define ALLOC_NEW_ARRAY(type, count) new (MemoryAllocatorManager::alloc(sizeof(type) * count)) type[count]
-	#define ALLOC_DELETE(object, type) object->~type(); MemoryAllocatorManager::free(object)
+	#define ALLOC_NEW(type) new (StackMemoryAllocator::alloc(sizeof(type))) type
+	#define ALLOC_NEW_ARRAY(type, count) new (StackMemoryAllocator::alloc(sizeof(type) * count)) type[count]
+	#define ALLOC_DELETE(object, type) object->~type(); StackMemoryAllocator::free(object)
 #endif
 
 // 512MB
 #define DEFAULT_MEMORY_SIZE sizeof(char) * 1024 * 1024 * 512 
 
-class MemoryAllocatorManager
+class StackMemoryAllocator
 {
 private:
-	MemoryAllocatorManager();
+	StackMemoryAllocator();
 
 public:
 

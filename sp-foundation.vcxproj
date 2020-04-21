@@ -244,7 +244,7 @@
     <ClCompile Include="src\ImagePNG.cpp" />
     <ClCompile Include="src\KeyboardInputDeviceGLFW.cpp" />
     <ClCompile Include="src\KeyboardInputDeviceQT.cpp" />
-    <ClCompile Include="src\MemoryAllocatorManager.cpp" />
+    <ClCompile Include="src\StackMemoryAllocator.cpp" />
     <ClCompile Include="src\NetworkSubSystem.cpp" />
     <ClCompile Include="src\PointerInputDeviceGLFW.cpp" />
     <ClCompile Include="src\PointerInputDeviceQT.cpp" />
@@ -259,6 +259,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Disposable.h" />
+    <ClInclude Include="src\LinuxPlatform.h" />
     <ClInclude Include="src\RendererSize.h" />
     <ClInclude Include="src\SpectrumFoundation.h" />
     <ClInclude Include="src\ColorRGB.h" />
@@ -286,7 +287,7 @@
     <ClInclude Include="src\KeyboardInputDeviceGLFW.h" />
     <ClInclude Include="src\KeyboardInputDeviceHandler.h" />
     <ClInclude Include="src\Log.hpp" />
-    <ClInclude Include="src\MemoryAllocatorManager.h" />
+    <ClInclude Include="src\StackMemoryAllocator.h" />
     <ClInclude Include="src\NetworkSubSystem.h" />
     <ClInclude Include="src\Object.h" />
     <ClInclude Include="src\PointerInputDevice.h" />
@@ -305,6 +306,7 @@
     <ClInclude Include="src\WindowInputDevice.h" />
     <ClInclude Include="src\WindowInputDeviceGLFW.h" />
     <ClInclude Include="src\WindowInputDeviceHandler.h" />
+    <ClInclude Include="src\WindowsPlatform.h" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="src\KeyboardInputDeviceQT.h" />
