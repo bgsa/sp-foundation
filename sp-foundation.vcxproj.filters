@@ -93,6 +93,9 @@
     <ClCompile Include="src\StackMemoryAllocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\PoolMemoryAllocator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ColorRGB.h">
@@ -242,20 +245,27 @@
     <ClInclude Include="src\LinuxPlatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="src\KeyboardInputDeviceQT.h">
+    <ClInclude Include="src\PoolMemoryAllocator.h">
       <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\WindowInputDeviceQT.h">
+    </ClInclude>
+    <ClInclude Include="src\KeyboardInputDeviceQT.h">
       <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\PointerInputDeviceQT.h">
+    </ClInclude>
+    <ClInclude Include="src\WindowInputDeviceQT.h">
       <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="src\DisplayDeviceQT.h">
+    </ClInclude>
+    <ClInclude Include="src\PointerInputDeviceQT.h">
       <Filter>Header Files</Filter>
-    </QtMoc>
+    </ClInclude>
+    <ClInclude Include="src\DisplayDeviceQT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\MutexSpinLock.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\BasePlatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />

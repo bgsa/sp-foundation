@@ -2,15 +2,21 @@
 
 namespace NAMESPACE_FOUNDATION_TEST
 {
+	API_INTERFACE void resetMemory()
+	{
+		tearDownModule();
+		setupModule();
+	}
+
 	API_INTERFACE void setupModule()
 	{
 		StackMemoryAllocator::init(ONE_MEGABYTE * 512);
-		//	Logger::WriteMessage("TEST MODULE INITIALIZED");
+		PoolMemoryAllocator::init(ONE_MEGABYTE * 512);
 	}
 	API_INTERFACE void tearDownModule()
 	{
 		StackMemoryAllocator::release();
-		//	Logger::WriteMessage("TEST MODULE FINISHED");
+		PoolMemoryAllocator::release();
 	}
 
 #ifdef MSTEST_ENABLED

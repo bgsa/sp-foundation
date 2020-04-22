@@ -94,6 +94,7 @@ using namespace NAMESPACE_FOUNDATION;
 
 namespace NAMESPACE_FOUNDATION_TEST
 {
+	API_INTERFACE void resetMemory();
 	API_INTERFACE void setupModule();
 	API_INTERFACE void tearDownModule();
 }

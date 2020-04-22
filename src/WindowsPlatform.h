@@ -3,6 +3,8 @@
 #ifndef WINDOWS_PLATFORM_HEADER
 #define WINDOWS_PLATFORM_HEADER
 
+#include "BasePlatform.h"
+
 #ifdef API_IMPORT
 	#define API_INTERFACE __declspec(dllimport)		
 #else
@@ -105,12 +107,21 @@ typedef unsigned __int64 sp_size;
 #define FOUR_ULONG   4ui64
 #define TEN_ULONG   10ui64
 
-#define ZERO_SIZE   0ui64
-#define ONE_SIZE    1ui64
-#define TWO_SIZE    2ui64
-#define THREE_SIZE  3ui64
-#define FOUR_SIZE   4ui64
-#define TEN_SIZE   10ui64
+#ifdef ENV_32BITS
+	#define ZERO_SIZE   0ui32
+	#define ONE_SIZE    1ui32
+	#define TWO_SIZE    2ui32
+	#define THREE_SIZE  3ui32
+	#define FOUR_SIZE   4ui32
+	#define TEN_SIZE   10ui32
+#else
+	#define ZERO_SIZE   0ui64
+	#define ONE_SIZE    1ui64
+	#define TWO_SIZE    2ui64
+	#define THREE_SIZE  3ui64
+	#define FOUR_SIZE   4ui64
+	#define TEN_SIZE   10ui64
+#endif
 
 #define ZERO_FLOAT  0.0f
 #define ONE_FLOAT   1.0f
