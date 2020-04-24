@@ -8,116 +8,143 @@
 #endif
 
 #include <cassert>
-#include <cstring>
-#include <atomic>
-#include <stack>
+#include <cstdlib>
+#include <vector>
 
-#define DEFAULT_MEMORY_SIZE (ONE_MEGABYTE * 512)
-#define DEFAULT_BLOCK_SIZE 64             // 16 (elements) * 4 (bytes) = 16 elements of 4 bytes
-#define DEFAULT_BLOCK_SIZE_BIT_DIVISOR 6  // DEFAULT_BLOCK_SIZE >> BIT = 1
-#define DEFAULT_BLOCK_SIZE_ADDRESS    16  // DEFAULT_BLOCK_SIZE / SIZEOF_INT  (blocksize / bytes in addres bucket)
+#ifndef SP_DEFAULT_MEMORY_SIZE
+	#define SP_DEFAULT_MEMORY_SIZE (ONE_MEGABYTE * 512)
+#endif
 
-#define SP_BLOCK_INDEX(value, initialPointer, mapMemorySize) \
-				((value - initialPointer - mapMemorySize) / DEFAULT_BLOCK_SIZE_ADDRESS)
+#define sp_mem_alloc(size) PoolMemoryAllocator::main()->alloc(size, ++PoolMemoryAllocator::main()->syncPreviousCounter)
+#define sp_mem_calloc(length, size) PoolMemoryAllocator::main()->alloc(length * size, ++PoolMemoryAllocator::main()->syncPreviousCounter)
+#define sp_mem_release(buffer) PoolMemoryAllocator::main()->free((void**)&buffer)
+#define sp_mem_new(Type) new (PoolMemoryAllocator::main()->alloc(size, ++PoolMemoryAllocator::main()->syncPreviousCounter)) Type
+#define sp_mem_delete(buffer, Type) buffer->~Type(); sp_mem_release(buffer)
 
-class PoolMemoryBlock
+namespace SpFoundation
 {
-public:
-	void* pointer;
-	sp_size size;
-
-	PoolMemoryBlock() { }
-
-	inline PoolMemoryBlock(sp_size* pointer, sp_size size)
+	class MemoryBlock
 	{
-		this->pointer = pointer;
-		this->size = size;
-	}
+	public:
+		sp_size addressLength;
+		sp_size next;
+		sp_size data;
 
-	inline sp_size blocks()
+		API_INTERFACE inline MemoryBlock()
+		{
+			this->addressLength = ZERO_SIZE;
+			this->next = ZERO_SIZE;
+			this->data = ZERO_SIZE;
+		}
+	};
+
+	class PoolMemoryAllocator
 	{
-		return sp_ceilBit(size, DEFAULT_BLOCK_SIZE_ADDRESS, DEFAULT_BLOCK_SIZE_BIT_DIVISOR);
-	}
-};
+	private:
+		sp_size initialPointer;
+		sp_size currentPointer;
+		sp_size lastPointer;
 
-class PoolMemoryAllocator
-{
-private:
-	PoolMemoryAllocator();
+		std::vector<sp_size*> freedMemory;
 
-public:
+		sp_size syncCounter = ONE_SIZE;
 
-	/// <summary>
-	/// Define the initial size of memory
-	/// </summary>
-	API_INTERFACE static void init(sp_size initialSize = DEFAULT_MEMORY_SIZE) noexcept;
+	public:
+		sp_size syncPreviousCounter = ZERO_SIZE;
 
-	/// <summary>
-	/// Get the block index allocated by the pointer
-	/// </summary>
-	API_INTERFACE static sp_size blockIndex(void* buffer) noexcept;
-	
-	/// <summary>
-	/// Get the RAM size in device
-	/// </summary>
-	API_INTERFACE static sp_size deviceMemorySize() noexcept;
+		API_INTERFACE static PoolMemoryAllocator* main();
 
-	/// <summary>
-	/// Get the length of allocated blocks
-	/// </summary>
-	API_INTERFACE static sp_size allocatedBlocks() noexcept;
+		API_INTERFACE inline PoolMemoryAllocator(const sp_size size)
+		{
+			assert(size > ZERO_SIZE);
 
-	/// <summary>
-	/// Get the available memory size in manager
-	/// </summary>
-	API_INTERFACE static sp_size availableMemorySize() noexcept;
+			initialPointer = (sp_size)std::malloc(size);
+			currentPointer = initialPointer;
+			lastPointer = initialPointer + size;
 
-	/// <summary>
-	/// Check if the manager has available memory
-	/// </summary>
-	API_INTERFACE static sp_bool hasAvailableMemory(sp_size size) noexcept;
+			freedMemory.reserve(100);
 
-	/// <summary>
-	/// Alloc in the memory
-	/// </summary>
-	API_INTERFACE static void* alloc(sp_size size) noexcept;
+			assert(initialPointer != NULL);
+		}
 
-	/// <summary>
-	/// Alloc (count * size) in the memory
-	/// </summary>
-	API_INTERFACE static void* alloc(sp_size count, sp_size size) noexcept;
+		API_INTERFACE inline void* alloc(const sp_size size, sp_uint syncValue) noexcept
+		{
+			while (syncCounter != syncValue) { }
 
-	/// <summary>
-	/// Copy the source to a new memory buffer
-	/// </summary>
-	API_INTERFACE static void* copy(const void* source, sp_size size) noexcept;
+			const sp_size addressSize = multiplyBy(sp_ceilBit(size, SIZEOF_WORD, SIZEOF_WORD_DIVISOR_BIT), SIZEOF_WORD_DIVISOR_BIT);
 
-	/// <summary>
-	/// Copy the source to the destiny
-	/// </summary>
-	API_INTERFACE static void copy(const void* source, void* destiny, sp_size size) noexcept;
+			((sp_size*)currentPointer)[0] = addressSize;
+			((sp_size*)currentPointer)[SIZEOF_WORD] = 0;
+			currentPointer += SIZEOF_TWO_WORDS + addressSize + 1;
 
-	/// <summary>
-	/// Resize the current memory in manager
-	/// </summary>
-	API_INTERFACE static void resize(sp_size newSize) noexcept;
+			void* newPointer = (void*) currentPointer;
 
-	/// <summary>
-	/// Release the memory
-	/// </summary>
-	API_INTERFACE static void free(void** buffers) noexcept;
+			syncCounter++;
 
-	/// <summary>
-	/// Defrag the last memory freed.
-	/// </summary>
-	API_INTERFACE static void defrag() noexcept;
-	
-	/// <summary>
-	/// Release all allocated memory in manager
-	/// </summary>
-	API_INTERFACE static void release() noexcept;
-};
+			return newPointer;
+		}
 
-#undef DEFAULT_MEMORY_SIZE
+		API_INTERFACE inline void free(void** buffer) noexcept
+		{
+			freedMemory.push_back((sp_size*)buffer);
+		}
 
-#endif // POOL_ALLOCATOR_MANAGER_HEADER
+		API_INTERFACE inline void release() noexcept
+		{
+			if (initialPointer != ZERO_SIZE)
+			{
+				std::free((void*)initialPointer);
+				initialPointer = ZERO_SIZE;
+			}
+		}
+
+		API_INTERFACE inline sp_size memorySize() noexcept
+		{
+			return lastPointer - initialPointer;
+		}
+
+		API_INTERFACE inline sp_bool hasAvailableMemory(const sp_size size) noexcept
+		{
+			return (lastPointer - currentPointer - size) > ZERO_SIZE;
+		}
+
+		API_INTERFACE inline void resize(sp_size newSize) noexcept
+		{
+			initialPointer = (sp_size)std::realloc((void*)initialPointer, newSize);
+
+			assert(initialPointer != NULL);
+
+			currentPointer = initialPointer;
+			lastPointer = initialPointer + newSize;
+		}
+
+		API_INTERFACE inline sp_size freedMemorySize() noexcept
+		{
+			return freedMemory.size();
+		}
+
+		API_INTERFACE inline static void copy(const void* source, void* destiny, sp_size size) noexcept
+		{
+			std::memcpy(destiny, source, size);
+		}
+
+		API_INTERFACE inline sp_size globalMemorySize() noexcept
+		{
+#ifdef WINDOWS
+			MEMORYSTATUSEX status;
+			status.dwLength = sizeof(status);
+			GlobalMemoryStatusEx(&status);
+			return (sp_size)status.ullTotalPhys;
+#elif UNIX
+			//return vmsize.t_rm;
+#endif
+		}
+
+		API_INTERFACE inline ~PoolMemoryAllocator() noexcept
+		{
+			release();
+		}
+	};
+}
+
+#endif // POOL_MEMORY_ALLOCATOR_HEADER

@@ -9,13 +9,13 @@ namespace NAMESPACE_FOUNDATION
 	class MutexSpinLock
 	{
 	private:
-		std::atomic_flag flag;
+		std::atomic_flag flag = ATOMIC_FLAG_INIT;
 
 	public:
 
 		API_INTERFACE inline void lock()
 		{
-			while (std::atomic_flag_test_and_set_explicit(&flag, std::memory_order_acquire));
+			while (std::atomic_flag_test_and_set_explicit(&flag, std::memory_order_relaxed));
 		}
 
 		API_INTERFACE inline void unlock()

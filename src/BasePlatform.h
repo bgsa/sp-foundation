@@ -17,6 +17,10 @@
 #define SIZEOF_ULONG     (8)
 #define SIZEOF_ULONGLONG (8)
 
+#define SIZEOF_WORD              (4)
+#define SIZEOF_TWO_WORDS         (8)
+#define SIZEOF_WORD_DIVISOR_BIT  (2)
+
 #define SP_SHORT_MAX        SHRT_MAX
 #define SP_USHORT_MAX       USHRT_MAX
 #define SP_INT_MAX          INT_MAX
@@ -82,10 +86,10 @@
 #define multiplyBy5(value) divideBy2(multiplyBy10(value, SHIFT_BIT_TWO))
 
 #define sp_ceilBit(value, divisor, bit)   \
-	((value % divisor != 0.0) ?           \
-		divideBy(value, bit) + 1          \
+	((value % divisor == ZERO_DOUBLE) ?   \
+		divideBy(value, bit)              \
 	:                                     \
-		divideBy(value, bit))
+		divideBy(value, bit) + 1)
 
 
 extern "C" {

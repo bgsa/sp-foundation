@@ -68,18 +68,20 @@
 #define TEN_SIZE  10UL
 
 #define ZERO_FLOAT  0.0f
+#define HALF_FLOAT  0.5f
 #define ONE_FLOAT   1.0f
 #define TWO_FLOAT   2.0f
 #define THREE_FLOAT 3.0f
 #define FOUT_FLOAT  4.0f
 #define TEN_FLOAT  10.0f
 
-#define ZERO_DOUBLE  0.0d
-#define ONE_DOUBLE   1.0d
-#define TWO_DOUBLE   2.0d
-#define THREE_DOUBLE 3.0d
-#define FOUR_DOUBLE  4.0d
-#define TEN_DOUBLE  10.0d
+#define ZERO_DOUBLE  0.0
+#define HALF_DOUBLE  0.5
+#define ONE_DOUBLE   1.0
+#define TWO_DOUBLE   2.0
+#define THREE_DOUBLE 3.0
+#define FOUR_DOUBLE  4.0
+#define TEN_DOUBLE  10.0
 
 typedef bool   sp_bool;
 typedef char   sp_char;

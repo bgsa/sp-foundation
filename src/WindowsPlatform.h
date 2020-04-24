@@ -5,6 +5,12 @@
 
 #include "BasePlatform.h"
 
+#define NOMINMAX
+#include <Windows.h>
+#undef near
+#undef far
+
+
 #ifdef API_IMPORT
 	#define API_INTERFACE __declspec(dllimport)		
 #else
@@ -124,6 +130,7 @@ typedef unsigned __int64 sp_size;
 #endif
 
 #define ZERO_FLOAT  0.0f
+#define HALF_FLOAT  0.5f
 #define ONE_FLOAT   1.0f
 #define TWO_FLOAT   2.0f
 #define THREE_FLOAT 3.0f
@@ -131,6 +138,7 @@ typedef unsigned __int64 sp_size;
 #define TEN_FLOAT  10.0f
 
 #define ZERO_DOUBLE  0.0
+#define HALF_DOUBLE  0.5
 #define ONE_DOUBLE   1.0
 #define TWO_DOUBLE   2.0
 #define THREE_DOUBLE 3.0
