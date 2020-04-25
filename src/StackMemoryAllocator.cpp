@@ -1,47 +1,5 @@
 #include "StackMemoryAllocator.h"
 
-#ifdef WINDOWS
-	#include <windows.h>
-#elif UNIX
-
-	#include <stdio.h>
-	#include <sys/types.h>
-	#include <sys/sysctl.h>
-	#include <sys/vmmeter.h>
-	/*
-	//#include <sys/limits.h>
-	//#include <vm/vm_param.h>
-
-	struct vmtotal getVMinfo() {
-		struct vmtotal vm_info;
-		int mib[2];
-
-		mib[0] = CTL_VM;
-		mib[1] = VM_TOTAL;
-
-		size_t len = sizeof(vm_info);
-		sysctl(mib, 2, &vm_info, &len, NULL, 0);
-
-		return vm_info;
-	}
-
-	int getSysCtl(int top_level, int next_level) {
-		int mib[2], ctlvalue;
-		size_t len;
-
-		mib[0] = top_level;
-		mib[1] = next_level;
-		len = sizeof(ctlvalue);
-
-		sysctl(mib, 2, &ctlvalue, &len, NULL, 0);
-
-		return ctlvalue;
-	}
-	*/
-#endif
-
-std::mutex locker;
-
 static void* initialPointer = NULL;
 static void* lastPointer = NULL;
 static void* currentPointer = NULL;
@@ -51,68 +9,59 @@ StackMemoryAllocator::StackMemoryAllocator()
 	;
 }
 
-void StackMemoryAllocator::init(const size_t initialSize) noexcept
+void StackMemoryAllocator::init(const sp_size initialSize) noexcept
 {
-	locker.lock();
-
 	initialPointer = std::malloc(initialSize);
 
 	assert(initialPointer != NULL);
 
 	currentPointer = initialPointer;
-	lastPointer = (void*) ((size_t)initialPointer + initialSize);
-
-	locker.unlock();
+	lastPointer = (void*) ((sp_size)initialPointer + initialSize);
 }
 
-void StackMemoryAllocator::free(void* buffer) noexcept
+void StackMemoryAllocator::free(void* buffer, sp_uint syncValue) noexcept
 {
+	while (stack_syncCounter != syncValue) {}
+
 	assert(buffer != NULL);
 	assert(buffer >= initialPointer && buffer <= lastPointer);
-
-	locker.lock();
 
 	if (currentPointer > buffer) // memory has already freed by previous pointer
 		currentPointer = buffer;
 
-	locker.unlock();
+	stack_syncCounter++;
 }
 
-size_t StackMemoryAllocator::deviceMemorySize() noexcept
+sp_size StackMemoryAllocator::deviceMemorySize() noexcept
 {
 #ifdef WINDOWS
 	MEMORYSTATUSEX status;
 	status.dwLength = sizeof(status);
 	GlobalMemoryStatusEx(&status);
-	return (size_t) status.ullTotalPhys;
+	return (sp_size) status.ullTotalPhys;
 #elif UNIX
 	//return vmsize.t_rm;
 	return 0;
 #endif
 }
 
-void* StackMemoryAllocator::alloc(const size_t size) noexcept
+void* StackMemoryAllocator::alloc(const sp_size size, sp_uint syncValue) noexcept
 {
-	locker.lock();
+	while (stack_syncCounter != syncValue) { }
 
 	assert(hasAvailableMemory(size));
 
 	void* buffer = currentPointer;
 
-	currentPointer = (void*) ((size_t)currentPointer + size);
+	currentPointer = (void*) ((sp_size)currentPointer + size);
 
-	assert(((size_t)lastPointer) > ((size_t)currentPointer));
+	assert(((sp_size)lastPointer) > ((sp_size)currentPointer));
 
-	locker.unlock();
+	stack_syncCounter++;
 	return buffer;
 }
 
-void* StackMemoryAllocator::alloc(const size_t count, const size_t size) noexcept
-{
-	return StackMemoryAllocator::alloc(count * size);
-}
-
-void* StackMemoryAllocator::copy(const void* source, size_t size) noexcept
+void* StackMemoryAllocator::copy(const void* source, sp_size size) noexcept
 {
 	void* newBuffer = ALLOC_SIZE(size);
 
@@ -121,54 +70,49 @@ void* StackMemoryAllocator::copy(const void* source, size_t size) noexcept
 	return newBuffer;
 }
 
-void StackMemoryAllocator::copy(const void* source, void* destiny, size_t size) noexcept
+void StackMemoryAllocator::copy(const void* source, void* destiny, sp_size size) noexcept
 {
 	std::memcpy(destiny, source, size);
 }
 
-void StackMemoryAllocator::resize(size_t newSize) noexcept
+void StackMemoryAllocator::resize(sp_size newSize, sp_uint syncValue) noexcept
 {
-	locker.lock();
+	while (stack_syncCounter != syncValue) { }
 
 	initialPointer = std::realloc(initialPointer, newSize);
 
 	assert(initialPointer != NULL);
 
 	currentPointer = initialPointer;
-	lastPointer = (void*) ((size_t)initialPointer + newSize);
+	lastPointer = (void*) ((sp_size)initialPointer + newSize);
 
-	locker.unlock();
+	stack_syncCounter++;
 }
 
-bool StackMemoryAllocator::hasAvailableMemory(const size_t size) noexcept
+sp_bool StackMemoryAllocator::hasAvailableMemory(const sp_size size) noexcept
 {
-#ifdef ENV_32BITS
-	return (unsigned long) (((size_t)lastPointer) - ((size_t)currentPointer) - size) > 0;
-#else
-	return (unsigned long long)(((size_t)lastPointer) - ((size_t)currentPointer) - size) > 0;
-#endif
+	return ((sp_size)lastPointer - (sp_size)currentPointer - size) > ZERO_SIZE;
 }
 
-size_t StackMemoryAllocator::memorySize() noexcept
+sp_size StackMemoryAllocator::memorySize() noexcept
 {
-	return ((size_t)lastPointer) - ((size_t)initialPointer);
+	return (sp_size)lastPointer - (sp_size)initialPointer;
 }
 
-size_t StackMemoryAllocator::availableMemorySize() noexcept
+sp_size StackMemoryAllocator::availableMemorySize() noexcept
 {
-	return ((size_t)lastPointer) - ((size_t)currentPointer);
+	return (sp_size)lastPointer - (sp_size)currentPointer;
 }
 
 void StackMemoryAllocator::release() noexcept
 {
-	locker.lock();
-
 	lastPointer = NULL;
 	currentPointer = NULL;
 
 	std::free(initialPointer);
 
-	initialPointer = NULL;
+	stack_syncCounter= ONE_SIZE;
+	stack_syncPreviousCounter = ZERO_SIZE;
 
-	locker.unlock();
+	initialPointer = NULL;
 }
