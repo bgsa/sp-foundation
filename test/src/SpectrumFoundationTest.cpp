@@ -4,6 +4,7 @@ namespace NAMESPACE_FOUNDATION_TEST
 {
 	API_INTERFACE void resetMemory()
 	{
+		PoolMemoryAllocator::main()->reset();
 		tearDownModule();
 		setupModule();
 	}
