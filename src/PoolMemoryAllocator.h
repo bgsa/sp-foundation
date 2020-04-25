@@ -7,6 +7,10 @@
 	#include "LinuxPlatform.h"	
 #endif
 
+#ifndef NAMESPACE_FOUNDATION
+	#define NAMESPACE_FOUNDATION SpFoundation
+#endif // NAMESPACE_FOUNDATION
+
 #include <cassert>
 #include <cstdlib>
 #include <vector>
@@ -15,13 +19,13 @@
 	#define SP_DEFAULT_MEMORY_SIZE (ONE_MEGABYTE * 512)
 #endif
 
-#define sp_mem_alloc(size) PoolMemoryAllocator::main()->alloc(size, ++PoolMemoryAllocator::main()->syncPreviousCounter)
-#define sp_mem_calloc(length, size) PoolMemoryAllocator::main()->alloc( (length) * (size), ++PoolMemoryAllocator::main()->syncPreviousCounter)
-#define sp_mem_release(buffer) PoolMemoryAllocator::main()->free( (sp_size*)(buffer) )
-#define sp_mem_new(Type) new (PoolMemoryAllocator::main()->alloc(size, ++PoolMemoryAllocator::main()->syncPreviousCounter)) Type
+#define sp_mem_alloc(size) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(size, ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)
+#define sp_mem_calloc(length, size) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc( (length) * (size), ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)
+#define sp_mem_release(buffer) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->free( (sp_size*)(buffer) )
+#define sp_mem_new(Type) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(size, ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)) Type
 #define sp_mem_delete(buffer, Type) (buffer)->~Type(); sp_mem_release(buffer)
 
-namespace SpFoundation
+namespace NAMESPACE_FOUNDATION
 {
 	class MemoryPageHeader
 	{
@@ -74,7 +78,7 @@ namespace SpFoundation
 			init(size);
 		}
 
-		API_INTERFACE inline sp_size findFirstFit(sp_size addressLength)
+		API_INTERFACE inline sp_size findFirstFit(sp_size addressLength) noexcept
 		{
 			for (size_t i = 0; i < freedMemoryLength; ++i)
 				if (*(freedMemory[i] - ONE_SIZE) >= addressLength)
