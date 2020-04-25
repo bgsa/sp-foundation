@@ -21,6 +21,9 @@
 	#endif
 #endif
 
+#define ESUTIL_API  __cdecl
+#define ESCALLBACK  __cdecl
+
 #ifdef ENV_32BITS
 	#define SHIFT_BIT_ONE   1
 	#define SHIFT_BIT_TWO   2

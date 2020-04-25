@@ -13,7 +13,10 @@
 	#else
 		#define API_INTERFACE
 	#endif
-#endif	
+#endif
+
+#define ESUTIL_API
+#define ESCALLBACK
 
 #if defined(ENV_32BITS)
 	#define SHIFT_BIT_ONE   1

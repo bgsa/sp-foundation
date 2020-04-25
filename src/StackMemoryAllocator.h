@@ -15,7 +15,7 @@
 #define ALLOC_SIZE(size) StackMemoryAllocator::alloc(size, ++stack_syncPreviousCounter)
 #define ALLOC_ARRAY(type, count) (type*) StackMemoryAllocator::alloc(sizeof(type) * count, ++stack_syncPreviousCounter)
 #define ALLOC_RELEASE(object) StackMemoryAllocator::free(object, ++stack_syncPreviousCounter)
-#define ALLOC_COPY(source, type, count) (type*) StackMemoryAllocator::copy(source, sizeof(type) * count, ++stack_syncPreviousCounter)
+#define ALLOC_COPY(source, Type, length) (Type*) StackMemoryAllocator::copy(source, sizeof(Type) * length)
 #define ALLOC_COPY_TO(source, destiny, type, count) StackMemoryAllocator::copy(source, destiny, sizeof(type) * count)
 
 #ifdef __cplusplus

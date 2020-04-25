@@ -12,9 +12,9 @@ namespace NAMESPACE_FOUNDATION
 	{
 	public:
 
-		virtual const sp_char* toString() = 0;
+		API_INTERFACE virtual const sp_char* toString() = 0;
 
-		virtual void dispose() override 
+		API_INTERFACE virtual void dispose() override
 		{
 		}
 
