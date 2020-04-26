@@ -96,15 +96,15 @@
     <ClCompile Include="src\PoolMemoryAllocator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\FileLinux.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ColorRGB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ColorRGBA.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Factory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\HttpConnection.h">
@@ -264,6 +264,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\BasePlatform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FileSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\FileLinux.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

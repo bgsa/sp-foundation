@@ -10,9 +10,6 @@
 #ifdef APIENTRY // avoid Windows.h redefine APIENTRY symbol
 	#undef APIENTRY
 #endif
-#include <Windows.h>
-#undef min
-#undef max
 
 #include "StringHelper.h"
 #include "IFileManager.h"
@@ -21,20 +18,16 @@
 
 namespace NAMESPACE_FOUNDATION
 {
-	class FileManagerWindows : public IFileManager
+	class FileManagerWindows 
+		: public IFileManager
 	{
 	public:
 		API_INTERFACE std::vector<std::string> getFilesFromResource();
 
 		API_INTERFACE std::vector<std::string> getFilesFromFolder(std::string folder, std::string suffix = "");
 
-		API_INTERFACE std::string readTextFile(const sp_char* filename);
-
-		API_INTERFACE char* readBinaryFile(const sp_char* filename, sp_uint& size);
-		
 		API_INTERFACE  bool exists(const sp_char* filename);
 
-		API_INTERFACE IFile* open(std::string filename);
 	};
 }
 

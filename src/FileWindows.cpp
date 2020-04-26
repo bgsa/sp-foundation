@@ -4,30 +4,55 @@
 
 namespace NAMESPACE_FOUNDATION
 {
-	FileWindows::FileWindows(std::string filename)
+	void FileWindows::open(const sp_char* filename, std::ios::open_mode mode)
 	{
-		fopen_s(&file, filename.c_str(), "rb");
+		file.open(filename, mode);
+
+		assert(!file.bad());
+		assert(!file.fail());
+		assert(file.good());
 	}
 
-	void FileWindows::read(void* buffer, sp_uint size, sp_uint count)
+	sp_bool FileWindows::isOpened()
 	{
-		fread(buffer, size, count, file);
+		return file.is_open();
 	}
 
-	void FileWindows::seek(sp_long offset)
+	sp_size FileWindows::length()
 	{
-		fseek(file, offset, SEEK_SET);
+		file.seekg(ZERO_SIZE, std::ios_base::end);
+		return (sp_size) file.tellg();
+	}
+
+	void FileWindows::seek(const sp_size position, std::ios_base::seekdir direction)
+	{
+		file.seekg(position, direction);
+	}
+
+	sp_bool FileWindows::isAtEnd()
+	{
+		return file.eof();
+	}
+
+	void FileWindows::read(sp_char* buffer, sp_uint size)
+	{
+		file.read(buffer, size);
+	}
+
+	void FileWindows::write(const sp_char* buffer)
+	{
+		file << buffer;
 	}
 
 	void FileWindows::close()
 	{
-		fclose(file);
+		file.close();
 	}
 
 	FileWindows::~FileWindows()
 	{
-		if (file != nullptr)
-			fclose(file);
+		if (file.is_open())
+			file.close();
 	}
 }
 

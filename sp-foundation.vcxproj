@@ -162,6 +162,7 @@
   <ItemGroup>
     <ClCompile Include="src\DisplayDevice.cpp" />
     <ClCompile Include="src\DisplayDeviceGLFW.cpp" />
+    <ClCompile Include="src\FileLinux.cpp" />
     <ClCompile Include="src\FileManagerWindows.cpp" />
     <ClCompile Include="src\FileWindows.cpp" />
     <ClCompile Include="src\HttpConnection.cpp" />
@@ -191,6 +192,8 @@
   <ItemGroup>
     <ClInclude Include="src\BasePlatform.h" />
     <ClInclude Include="src\Disposable.h" />
+    <ClInclude Include="src\FileLinux.h" />
+    <ClInclude Include="src\FileSystem.h" />
     <ClInclude Include="src\LinuxPlatform.h" />
     <ClInclude Include="src\MutexSpinLock.h" />
     <ClInclude Include="src\PoolMemoryAllocator.h" />
@@ -200,7 +203,6 @@
     <ClInclude Include="src\ColorRGBA.h" />
     <ClInclude Include="src\DisplayDevice.h" />
     <ClInclude Include="src\DisplayDeviceGLFW.h" />
-    <ClInclude Include="src\Factory.h" />
     <ClInclude Include="src\FileManagerWindows.h" />
     <ClInclude Include="src\FileWindows.h" />
     <ClInclude Include="src\HttpConnection.h" />

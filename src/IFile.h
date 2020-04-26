@@ -9,12 +9,21 @@ namespace NAMESPACE_FOUNDATION
 	{
 	public:
 
-		//virtual void read(char* buffer, size_t size, size_t count = 1) = 0;
-		virtual void read(void* buffer, sp_uint size, sp_uint count = 1) = 0;
-		virtual void seek(sp_long offset) = 0;
-		virtual void close() = 0;
-		
-		virtual ~IFile() {};
+		API_INTERFACE virtual void open(const sp_char* filename, std::ios::open_mode mode) = 0;
+
+		API_INTERFACE virtual sp_bool isOpened() = 0;
+
+		API_INTERFACE virtual sp_size length() = 0;
+
+		API_INTERFACE virtual sp_bool isAtEnd() = 0;
+
+		API_INTERFACE virtual void seek(const sp_size position, std::ios_base::seekdir direction = std::ios::cur) = 0;
+
+		API_INTERFACE virtual void read(sp_char* buffer, sp_uint size) = 0;
+
+		API_INTERFACE virtual void write(const sp_char* buffer) = 0;
+
+		API_INTERFACE virtual void close() = 0;
 
 	};
 }

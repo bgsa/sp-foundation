@@ -4,31 +4,56 @@
 
 namespace NAMESPACE_FOUNDATION
 {
-	FileLinux::FileLinux(std::string filename)
+	void FileLinux::open(const sp_char* filename, std::ios::open_mode mode)
 	{
-		file = fopen(filename.c_str(), "rb");
+		file.open(filename, mode);
+
+		assert(!file.bad());
+		assert(!file.fail());
+		assert(file.good());
 	}
 
-	void FileLinux::read(void* buffer, sp_uint size, sp_uint count)
+	sp_bool FileLinux::isOpened()
 	{
-		fread(buffer, size, count, file);
+		return file.is_open();
 	}
 
-	void FileLinux::seek(sp_long offset)
+	sp_size FileLinux::length()
 	{
-		fseek(file, offset, SEEK_SET);
+		file.seekg(ZERO_SIZE, std::ios_base::end);
+		return file.tellg();
+	}
+
+	void FileLinux::seek(const sp_size position, std::ios_base::seekdir direction)
+	{
+		file.seekg(position, direction);
+	}
+
+	sp_bool FileLinux::isAtEnd()
+	{
+		return file.eof();
+	}
+
+	void FileLinux::read(sp_char* buffer, sp_uint size)
+	{
+		file.read(buffer, size);
+	}
+
+	void FileLinux::write(const sp_char* buffer)
+	{
+		file << buffer;
 	}
 
 	void FileLinux::close()
 	{
-		fclose(file);
+		file.close();
 	}
 
 	FileLinux::~FileLinux()
 	{
-		if (file != nullptr)
-			fclose(file);
+		if (file.is_open())
+			file.close();
 	}
 }
 
-#endif //LINUX
+#endif // LINUX

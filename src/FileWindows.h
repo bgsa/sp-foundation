@@ -9,16 +9,28 @@
 
 namespace NAMESPACE_FOUNDATION
 {
-	class FileWindows : public IFile
+	class FileWindows 
+		: public IFile
 	{
 	private:
-		FILE *file;
+		std::fstream file;
 
 	public:
-		API_INTERFACE FileWindows(std::string filename);
 
-		API_INTERFACE void read(void* buffer, sp_uint size, sp_uint count = 1);
-		API_INTERFACE void seek(sp_long offset);
+		API_INTERFACE void open(const sp_char* filename, std::ios::open_mode mode) override;
+
+		API_INTERFACE sp_bool isOpened() override;
+
+		API_INTERFACE sp_bool isAtEnd() override;
+
+		API_INTERFACE sp_size length() override;
+
+		API_INTERFACE void seek(const sp_size position, std::ios_base::seekdir direction = std::ios::cur) override;
+
+		API_INTERFACE void read(sp_char* buffer, sp_uint size) override;
+
+		API_INTERFACE void write(const sp_char* buffer) override;
+
 		API_INTERFACE void close();
 
 		API_INTERFACE ~FileWindows();
