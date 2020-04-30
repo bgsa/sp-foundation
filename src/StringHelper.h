@@ -75,6 +75,19 @@ namespace NAMESPACE_FOUNDATION
 			return std::strcmp(startSubstring.c_str(), value.c_str()) == 0;
 		}
 
+		static sp_bool startWith(const sp_char* text, const sp_char value)
+		{
+			for (sp_uint i = ZERO_UINT; i < UINT_MAX; i++)
+			{
+				if (text[i] == ' ')
+					continue;
+
+				return text[i] == value;
+			}
+
+			return false;
+		}
+
 		static sp_bool endWith(const sp_char* text, const sp_char* suffix)
 		{
 			if (text == nullptr || suffix == nullptr)
@@ -110,6 +123,18 @@ namespace NAMESPACE_FOUNDATION
 			}
 
 			return result;
+		}
+
+		static void split(sp_char* text, const sp_char* separator, sp_char** stringArray, sp_uint* arrayLength)
+		{
+			sp_char* token = std::strtok(text, separator);
+			*arrayLength = ZERO_UINT;
+
+			while (token != NULL)
+			{
+				stringArray[(*arrayLength)++] = token;
+				token = std::strtok(NULL, separator);
+			}
 		}
 
 	#endif // __cplusplus

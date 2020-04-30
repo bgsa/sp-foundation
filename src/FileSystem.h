@@ -11,10 +11,6 @@
 	#include "FileOSX.h"
 #endif
 
-
-namespace NAMESPACE_FOUNDATION
-{
-
 #ifdef WINDOWS
 	#define SP_FILE FileWindows
 #elif LINUX
@@ -22,7 +18,5 @@ namespace NAMESPACE_FOUNDATION
 #elif OSX
 	#define SP_FILE FileOSX
 #endif
-
-}
 
 #endif // FILE_SYSTEM_HEADER

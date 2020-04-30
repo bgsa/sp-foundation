@@ -1,9 +1,10 @@
+#include "SpectrumFoundation.h"
+
 #ifdef WINDOWS
 
 #ifndef FILE_WINDOWS_HEADER
 #define FILE_WINDOWS_HEADER
 
-#include "SpectrumFoundation.h"
 #include <fstream>
 #include "IFile.h"
 

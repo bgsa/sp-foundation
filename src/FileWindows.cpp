@@ -1,6 +1,6 @@
-#ifdef WINDOWS
-
 #include "FileWindows.h"
+
+#ifdef WINDOWS
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -20,8 +20,15 @@ namespace NAMESPACE_FOUNDATION
 
 	sp_size FileWindows::length()
 	{
+		std::streampos currentPoision = file.tellg();
+
 		file.seekg(ZERO_SIZE, std::ios_base::end);
-		return (sp_size) file.tellg();
+
+		sp_size value = (sp_size)file.tellg();
+
+		file.seekg(currentPoision, std::ios_base::beg);
+
+		return value;
 	}
 
 	void FileWindows::seek(const sp_size position, std::ios_base::seekdir direction)
@@ -37,6 +44,7 @@ namespace NAMESPACE_FOUNDATION
 	void FileWindows::read(sp_char* buffer, sp_uint size)
 	{
 		file.read(buffer, size);
+		buffer[size] = END_OF_STRING;
 	}
 
 	void FileWindows::write(const sp_char* buffer)

@@ -1,6 +1,8 @@
 #ifndef POOL_MEMORY_ALLOCATOR_HEADER
 #define POOL_MEMORY_ALLOCATOR_HEADER
 
+#include "BasePlatform.h"
+
 #ifdef WINDOWS
 	#include "WindowsPlatform.h"
 #else
@@ -22,8 +24,11 @@
 #define sp_mem_alloc(size) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(size, ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)
 #define sp_mem_calloc(length, size) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc( (length) * (size), ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)
 #define sp_mem_release(buffer) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->free( (sp_size*)(buffer) )
-#define sp_mem_new(Type) (Type*) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type), ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)) Type
-#define sp_mem_delete(buffer, Type) (buffer)->~Type(); sp_mem_release(buffer);
+
+#ifdef __cplusplus
+	#define sp_mem_new(Type) (Type*) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type), ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)) Type
+	#define sp_mem_delete(buffer, Type) (buffer)->~Type(); sp_mem_release(buffer);
+#endif
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -69,7 +74,7 @@ namespace NAMESPACE_FOUNDATION
 		}
 
 	public:
-		sp_size syncPreviousCounter = ZERO_SIZE;
+		volatile sp_size syncPreviousCounter = ZERO_SIZE;
 
 		API_INTERFACE static PoolMemoryAllocator* main();
 
@@ -87,11 +92,13 @@ namespace NAMESPACE_FOUNDATION
 			return currentPointer;
 		}
 
-		API_INTERFACE inline void* alloc(const sp_size size, sp_uint syncValue) noexcept
+		API_INTERFACE HEAP_PROFILING_ALLOC inline void* alloc(const sp_size size, sp_uint syncValue) noexcept
 		{
 			while (syncCounter != syncValue) { }
 
 			sp_size addressLength = sp_ceilBit(size, SIZEOF_WORD, SIZEOF_WORD_DIVISOR_BIT);
+
+			assert(lastPointer > currentPointer + SIZEOF_WORD + multiplyBy(addressLength, SIZEOF_WORD_DIVISOR_BIT));
 
 			// findFirstFit block of memory ...
 			for (sp_size i = 0; i < freedMemoryLength; ++i)
@@ -123,11 +130,20 @@ namespace NAMESPACE_FOUNDATION
 			return (void*)newPointer;
 		}
 
+#define IS_LAST_ALLOCATION ((sp_size)*(buffer - ONE_SIZE)) * SIZEOF_WORD + (sp_size)buffer == currentPointer
 		API_INTERFACE inline void free(sp_size* buffer) noexcept
 		{
-			freedMemoryLength++;
-			freedMemory.push_back(buffer);
+			if (IS_LAST_ALLOCATION)
+			{
+				currentPointer = (sp_size)(buffer - ONE_SIZE);
+			}
+			else
+			{
+				freedMemoryLength++;
+				freedMemory.push_back(buffer);
+			}
 		}
+#undef IS_LAST_ALLOCATION
 
 		API_INTERFACE inline MemoryPageHeader* pageHeader(void* address) noexcept
 		{

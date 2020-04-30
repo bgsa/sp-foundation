@@ -1,12 +1,10 @@
 #include "StackMemoryAllocator.h"
 
-static void* initialPointer = NULL;
-static void* lastPointer = NULL;
-static void* currentPointer = NULL;
+static StackMemoryAllocator* instance = new StackMemoryAllocator();
 
-StackMemoryAllocator::StackMemoryAllocator()
+StackMemoryAllocator* StackMemoryAllocator::main() noexcept
 {
-	;
+	return instance;
 }
 
 void StackMemoryAllocator::init(const sp_size initialSize) noexcept
@@ -17,6 +15,9 @@ void StackMemoryAllocator::init(const sp_size initialSize) noexcept
 
 	currentPointer = initialPointer;
 	lastPointer = (void*) ((sp_size)initialPointer + initialSize);
+
+	stack_syncCounter = ONE_SIZE;
+	stack_syncPreviousCounter = ZERO_SIZE;
 }
 
 void StackMemoryAllocator::free(void* buffer, sp_uint syncValue) noexcept
@@ -106,13 +107,20 @@ sp_size StackMemoryAllocator::availableMemorySize() noexcept
 
 void StackMemoryAllocator::release() noexcept
 {
-	lastPointer = NULL;
-	currentPointer = NULL;
+	if (initialPointer != NULL)
+	{
+		std::free(initialPointer);
 
-	std::free(initialPointer);
+		initialPointer = NULL;
+		lastPointer = NULL;
+		currentPointer = NULL;
 
-	stack_syncCounter= ONE_SIZE;
-	stack_syncPreviousCounter = ZERO_SIZE;
+		stack_syncCounter = ONE_SIZE;
+		stack_syncPreviousCounter = ZERO_SIZE;
+	}
+}
 
-	initialPointer = NULL;
+StackMemoryAllocator::~StackMemoryAllocator()
+{
+	release();
 }

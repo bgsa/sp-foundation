@@ -11,11 +11,11 @@ namespace NAMESPACE_FOUNDATION_TEST
 
 	API_INTERFACE void setupModule()
 	{
-		StackMemoryAllocator::init(ONE_MEGABYTE * 512);
+		StackMemoryAllocator::main()->init(ONE_MEGABYTE * 512);
 	}
 	API_INTERFACE void tearDownModule()
 	{
-		StackMemoryAllocator::release();
+		StackMemoryAllocator::main()->release();
 	}
 
 #ifdef MSTEST_ENABLED

@@ -3,13 +3,10 @@
 #ifndef WINDOWS_PLATFORM_HEADER
 #define WINDOWS_PLATFORM_HEADER
 
-#include "BasePlatform.h"
-
 #define NOMINMAX
 #include <Windows.h>
 #undef near
 #undef far
-
 
 #ifdef API_IMPORT
 	#define API_INTERFACE __declspec(dllimport)		

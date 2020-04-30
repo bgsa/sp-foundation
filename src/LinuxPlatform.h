@@ -3,8 +3,6 @@
 #ifndef LINUX_PLATFORM_HEADER
 #define LINUX_PLATFORM_HEADER
 
-#include "BasePlatform.h"
-
 #ifdef API_IMPORT
 	#define API_INTERFACE __attribute__((visibility("hidden")))
 #else
