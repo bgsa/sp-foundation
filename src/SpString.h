@@ -52,7 +52,7 @@ namespace NAMESPACE_FOUNDATION
 			std::memcpy(_data, source._data, _allocatedLength * SIZEOF_CHAR);
 		}
 
-		API_INTERFACE inline sp_uint length()
+		API_INTERFACE inline sp_uint length() const
 		{
 			return _length;
 		}
@@ -99,10 +99,10 @@ namespace NAMESPACE_FOUNDATION
 			_length = ZERO_SIZE;
 		}
 
-		API_INTERFACE SpArray<SpString> split(const sp_char separator)
+		API_INTERFACE SpArray<SpString*> split(const sp_char separator)
 		{
 			const sp_uint length = count(separator);
-			SpArray<SpString> result = SpArray<SpString>(length + ONE_UINT);
+			SpArray<SpString*> result = SpArray<SpString*>(length + ONE_UINT);
 
 			sp_uint counter = ZERO_UINT;
 			for (sp_uint i = ZERO_UINT; i < length + ONE_UINT; i++)
@@ -115,10 +115,15 @@ namespace NAMESPACE_FOUNDATION
 					counter++;
 				}
 
-				result.add(SpString(charCounter));
-				result[i]._length = charCounter;
-				std::memcpy(result[i]._data, &_data[counter - charCounter], charCounter);
-				
+				sp_char* value = ALLOC_ARRAY(sp_char, charCounter + ONE_UINT);
+				std::memcpy(value, &_data[counter - charCounter], charCounter);
+				value[charCounter] = END_OF_STRING;
+
+				result.add(
+					sp_mem_new(SpString)(sp_const(sp_char*, value))
+				);
+
+				ALLOC_RELEASE(value);
 				counter++;
 			}
 
@@ -128,6 +133,16 @@ namespace NAMESPACE_FOUNDATION
 		API_INTERFACE inline sp_bool startWith(const sp_char character) const
 		{
 			return _data[ZERO_UINT] == character;
+		}
+		API_INTERFACE inline sp_bool startWith(const sp_char* characteres) const
+		{
+			sp_uint charLength = std::strlen(characteres);
+
+			for (sp_uint j = 0; j < charLength; j++)
+				if (_data[j] != characteres[j])
+					return false;
+
+			return true;
 		}
 
 		API_INTERFACE inline sp_char operator[](const sp_int index) const
@@ -176,7 +191,7 @@ namespace NAMESPACE_FOUNDATION
 			return std::atof(_data);
 		}
 		template <>
-		API_INTERFACE inline sp_float to()
+		API_INTERFACE inline sp_float to<>()
 		{
 			return (sp_float)std::atof(_data);
 		}
@@ -197,6 +212,11 @@ namespace NAMESPACE_FOUNDATION
 			return std::atoll(_data);
 		}
 #endif
+
+		API_INTERFACE operator sp_char*() const
+		{ 
+			return _data; 
+		}
 
 		API_INTERFACE virtual const sp_char* toString() override
 		{

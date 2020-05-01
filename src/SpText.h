@@ -70,6 +70,33 @@ namespace NAMESPACE_FOUNDATION
 			return counter;
 		}
 
+		API_INTERFACE inline sp_uint countLinesStartWith(const sp_char* characteres)
+		{
+			sp_uint counter = ZERO_UINT;
+			sp_uint charLength = std::strlen(characteres);
+			sp_bool found;
+			
+			for (sp_uint i = 0; i < _length; i++)
+			{
+				found = false;
+
+				for (sp_uint j = 0; j < charLength; j++)
+				{
+					if (_data[i]->_data[j] != characteres[j])
+					{
+						found = true;
+						break;
+					}
+					
+				}
+
+				if (found)
+					counter++;
+			}
+
+			return counter;
+		}
+
 		API_INTERFACE inline virtual const sp_char* toString() override
 		{
 			return "SpText";

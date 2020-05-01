@@ -23,6 +23,9 @@ namespace NAMESPACE_FOUNDATION
 {
 	const sp_float DefaultErrorMargin = 0.0001f;
 
+#define sp_const(Type, value) (const Type)(value)
+#define sp_constless(Type, value) const_cast<const Type>(value)
+
 	///<summary>
 	///Check the number is even or not
 	///</summary>

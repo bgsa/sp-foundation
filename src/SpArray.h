@@ -53,6 +53,11 @@ namespace NAMESPACE_FOUNDATION
 			return _allocatedLength;
 		}
 
+		API_INTERFACE inline T& data() noexcept
+		{
+			return _data;
+		}
+
 		API_INTERFACE inline void add(const T& value)
 		{
 			assert(_length < _allocatedLength);
@@ -111,11 +116,10 @@ namespace NAMESPACE_FOUNDATION
 		{
 			if (_data != NULL)
 			{
-				/*
 				if (std::is_pointer<T>::value)
 					for (sp_uint i = _length; i != ZERO_UINT; i--)
-						sp_mem_release(&_data + i - ONE_UINT);
-						*/
+						//sp_mem_release(&_data + i - ONE_UINT);
+						sp_mem_delete(_data, T);
 
 				sp_mem_release(_data);
 			}
