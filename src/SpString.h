@@ -9,6 +9,8 @@ namespace NAMESPACE_FOUNDATION
 #define SP_DEFAULT_STRING_LENGTH 255
 #define SP_DEFAULT_STRING_SIZE   256
 	
+	class SpArrayOfString;
+
 	class SpString
 		: public Object
 	{
@@ -18,6 +20,7 @@ namespace NAMESPACE_FOUNDATION
 		sp_char* _data;
 
 		friend class SpText;
+		friend class SpArrayOfString;
 
 	public:
 		
@@ -25,12 +28,14 @@ namespace NAMESPACE_FOUNDATION
 		{
 			_length = SP_DEFAULT_STRING_LENGTH;
 			_allocatedLength = SP_DEFAULT_STRING_SIZE;
-			_data = (sp_char*) sp_mem_alloc(SP_DEFAULT_STRING_SIZE);
+			_data = (sp_char*)sp_mem_alloc(SP_DEFAULT_STRING_SIZE);
 		}
 
-		API_INTERFACE explicit SpString(const sp_uint length) 
+		API_INTERFACE SpString(const sp_uint length, const sp_uint reserved = ZERO_UINT) 
 		{
-			_length = ZERO_UINT;
+			assert(length >= reserved);
+
+			_length = reserved;
 			_allocatedLength = length + ONE_UINT;
 			_data = (sp_char*) sp_mem_alloc(_allocatedLength);
 			_data[length] = END_OF_STRING;
@@ -50,6 +55,36 @@ namespace NAMESPACE_FOUNDATION
 			_allocatedLength = source._allocatedLength;
 			_data = (sp_char*)sp_mem_alloc(_allocatedLength);
 			std::memcpy(_data, source._data, _allocatedLength * SIZEOF_CHAR);
+		}
+
+		API_INTERFACE SpString& operator=(sp_char* source)
+		{
+			if (this->_data != source) //self assignment
+			{
+				_length = std::strlen(source);
+				_allocatedLength = _length + ONE_UINT;
+				_data = source;
+			}
+
+			return *this;
+		}
+
+		API_INTERFACE SpString& operator=(const SpString& source)
+		{
+			if (this != &source) //self assignment
+			{
+				_length = source._length;
+				_allocatedLength = source._allocatedLength;
+				_data = source._data;
+			}
+
+			return *this;
+		}
+
+		API_INTERFACE inline void reserve(const sp_uint value)
+		{
+			assert(value <= _allocatedLength);
+			_length = value;
 		}
 
 		API_INTERFACE inline sp_uint length() const
@@ -87,48 +122,13 @@ namespace NAMESPACE_FOUNDATION
 			_data[_length++] = character;
 		}
 
-		API_INTERFACE inline void set(const sp_uint index, const sp_char character) noexcept
-		{
-			assert(index >= ZERO_UINT && index < _length);
-			_data[index] = character;
-		}
-
 		API_INTERFACE inline void clear() noexcept
 		{
 			std::memset(_data, ' ', _allocatedLength);
 			_length = ZERO_SIZE;
 		}
 
-		API_INTERFACE SpArray<SpString*> split(const sp_char separator)
-		{
-			const sp_uint length = count(separator);
-			SpArray<SpString*> result = SpArray<SpString*>(length + ONE_UINT);
-
-			sp_uint counter = ZERO_UINT;
-			for (sp_uint i = ZERO_UINT; i < length + ONE_UINT; i++)
-			{
-				sp_uint charCounter = ZERO_UINT;
-
-				while (_data[counter] != separator)
-				{
-					charCounter++;
-					counter++;
-				}
-
-				sp_char* value = ALLOC_ARRAY(sp_char, charCounter + ONE_UINT);
-				std::memcpy(value, &_data[counter - charCounter], charCounter);
-				value[charCounter] = END_OF_STRING;
-
-				result.add(
-					sp_mem_new(SpString)(sp_const(sp_char*, value))
-				);
-
-				ALLOC_RELEASE(value);
-				counter++;
-			}
-
-			return result;
-		}
+		API_INTERFACE SpArrayOfString* split(const sp_char separator);
 
 		API_INTERFACE inline sp_bool startWith(const sp_char character) const
 		{
@@ -228,8 +228,10 @@ namespace NAMESPACE_FOUNDATION
 			if (_data != NULL)
 			{
 				sp_mem_release(_data);
-				_length = ZERO_UINT;
-				_allocatedLength = ZERO_UINT;
+				_data = NULL;
+				//std::memset(_data, ZERO_INT, _allocatedLength + nextDivisorOf_(_allocatedLength,SIZEOF_WORD));
+				//_length = ZERO_UINT;
+				//_allocatedLength = ZERO_UINT;
 			}
 		}
 
@@ -238,6 +240,12 @@ namespace NAMESPACE_FOUNDATION
 			dispose();
 		}
 
+		friend void swap(SpString& string1, SpString& string2) noexcept
+		{
+			std::swap(string1._data, string2._data);
+			std::swap(string1._length, string2._length);
+			std::swap(string1._allocatedLength, string2._allocatedLength);
+		}
 	};
 }
 

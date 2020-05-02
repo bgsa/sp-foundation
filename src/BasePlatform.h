@@ -7,6 +7,7 @@
 #if defined (_MSC_VER)
 	#define MSVC_COMPILER
 	#define COMPILER_VERSION _MSC_FULL_VER
+	#define UNINITIALIZED_HEAP_ADDRESS 0xcdcdcdcd
 
 	#if defined(_M_X64) || defined(_M_AMD64)
 		#define ENV_64BITS
@@ -42,6 +43,7 @@
 #elif defined (__GNUC__)
 	#define GCC_COMPILER
 	#define COMPILER_VERSION __GNUC___.__GNUC_MINOR__
+	#define UNINITIALIZED_HEAP_ADDRESS 0x00000000
 
 	#undef  DEPRECATED
 	#define DEPRECATED __attribute__((deprecated))
@@ -71,6 +73,7 @@
 #elif defined (__clang__)
 	#define CLANG_COMPILER
 	#define COMPILER_VERSION __clang_major__.__clang_minor__.__clang_patchlevel__
+	#define UNINITIALIZED_HEAP_ADDRESS 0x00000000
 
 	#undef  DEPRECATED
 	#define DEPRECATED __attribute__((deprecated))

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\PoolAllocatorTest.cpp" />
+    <ClCompile Include="src\SpArrayOfStringTest.cpp" />
     <ClCompile Include="src\SpArrayTest.cpp" />
     <ClCompile Include="src\SpectrumFoundationTest.cpp" />
     <ClCompile Include="src\SpStringTest.cpp" />

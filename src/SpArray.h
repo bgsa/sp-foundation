@@ -18,24 +18,21 @@ namespace NAMESPACE_FOUNDATION
 
 	public:
 		
-		API_INTERFACE explicit SpArray(T* data, const sp_size length)
+		API_INTERFACE SpArray(T* data, const sp_uint length, const sp_uint reserved = ZERO_UINT)
 		{
 			this->_data = data;
-			this->_length = ZERO_UINT;
+			this->_length = reserved;
 			this->_allocatedLength = length;
 		}
-		API_INTERFACE explicit SpArray(const sp_uint length)
-			: SpArray((T*)sp_mem_alloc(length * sizeof(T)), length)
+		API_INTERFACE SpArray(const sp_uint length, const sp_uint reserved = ZERO_UINT)
+			: SpArray((T*) sp_mem_calloc(length, sizeof(T)), length, reserved)
 		{
 		}
 
 		API_INTERFACE SpArray(const SpArray& source) // copy-constructor
+			: SpArray((T*)sp_mem_calloc(source._length, sizeof(T)), source._length, source._allocatedLength)
 		{
-			_data = sp_mem_new(T);
 			std::memcpy(_data, source._data, source._allocatedLength * sizeof(T));
-
-			_length = source._length;
-			_allocatedLength = source._allocatedLength;
 		}
 
 		API_INTERFACE inline sp_uint length() noexcept
@@ -53,23 +50,22 @@ namespace NAMESPACE_FOUNDATION
 			return _allocatedLength;
 		}
 
-		API_INTERFACE inline T& data() noexcept
+		API_INTERFACE inline T* data() const noexcept
 		{
 			return _data;
 		}
 
-		API_INTERFACE inline void add(const T& value)
+		API_INTERFACE inline void reserve(const sp_uint value)
+		{
+			assert(value <= _allocatedLength);
+			_length = value;
+		}
+
+		API_INTERFACE inline virtual void add(const T& value)
 		{
 			assert(_length < _allocatedLength);
 
 			_data[_length++] = value;
-		}
-
-		API_INTERFACE inline void set(const sp_uint index, T value)
-		{
-			assert(index < _length);
-
-			_data[index] = value;
 		}
 
 		API_INTERFACE inline T operator[](const sp_int index) const
@@ -110,24 +106,6 @@ namespace NAMESPACE_FOUNDATION
 		API_INTERFACE inline virtual const sp_char* toString() override
 		{
 			return "SpArray";
-		}
-
-		API_INTERFACE inline virtual void dispose() override
-		{
-			if (_data != NULL)
-			{
-				if (std::is_pointer<T>::value)
-					for (sp_uint i = _length; i != ZERO_UINT; i--)
-						//sp_mem_release(&_data + i - ONE_UINT);
-						sp_mem_delete(_data, T);
-
-				sp_mem_release(_data);
-			}
-		}
-
-		API_INTERFACE ~SpArray()
-		{
-			dispose();
 		}
 
 		friend void swap(SpArray& array1, SpArray& array2) noexcept

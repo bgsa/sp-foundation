@@ -21,6 +21,9 @@
 	#define SP_DEFAULT_MEMORY_SIZE (ONE_MEGABYTE * 512)
 #endif
 
+#define SP_BYTE_ADDRESS_LENGTH(byteLength) sp_ceilBit(charLength, SIZEOF_WORD, SIZEOF_WORD_DIVISOR_BIT)
+
+#define sp_mem_header(buffer) ((MemoryPageHeader*)(((sp_size*)arr) - ONE_SIZE))
 #define sp_mem_alloc(size) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(size, ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)
 #define sp_mem_calloc(length, size) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc( (length) * (size), ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)
 #define sp_mem_release(buffer) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->free( (sp_size*)(buffer) )
@@ -115,7 +118,10 @@ namespace NAMESPACE_FOUNDATION
 						newPointer[0] = addressLength;
 					}
 					else
+					{
 						freedMemoryLength--; // free the memory block
+						freedMemory.erase(freedMemory.begin() + i);
+					}
 
 					syncCounter++;
 					return (void*)(newPointer + ONE_SIZE);

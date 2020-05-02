@@ -216,6 +216,11 @@ namespace NAMESPACE_FOUNDATION
 		return n;
 	}
 
+	API_INTERFACE inline sp_uint nextDivisorOf_(sp_uint value, sp_uint of)
+	{
+		return of - (value % of);
+	}
+
 
 #if defined(ENV_64BITS)
 	///<summary>

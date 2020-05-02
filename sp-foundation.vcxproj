@@ -175,6 +175,7 @@
     <ClCompile Include="src\KeyboardInputDeviceGLFW.cpp" />
     <ClCompile Include="src\KeyboardInputDeviceQT.cpp" />
     <ClCompile Include="src\PoolMemoryAllocator.cpp" />
+    <ClCompile Include="src\SpString.cpp" />
     <ClCompile Include="src\StackMemoryAllocator.cpp" />
     <ClCompile Include="src\NetworkSubSystem.cpp" />
     <ClCompile Include="src\PointerInputDeviceGLFW.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="src\PoolMemoryAllocator.h" />
     <ClInclude Include="src\RendererSize.h" />
     <ClInclude Include="src\SpArray.h" />
+    <ClInclude Include="src\SpArrayOfString.h" />
     <ClInclude Include="src\SpectrumFoundation.h" />
     <ClInclude Include="src\ColorRGB.h" />
     <ClInclude Include="src\ColorRGBA.h" />

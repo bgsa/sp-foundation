@@ -75,13 +75,6 @@ namespace NAMESPACE_FOUNDATION_TEST
 		s3->add('C');
 		arr[2] = *s3;
 
-		/*
-		//sp_mem_delete(arr, SpString);
-
-		arr = sp_mem_new(SpString)[3];
-		arr[0] = *sp_mem_new(SpString)(2);
-		*/
-
 		locker.unlock();
 	}
 
