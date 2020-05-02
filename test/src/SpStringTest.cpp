@@ -18,6 +18,8 @@ namespace NAMESPACE_FOUNDATION_TEST
 		SP_TEST_METHOD_DEF(indexOf_Test1);
 		SP_TEST_METHOD_DEF(startWith_Char_Test1);
 		SP_TEST_METHOD_DEF(startWith_CharArray_Test1);
+		SP_TEST_METHOD_DEF(equals);
+		SP_TEST_METHOD_DEF(substring);
 		SP_TEST_METHOD_DEF(dispose_Test1);
 	};
 	
@@ -147,6 +149,36 @@ namespace NAMESPACE_FOUNDATION_TEST
 
 		arr = "Teste do T de taTu";
 		Assert::IsFalse(arr.startWith(" Teste do T"));
+	}
+
+	SP_TEST_METHOD(CLASS_NAME, equals)
+	{
+		SpString str1("Teste do T de taTu");
+		SpString str2("Teste do T de taTu");
+		SpString str3("Teste do taTu");
+
+		Assert::IsTrue(str1.equals(&str2));
+		Assert::IsFalse(str1.equals(&str3));
+	}
+
+	SP_TEST_METHOD(CLASS_NAME, substring)
+	{
+		SpString str1("Teste do T de taTu");
+		SpString str2("taTu");
+		SpString str3("taT");
+		SpString str4("Teste");
+		
+		SpString* sub1 = str1.substring(14u);
+		Assert::IsTrue(str2.equals(sub1));
+
+		SpString* sub2 = str1.substring(14u, 17u);
+		Assert::IsTrue(str3.equals(sub2));
+
+		SpString* sub3 = str1.substring(ZERO_UINT);
+		Assert::IsTrue(str1.equals(sub3));
+
+		SpString* sub4 = str1.substring(ZERO_UINT, 5u);
+		Assert::IsTrue(str4.equals(sub4));
 	}
 
 	SP_TEST_METHOD(CLASS_NAME, dispose_Test1)

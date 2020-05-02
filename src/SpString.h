@@ -97,6 +97,27 @@ namespace NAMESPACE_FOUNDATION
 			return _allocatedLength;
 		}
 
+		API_INTERFACE inline SpString* substring(const sp_uint start, sp_uint end = ZERO_UINT)
+		{
+			assert(start >= ZERO_UINT && end < _length);
+
+			if (end == ZERO_UINT)
+				end = _length;
+
+			SpString* str = sp_mem_new(SpString)(end - start + ONE_UINT, end - start);
+			std::memcpy(str->_data, &_data[start], end - start);
+			str->_data[end - start] = END_OF_STRING;
+
+			return str;
+		}
+
+		API_INTERFACE inline sp_bool equals(const void* other) const noexcept override
+		{
+			const SpString* str = (const SpString*)other;
+
+			return (_length == str->_length) && (std::strcmp(_data, str->_data) == ZERO_UINT);
+		}
+
 		API_INTERFACE inline sp_uint count(const sp_char character)
 		{
 			sp_uint counter = ZERO_UINT;
