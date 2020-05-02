@@ -228,6 +228,8 @@
     <ClInclude Include="src\Log.hpp" />
     <ClInclude Include="src\SpString.h" />
     <ClInclude Include="src\SpText.h" />
+    <ClInclude Include="src\SpVector.h" />
+    <ClInclude Include="src\SpVectorOfReferences.h" />
     <ClInclude Include="src\StackMemoryAllocator.h" />
     <ClInclude Include="src\NetworkSubSystem.h" />
     <ClInclude Include="src\Object.h" />

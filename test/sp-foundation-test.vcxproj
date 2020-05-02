@@ -25,6 +25,7 @@
     <ClCompile Include="src\SpectrumFoundationTest.cpp" />
     <ClCompile Include="src\SpStringTest.cpp" />
     <ClCompile Include="src\SpTextTest.cpp" />
+    <ClCompile Include="src\SpVectorTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\SpectrumFoundationTest.h" />
