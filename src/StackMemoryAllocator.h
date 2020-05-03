@@ -9,7 +9,7 @@
 	#include "LinuxPlatform.h"	
 #endif
 
-#include <cassert>
+#include "Assertions.h"
 #include <cstdlib>
 #include <cstring>
 

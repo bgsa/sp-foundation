@@ -8,9 +8,9 @@ namespace NAMESPACE_FOUNDATION
 	{
 		file.open(filename, mode);
 
-		assert(!file.bad());
-		assert(!file.fail());
-		assert(file.good());
+		sp_assert(!file.bad());
+		sp_assert(!file.fail());
+		sp_assert(file.good());
 	}
 
 	sp_bool FileLinux::isOpened()

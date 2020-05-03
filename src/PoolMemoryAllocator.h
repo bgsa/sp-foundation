@@ -13,7 +13,7 @@
 	#define NAMESPACE_FOUNDATION SpFoundation
 #endif // NAMESPACE_FOUNDATION
 
-#include <cassert>
+#include "Assertions.h"
 #include <cstdlib>
 #include <vector>
 
@@ -62,7 +62,7 @@ namespace NAMESPACE_FOUNDATION
 
 		inline void init(const sp_size size)
 		{
-			assert(size > ZERO_SIZE);
+			sp_assert(size > ZERO_SIZE);
 			
 			initialPointer = (sp_size)std::malloc(size);
 			currentPointer = initialPointer;
@@ -73,7 +73,7 @@ namespace NAMESPACE_FOUNDATION
 			syncCounter = ONE_SIZE;
 			syncPreviousCounter = ZERO_SIZE;
 
-			assert(initialPointer != NULL);
+			sp_assert(initialPointer != NULL);
 		}
 
 	public:
@@ -101,7 +101,7 @@ namespace NAMESPACE_FOUNDATION
 
 			sp_size addressLength = sp_ceilBit(size, SIZEOF_WORD, SIZEOF_WORD_DIVISOR_BIT);
 
-			assert(lastPointer > currentPointer + SIZEOF_WORD + multiplyBy(addressLength, SIZEOF_WORD_DIVISOR_BIT));
+			sp_assert(lastPointer > currentPointer + SIZEOF_WORD + multiplyBy(addressLength, SIZEOF_WORD_DIVISOR_BIT));
 
 			// findFirstFit block of memory ...
 			for (sp_size i = 0; i < freedMemoryLength; ++i)
@@ -170,7 +170,7 @@ namespace NAMESPACE_FOUNDATION
 		{
 			initialPointer = (sp_size)std::realloc((void*)initialPointer, newSize);
 
-			assert(initialPointer != NULL);
+			sp_assert(initialPointer != NULL);
 
 			currentPointer = initialPointer;
 			lastPointer = initialPointer + newSize;

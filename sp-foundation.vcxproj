@@ -191,6 +191,7 @@
     <ClCompile Include="src\PointerInputDeviceQT.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Assertions.h" />
     <ClInclude Include="src\BasePlatform.h" />
     <ClInclude Include="src\Disposable.h" />
     <ClInclude Include="src\FileLinux.h" />

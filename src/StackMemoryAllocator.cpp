@@ -11,7 +11,7 @@ void StackMemoryAllocator::init(const sp_size initialSize) noexcept
 {
 	initialPointer = std::malloc(initialSize);
 
-	assert(initialPointer != NULL);
+	sp_assert(initialPointer != NULL);
 
 	currentPointer = initialPointer;
 	lastPointer = (void*) ((sp_size)initialPointer + initialSize);
@@ -24,8 +24,8 @@ void StackMemoryAllocator::free(void* buffer, sp_uint syncValue) noexcept
 {
 	while (stack_syncCounter != syncValue) {}
 
-	assert(buffer != NULL);
-	assert(buffer >= initialPointer && buffer <= lastPointer);
+	sp_assert(buffer != NULL);
+	sp_assert(buffer >= initialPointer && buffer <= lastPointer);
 
 	if (currentPointer > buffer) // memory has already freed by previous pointer
 		currentPointer = buffer;
@@ -50,13 +50,13 @@ void* StackMemoryAllocator::alloc(const sp_size size, sp_uint syncValue) noexcep
 {
 	while (stack_syncCounter != syncValue) { }
 
-	assert(hasAvailableMemory(size));
+	sp_assert(hasAvailableMemory(size));
 
 	void* buffer = currentPointer;
 
 	currentPointer = (void*) ((sp_size)currentPointer + size);
 
-	assert(((sp_size)lastPointer) > ((sp_size)currentPointer));
+	sp_assert(((sp_size)lastPointer) > ((sp_size)currentPointer));
 
 	stack_syncCounter++;
 	return buffer;
@@ -82,7 +82,7 @@ void StackMemoryAllocator::resize(sp_size newSize, sp_uint syncValue) noexcept
 
 	initialPointer = std::realloc(initialPointer, newSize);
 
-	assert(initialPointer != NULL);
+	sp_assert(initialPointer != NULL);
 
 	currentPointer = initialPointer;
 	lastPointer = (void*) ((sp_size)initialPointer + newSize);

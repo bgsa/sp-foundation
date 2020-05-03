@@ -6,7 +6,6 @@
 #include <errno.h>
 #include <string.h>
 #include <locale.h>
-#include <cassert>
 
 namespace NAMESPACE_FOUNDATION
 {

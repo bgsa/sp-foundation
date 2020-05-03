@@ -57,48 +57,48 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline void reserve(const sp_uint value)
 		{
-			assert(value <= _allocatedLength);
+			sp_assert(value <= _allocatedLength);
 			_length = value;
 		}
 
 		API_INTERFACE inline virtual void add(const T& value)
 		{
-			assert(_length < _allocatedLength);
+			sp_assert(_length < _allocatedLength);
 
 			_data[_length++] = value;
 		}
 
 		API_INTERFACE inline T operator[](const sp_int index) const
 		{
-			assert(index >= ZERO_INT && (sp_uint)index < _length);
+			sp_assert(index >= ZERO_INT && (sp_uint)index < _length);
 			return _data[index];
 		}
 		API_INTERFACE inline T& operator[](const sp_int index)
 		{
-			assert(index >= ZERO_INT && (sp_uint)index < _length);
+			sp_assert(index >= ZERO_INT && (sp_uint)index < _length);
 			return _data[index];
 		}
 
 		API_INTERFACE inline T operator[](const sp_uint index) const
 		{
-			assert(index >= ZERO_UINT && index < _length);
+			sp_assert(index >= ZERO_UINT && index < _length);
 			return _data[index];
 		}
 		API_INTERFACE inline T& operator[](const sp_uint index)
 		{
-			assert(index >= ZERO_UINT && index < _length);
+			sp_assert(index >= ZERO_UINT && index < _length);
 			return _data[index];
 		}
 
 #ifdef ENV_64BITS
 		API_INTERFACE inline T operator[](const sp_size index) const
 		{
-			assert(index >= ZERO_SIZE && (sp_uint)index < _length);
+			sp_assert(index >= ZERO_SIZE && (sp_uint)index < _length);
 			return _data[index];
 		}
 		API_INTERFACE inline T& operator[](const sp_size index)
 		{
-			assert(index >= ZERO_SIZE && (sp_uint)index < _length);
+			sp_assert(index >= ZERO_SIZE && (sp_uint)index < _length);
 			return _data[index];
 		}
 #endif

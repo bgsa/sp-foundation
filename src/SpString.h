@@ -33,7 +33,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE SpString(const sp_uint length, const sp_uint reserved = ZERO_UINT) 
 		{
-			assert(length >= reserved);
+			sp_assert(length >= reserved);
 
 			_length = reserved;
 			_allocatedLength = length + ONE_UINT;
@@ -83,7 +83,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline void reserve(const sp_uint value)
 		{
-			assert(value <= _allocatedLength);
+			sp_assert(value <= _allocatedLength);
 			_length = value;
 		}
 
@@ -99,7 +99,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline SpString* substring(const sp_uint start, sp_uint end = ZERO_UINT)
 		{
-			assert(start >= ZERO_UINT && end < _length);
+			sp_assert(start >= ZERO_UINT && end < _length);
 
 			if (end == ZERO_UINT)
 				end = _length;
@@ -168,35 +168,35 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline sp_char operator[](const sp_int index) const
 		{
-			assert(index >= ZERO_INT && (sp_uint)index < _length);
+			sp_assert(index >= ZERO_INT && (sp_uint)index < _length);
 			return _data[index];
 		}
 		API_INTERFACE inline sp_char& operator[](const sp_int index)
 		{
-			assert(index >= ZERO_INT && (sp_uint)index < _length);
+			sp_assert(index >= ZERO_INT && (sp_uint)index < _length);
 			return _data[index];
 		}
 
 		API_INTERFACE inline sp_char operator[](const sp_uint index) const
 		{
-			assert(index >= ZERO_UINT && index < _length);
+			sp_assert(index >= ZERO_UINT && index < _length);
 			return _data[index];
 		}
 		API_INTERFACE inline sp_char& operator[](const sp_uint index)
 		{
-			assert(index >= ZERO_UINT && index < _length);
+			sp_assert(index >= ZERO_UINT && index < _length);
 			return _data[index];
 		}
 
 #ifdef ENV_64BITS
 		API_INTERFACE inline sp_char operator[](const sp_size index) const
 		{
-			assert(index >= ZERO_SIZE && (sp_uint)index < _length);
+			sp_assert(index >= ZERO_SIZE && (sp_uint)index < _length);
 			return _data[index];
 		}
 		API_INTERFACE inline sp_char& operator[](const sp_size index)
 		{
-			assert(index >= ZERO_SIZE && (sp_uint)index < _length);
+			sp_assert(index >= ZERO_SIZE && (sp_uint)index < _length);
 			return _data[index];
 		}
 #endif
