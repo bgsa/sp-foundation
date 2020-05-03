@@ -244,6 +244,11 @@ namespace NAMESPACE_FOUNDATION
 			return _data; 
 		}
 
+		API_INTERFACE inline sp_char* data()
+		{
+			return _data;
+		}
+
 		API_INTERFACE virtual const sp_char* toString() override
 		{
 			return _data;

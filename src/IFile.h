@@ -2,6 +2,7 @@
 #define I_FILE_HEADER
 
 #include "SpectrumFoundation.h"
+#include "SpString.h"
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -22,6 +23,8 @@ namespace NAMESPACE_FOUNDATION
 		API_INTERFACE virtual void read(sp_char* buffer, sp_uint size) = 0;
 
 		API_INTERFACE virtual void write(const sp_char* buffer) = 0;
+
+		API_INTERFACE virtual SpString* readTextFile(const sp_char* filename) = 0;
 
 		API_INTERFACE virtual void close() = 0;
 

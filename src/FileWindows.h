@@ -32,6 +32,8 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE void write(const sp_char* buffer) override;
 
+		API_INTERFACE SpString* readTextFile(const sp_char* filename) override;
+
 		API_INTERFACE void close();
 
 		API_INTERFACE ~FileWindows();

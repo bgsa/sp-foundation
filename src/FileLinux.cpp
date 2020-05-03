@@ -44,6 +44,20 @@ namespace NAMESPACE_FOUNDATION
 		file << buffer;
 	}
 
+	SpString* FileLinux::readTextFile(const sp_char* filename) override
+	{
+		open(filename, std::ios::in);
+
+		const sp_uint len = length();
+
+		sp_char* content = (sp_char*)sp_mem_alloc(len);
+		read(content, len);
+
+		close();
+
+		return sp_mem_new(SpString)(content);
+	}
+
 	void FileLinux::close()
 	{
 		file.close();
