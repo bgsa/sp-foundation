@@ -11,13 +11,13 @@ namespace NAMESPACE_FOUNDATION
 	{
 		template <typename R> friend class SpVector;
 	protected:
+		SpVectorItem<T>* _previous;
 		SpVectorItem<T>* _next;
 		T _data;
 
 		API_INTERFACE SpVectorItem<T>* addNext(const T& data)
 		{
-			_next = sp_mem_new(SpVectorItem<T>)(data);
-			_next->_data = data;
+			_next = sp_mem_new(SpVectorItem<T>)(data, this);
 
 			return _next;
 		}
@@ -26,13 +26,15 @@ namespace NAMESPACE_FOUNDATION
 		
 		API_INTERFACE SpVectorItem()
 		{
+			_previous = NULL;
 			_next = NULL;
 			_data = NULL;
 		}
 
-		API_INTERFACE SpVectorItem(const T& data)
+		API_INTERFACE SpVectorItem(const T& data, SpVectorItem<T>* previous = NULL)
 		{
 			_next = NULL;
+			_previous = previous;
 			_data = data;
 		}
 
@@ -46,6 +48,11 @@ namespace NAMESPACE_FOUNDATION
 			return _next;
 		}
 
+		API_INTERFACE inline SpVectorItem<T>* previous()
+		{
+			return _previous;
+		}
+
 		API_INTERFACE inline virtual const sp_char* toString() override
 		{
 			return "SpVectorItem";
@@ -57,6 +64,7 @@ namespace NAMESPACE_FOUNDATION
 			{
 				sp_mem_delete(_next, SpVectorItem<T>);
 				_next = NULL;
+				_previous = NULL;
 			}
 		}
 
@@ -120,33 +128,67 @@ namespace NAMESPACE_FOUNDATION
 			return _last;
 		}
 
-		API_INTERFACE inline T operator[](const sp_int index) const
+		API_INTERFACE inline virtual void remove(SpVectorItem<T>* item)
 		{
-			assert(index >= ZERO_INT && (sp_uint)index < _length);
+			assert(item != NULL);
 
-			SpVectorItem<T>* item = _first;
-			sp_int counter = ZERO_INT;
-
-			while (item != NULL && index != counter)
+			if (item == _first)
 			{
-				item = item->next();
-				counter++;
+				_first = item->next();
+				_first->_previous = NULL;
 			}
+			else
+				if (item == _last)
+				{
+					_last = item->previous();
+					_last->_next = NULL;
+				}
+				else
+					item->previous()->_next = item->next();
 
-			return item->_data;
+			item->_previous = NULL;
+			item->_next = NULL;
+			_length--;
 		}
 
-		API_INTERFACE inline T operator[](const sp_uint index) const
+		API_INTERFACE inline virtual SpVectorItem<T>* find(const sp_uint index)
 		{
 			assert(index >= ZERO_UINT && index < _length);
-			return _data[index];
+
+			SpVectorItem<T>* element = _first;
+
+			for (sp_uint i = ZERO_UINT; i != index; i++)
+				element = element->next();
+
+			return element;
+		}
+
+		API_INTERFACE inline T operator[](const sp_int index)
+		{
+			return find((sp_uint)index)->value();
+		}
+		API_INTERFACE inline T operator[](const sp_int index) const
+		{
+			return find((sp_uint)index)->value();
+		}
+
+		API_INTERFACE inline T operator[](const sp_uint index)
+		{
+			return *find(index)->value();
+		}
+		API_INTERFACE inline T operator[](const sp_uint index) const
+		{
+			return *find(index)->value();
 		}
 
 #ifdef ENV_64BITS
+		API_INTERFACE inline T operator[](const sp_size index)
+		{
+			return find((sp_uint)index)->value();
+		}
 		API_INTERFACE inline T operator[](const sp_size index) const
 		{
-			assert(index >= ZERO_SIZE && (sp_uint)index < _length);
-			return _data[index];
+			return find((sp_uint)index)->value();
 		}
 #endif
 

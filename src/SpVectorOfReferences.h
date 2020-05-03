@@ -11,13 +11,13 @@ namespace NAMESPACE_FOUNDATION
 	{
 		template <typename R> friend class SpVector;
 	protected:
+		SpVectorItem<T*>* _previous;
 		SpVectorItem<T*>* _next;
 		T* _data;
 
 		API_INTERFACE SpVectorItem<T*>* addNext(T* data)
 		{
-			_next = sp_mem_new(SpVectorItem<T*>)(data);
-			_next->_data = data;
+			_next = sp_mem_new(SpVectorItem<T*>)(data, this);
 
 			return _next;
 		}
@@ -30,18 +30,24 @@ namespace NAMESPACE_FOUNDATION
 			_data = NULL;
 		}
 
-		API_INTERFACE SpVectorItem(T* data)
+		API_INTERFACE SpVectorItem(T* data, SpVectorItem<T*>* previous = NULL)
 		{
 			_next = NULL;
 			_data = data;
+			_previous = previous;
 		}
 
-		API_INTERFACE inline T value()
+		API_INTERFACE inline T* value()
 		{
 			return _data;
 		}
 
 		API_INTERFACE inline SpVectorItem<T*>* next()
+		{
+			return _next;
+		}
+
+		API_INTERFACE inline SpVectorItem<T*>* previous()
 		{
 			return _next;
 		}
@@ -63,6 +69,7 @@ namespace NAMESPACE_FOUNDATION
 			{
 				sp_mem_delete(_data, T);
 				_data = NULL;
+				_previous = NULL;
 			}
 		}
 
@@ -72,6 +79,7 @@ namespace NAMESPACE_FOUNDATION
 		}
 
 	};
+
 	
 	template <typename T>
 	class SpVector<T*>
@@ -81,6 +89,21 @@ namespace NAMESPACE_FOUNDATION
 		sp_uint _length;
 		SpVectorItem<T*>* _first;
 		SpVectorItem<T*>* _last;
+
+		typedef class SpVectorItem<T*> SpVectorItemReference;
+
+	private:
+		API_INTERFACE inline virtual SpVectorItemReference* findReference(const sp_uint index)
+		{
+			assert(index >= ZERO_UINT && index < _length);
+
+			SpVectorItem<T*>* element = _first;
+
+			for (sp_uint i = ZERO_UINT; i != index; i++)
+				element = element->next();
+
+			return element;
+		}
 
 	public:
 
@@ -100,17 +123,17 @@ namespace NAMESPACE_FOUNDATION
 			return _length == ZERO_UINT;
 		}
 
-		API_INTERFACE inline SpVectorItem<T*>* begin() const noexcept
+		API_INTERFACE inline SpVectorItemReference* begin() const noexcept
 		{
 			return _first;
 		}
 
-		API_INTERFACE inline SpVectorItem<T*>* last() const noexcept
+		API_INTERFACE inline SpVectorItemReference* last() const noexcept
 		{
 			return _last;
 		}
 
-		API_INTERFACE inline virtual SpVectorItem<T*>* add(T* value)
+		API_INTERFACE inline virtual SpVectorItemReference* add(T* value)
 		{
 			if (_first == NULL)
 			{
@@ -126,33 +149,60 @@ namespace NAMESPACE_FOUNDATION
 			return _last;
 		}
 
-		API_INTERFACE inline T* operator[](const sp_int index) const
+		API_INTERFACE inline virtual void remove(SpVectorItemReference* item)
 		{
-			assert(index >= ZERO_INT && (sp_uint)index < _length);
+			assert(item != NULL);
 
-			SpVectorItem<T*>* item = _first;
-			sp_int counter = ZERO_INT;
-
-			while (item != NULL && index != counter)
+			if (item == _first)
 			{
-				item = item->next();
-				counter++;
+				_first = item->next();
+				_first->_previous = NULL;
 			}
+			else
+				if (item == _last)
+				{
+					_last = item->previous();
+					_last->_next = NULL;
+				}
+				else
+					item->previous()->_next = item->next();
 
-			return item->_data;
+			item->_previous = NULL;
+			item->_next = NULL;
+			_length--;
 		}
 
+		API_INTERFACE inline virtual SpVectorItemReference* find(const sp_uint index)
+		{
+			return findReference(index);
+		}
+
+		API_INTERFACE inline T* operator[](const sp_int index)
+		{
+			return findReference((sp_uint)index)->value();
+		}
+		API_INTERFACE inline T* operator[](const sp_int index) const
+		{
+			return findReference((sp_uint)index)->value();
+		}
+
+		API_INTERFACE inline T* operator[](const sp_uint index)
+		{
+			return findReference(index)->value();
+		}
 		API_INTERFACE inline T* operator[](const sp_uint index) const
 		{
-			assert(index >= ZERO_UINT && index < _length);
-			return _data[index];
+			return findReference(index)->value();
 		}
 
 #ifdef ENV_64BITS
+		API_INTERFACE inline T* operator[](const sp_size index)
+		{
+			return findReference((sp_uint) index)->value();
+		}
 		API_INTERFACE inline T* operator[](const sp_size index) const
 		{
-			assert(index >= ZERO_SIZE && (sp_uint)index < _length);
-			return _data[index];
+			return findReference((sp_uint)index)->value();
 		}
 #endif
 
