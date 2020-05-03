@@ -222,6 +222,11 @@ namespace NAMESPACE_FOUNDATION
 			return std::atoi(_data);
 		}
 		template <>
+		API_INTERFACE inline sp_uint to()
+		{
+			return (sp_uint) std::atoi(_data);
+		}
+		template <>
 		API_INTERFACE inline sp_long to()
 		{
 			return std::atol(_data);
