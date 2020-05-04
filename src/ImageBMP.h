@@ -38,19 +38,18 @@ typedef struct
 
 namespace NAMESPACE_FOUNDATION
 {
-	class ImageBMP : public Image
+	class ImageBMP 
+		: public Image
 	{
-	private:
-
 	public:
 		
-		ColorRGBc getPixelRGB(sp_int x, sp_int y);
+		API_INTERFACE inline ColorRGB getPixelRGB(sp_int x, sp_int y) override;
 		
-		static ImageBMP * load(const sp_char* filename)
+		API_INTERFACE static ImageBMP* load(const sp_char* filename)
 		{
 			const sp_uint opengl_RGB = 0x1907; //TODO: REMOVE!
 
-			ImageBMP *image = ALLOC_NEW(ImageBMP)();
+			ImageBMP *image = sp_mem_new(ImageBMP)();
 			image->colorFormat = opengl_RGB;
 
 			BMPFileHeader fileHeader;
@@ -80,14 +79,14 @@ namespace NAMESPACE_FOUNDATION
 			fread(&fileHeader, sizeof(BMPFileHeader), 1, file);
 			fread(&headerInfo, sizeof(BMPHeaderInfo), 1, file);
 
-			image->width = headerInfo.width;
-			image->height = headerInfo.height;
+			image->_width = headerInfo.width;
+			image->_height = headerInfo.height;
 
 			fseek(file, 54 * SIZEOF_CHAR, SEEK_SET); //move o cursor para a posi��o 54 do arquivo, contando do in�cio
 			
-			unsigned int size = 3 * image->width * image->height;
-			image->data = ALLOC_ARRAY(sp_uchar, size); // allocate 3 bytes per pixel
-			fread(image->data, SIZEOF_UCHAR, size, file); // read the rest of the data at once
+			const sp_uint size = 3 * image->_width * image->_height;
+			image->_data = (sp_uchar*) sp_mem_calloc(size, SIZEOF_UCHAR); // allocate 3 bytes per pixel
+			fread(image->_data, SIZEOF_UCHAR, size, file); // read the rest of the data at once
 
 			fclose(file);
 	#endif
@@ -123,6 +122,14 @@ namespace NAMESPACE_FOUNDATION
 				*/
 
 			return image;
+		}
+
+		~ImageBMP()
+		{
+			if (_data != NULL)
+			{
+				sp_mem_release(_data);
+			}
 		}
 
 	};

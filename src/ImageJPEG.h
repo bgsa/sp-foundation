@@ -21,14 +21,13 @@ typedef struct
 
 namespace NAMESPACE_FOUNDATION
 {
-	class ImageJPEG : public Image
+	class ImageJPEG 
+		: public Image
 	{
-	private:
-
 	public:	
-		ColorRGBc getPixelRGB(sp_int x, sp_int y);
+		API_INTERFACE inline ColorRGB getPixelRGB(sp_int x, sp_int y) override;
 		
-		static ImageJPEG * load(const sp_char* filename)
+		API_INTERFACE static ImageJPEG * load(const sp_char* filename)
 		{
 			ImageJPEG *image = ALLOC_NEW(ImageJPEG)();
 			FILE *file = fopen(filename, "rb");

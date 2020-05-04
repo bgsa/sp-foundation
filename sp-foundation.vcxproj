@@ -227,6 +227,7 @@
     <ClInclude Include="src\KeyboardInputDeviceGLFW.h" />
     <ClInclude Include="src\KeyboardInputDeviceHandler.h" />
     <ClInclude Include="src\Log.hpp" />
+    <ClInclude Include="src\SpPair.h" />
     <ClInclude Include="src\SpString.h" />
     <ClInclude Include="src\SpText.h" />
     <ClInclude Include="src\SpVector.h" />
