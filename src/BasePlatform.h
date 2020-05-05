@@ -138,14 +138,22 @@
 
 // Define the Operating System
 #if defined (_WIN32) || defined (_WIN64)
-	#define WINDOWS
-#elif defined (__linux__ && !__ANDROID__)
-	#define LINUX
+	#if !defined(WINDOWS)
+		#define WINDOWS
+	#endif
+#elif defined(__linux__) && !defined(__ANDROID__)
+	#if !defined(LINUX)
+		#define LINUX
+	#endif
 #elif defined (__ANDROID__)
-	#define ANDROID
+	#if !defined(ANDROID)
+		#define ANDROID
+	#endif
 	//__ANDROID_API__
 #elif defined (__APPLE__) // MacOS ou iOS
-	#define OSX
+	#if !defined(OSX)
+		#define OSX
+	#endif
 #endif
 
 /* Define Processor Architecture
@@ -178,6 +186,7 @@ __BIONIC__	       Bionic libc
 __INTEL_CXXLIB_ICC
 */
 
+#include <limits.h>
 
 #define SIZEOF_BOOL      (1)
 #define SIZEOF_CHAR      (1)

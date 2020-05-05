@@ -17,7 +17,7 @@ namespace NAMESPACE_FOUNDATION
 
 	public:
 
-		API_INTERFACE void open(const sp_char* filename, std::ios::open_mode mode) override;
+		API_INTERFACE void open(const sp_char* filename, std::ios_base::openmode mode) override;
 
 		API_INTERFACE sp_bool isOpened() override;
 

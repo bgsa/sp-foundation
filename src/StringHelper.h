@@ -77,7 +77,7 @@ namespace NAMESPACE_FOUNDATION
 
 		static sp_bool startWith(const sp_char* text, const sp_char value)
 		{
-			for (sp_uint i = ZERO_UINT; i < UINT_MAX; i++)
+			for (sp_uint i = ZERO_UINT; i < SP_UINT_MAX; i++)
 			{
 				if (text[i] == ' ')
 					continue;

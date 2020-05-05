@@ -10,7 +10,7 @@ namespace NAMESPACE_FOUNDATION
 	{
 	public:
 
-		API_INTERFACE virtual void open(const sp_char* filename, std::ios::open_mode mode) = 0;
+		API_INTERFACE virtual void open(const sp_char* filename, std::ios_base::openmode mode) = 0;
 
 		API_INTERFACE virtual sp_bool isOpened() = 0;
 

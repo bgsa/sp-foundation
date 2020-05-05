@@ -3,9 +3,9 @@
 
 #include "BasePlatform.h"
 
-#ifdef WINDOWS
+#if defined(WINDOWS)
 	#include "WindowsPlatform.h"
-#else
+#elif defined(LINUX)
 	#include "LinuxPlatform.h"	
 #endif
 
@@ -15,6 +15,7 @@
 
 #include "Assertions.h"
 #include <cstdlib>
+#include <cstring>
 #include <vector>
 
 #ifndef SP_DEFAULT_MEMORY_SIZE

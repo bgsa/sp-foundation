@@ -72,6 +72,8 @@ namespace NAMESPACE_FOUNDATION
 			ImageBMP *image = sp_mem_new(ImageBMP)();
 			BMPFileHeader fileHeader;
 			BMPHeaderInfo headerInfo;
+
+			const sp_size size = 3 * image->_width * image->_height;
 					
 	#ifdef ANDROID
 			FileManagerAndroid fileManager;
@@ -84,7 +86,6 @@ namespace NAMESPACE_FOUNDATION
 			image->width = headerInfo.width;
 			image->height = headerInfo.height;
 
-			sp_uint size = 3 * image->width * image->height;
 			image->data = ALLOC_ARRAY(sp_uchar, size); // allocate 3 bytes per pixel
 			AAsset_read(file, image->data, size);
 
@@ -104,7 +105,24 @@ namespace NAMESPACE_FOUNDATION
 
 			fseek(file, fileHeader.offBits, SEEK_SET);
 			
-			const sp_size size = 3 * image->_width * image->_height;
+			image->_data = (sp_uchar*) sp_mem_calloc(size, SIZEOF_UCHAR);
+			fread(image->_data, SIZEOF_UCHAR, size, file);
+
+			fclose(file);
+	#endif
+	#if defined(LINUX) || defined(OSX)
+			FILE *file = fopen(filename, "rb");
+			
+			fread(&fileHeader, sizeof(BMPFileHeader), 1, file);
+			fread(&headerInfo, sizeof(BMPHeaderInfo), 1, file);
+
+			//sp_assert(headerInfo.bitCount == 8); // BMP images should be 8 bits ?!
+
+			image->_width = headerInfo.width;
+			image->_height = headerInfo.height;
+
+			fseek(file, fileHeader.offBits, SEEK_SET);
+			
 			image->_data = (sp_uchar*) sp_mem_calloc(size, SIZEOF_UCHAR);
 			fread(image->_data, SIZEOF_UCHAR, size, file);
 
