@@ -65,7 +65,7 @@ namespace NAMESPACE_FOUNDATION
 			colorFormat = 0x1907; // TODO: REMOVE!  GL_RGB constant
 		}
 		
-		API_INTERFACE inline ColorRGB getPixelRGB(sp_int x, sp_int y) override;
+		API_INTERFACE ColorRGB getPixelRGB(sp_int x, sp_int y) override;
 		
 		API_INTERFACE static ImageBMP* load(const sp_char* filename)
 		{

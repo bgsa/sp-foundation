@@ -25,7 +25,7 @@ namespace NAMESPACE_FOUNDATION
 		: public Image
 	{
 	public:	
-		API_INTERFACE inline ColorRGB getPixelRGB(sp_int x, sp_int y) override;
+		API_INTERFACE ColorRGB getPixelRGB(sp_int x, sp_int y) override;
 		
 		API_INTERFACE static ImageJPEG * load(const sp_char* filename)
 		{
