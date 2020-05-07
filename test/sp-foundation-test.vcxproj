@@ -23,6 +23,7 @@
     <ClCompile Include="src\SpArrayOfStringTest.cpp" />
     <ClCompile Include="src\SpArrayTest.cpp" />
     <ClCompile Include="src\SpectrumFoundationTest.cpp" />
+    <ClCompile Include="src\SpMapTest.cpp" />
     <ClCompile Include="src\SpStringTest.cpp" />
     <ClCompile Include="src\SpTextTest.cpp" />
     <ClCompile Include="src\SpVectorTest.cpp" />

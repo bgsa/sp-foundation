@@ -18,6 +18,7 @@ namespace NAMESPACE_FOUNDATION_TEST
 		SP_TEST_METHOD_DEF(indexOf_Test1);
 		SP_TEST_METHOD_DEF(startWith_Char_Test1);
 		SP_TEST_METHOD_DEF(startWith_CharArray_Test1);
+		SP_TEST_METHOD_DEF(hashCode);
 		SP_TEST_METHOD_DEF(equals);
 		SP_TEST_METHOD_DEF(substring);
 		SP_TEST_METHOD_DEF(dispose_Test1);
@@ -149,6 +150,23 @@ namespace NAMESPACE_FOUNDATION_TEST
 
 		arr = "Teste do T de taTu";
 		Assert::IsFalse(arr.startWith(" Teste do T"));
+	}
+
+	SP_TEST_METHOD(CLASS_NAME, hashCode)
+	{
+		SpString str1("Teste do T de taTu");
+		SpString str2("Teste do T do taTu");
+		SpString str3("Teste do taTu");
+
+		sp_size hash1 = str1.hashCode();
+		sp_size hash12 = str1.hashCode();
+		sp_size hash2 = str2.hashCode();
+		sp_size hash3 = str3.hashCode();
+
+		Assert::AreEqual(hash1, hash12);
+		Assert::AreNotEqual(hash1, hash2);
+		Assert::AreNotEqual(hash1, hash3);
+		Assert::AreNotEqual(hash2, hash3);
 	}
 
 	SP_TEST_METHOD(CLASS_NAME, equals)

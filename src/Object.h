@@ -15,6 +15,11 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline virtual const sp_char* toString() = 0;
 
+		API_INTERFACE inline virtual sp_size hashCode() const noexcept override
+		{
+			return (sp_size)this;
+		}
+
 		API_INTERFACE inline virtual sp_bool equals(const void* other) const noexcept override
 		{
 			return this == other;

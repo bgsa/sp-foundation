@@ -92,12 +92,12 @@ namespace NAMESPACE_FOUNDATION
 			_first = NULL;
 		}
 		
-		API_INTERFACE inline sp_uint length() noexcept
+		API_INTERFACE inline sp_uint length() const noexcept
 		{
 			return _length;
 		}
 
-		API_INTERFACE inline sp_bool isEmpty() noexcept
+		API_INTERFACE inline sp_bool isEmpty() const noexcept
 		{
 			return _length == ZERO_UINT;
 		}
@@ -135,7 +135,8 @@ namespace NAMESPACE_FOUNDATION
 			if (item == _first)
 			{
 				_first = item->next();
-				_first->_previous = NULL;
+				if (_first != NULL)
+					_first->_previous = NULL;
 			}
 			else
 				if (item == _last)

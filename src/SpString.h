@@ -92,7 +92,7 @@ namespace NAMESPACE_FOUNDATION
 			return _length;
 		}
 
-		API_INTERFACE inline sp_uint allocatedLength()
+		API_INTERFACE inline sp_uint allocatedLength() const
 		{
 			return _allocatedLength;
 		}
@@ -111,14 +111,26 @@ namespace NAMESPACE_FOUNDATION
 			return str;
 		}
 
+		API_INTERFACE inline sp_size hashCode() const noexcept override
+		{
+			sp_size hash = 0;
+			sp_char* str = _data;
+
+			for (; *str; ++str)
+				hash ^= *str + 0x9e3779b9 + multiplyBy(hash, 6) + divideBy2(hash);
+
+			return hash;
+		}
+
 		API_INTERFACE inline sp_bool equals(const void* other) const noexcept override
 		{
 			const SpString* str = (const SpString*)other;
 
-			return (_length == str->_length) && (std::strcmp(_data, str->_data) == ZERO_UINT);
+			return (_length == str->_length) && this->hashCode() == str->hashCode();
+			//return (_length == str->_length) && (std::strcmp(_data, str->_data) == ZERO_UINT);
 		}
 
-		API_INTERFACE inline sp_uint count(const sp_char character)
+		API_INTERFACE inline sp_uint count(const sp_char character) const
 		{
 			sp_uint counter = ZERO_UINT;
 
@@ -129,7 +141,7 @@ namespace NAMESPACE_FOUNDATION
 			return counter;
 		}
 
-		API_INTERFACE inline sp_uint indexOf(const sp_char character)
+		API_INTERFACE inline sp_uint indexOf(const sp_char character) const
 		{
 			for (sp_uint i = ZERO_SIZE; i < _length; i++)
 				if (_data[i] == character)

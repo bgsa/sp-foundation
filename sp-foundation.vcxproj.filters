@@ -299,6 +299,9 @@
     <ClInclude Include="src\SpPair.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\SpMap.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />

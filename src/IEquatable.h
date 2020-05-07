@@ -10,6 +10,8 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE virtual sp_bool equals(const void* other) const noexcept = 0;
 
+		API_INTERFACE virtual sp_size hashCode() const noexcept = 0;
+
 		/*
 		API_INTERFACE virtual bool operator==(T* other) const = 0;
 		API_INTERFACE virtual bool operator==(const T& other) const = 0;

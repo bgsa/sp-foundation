@@ -36,6 +36,9 @@
     <ClCompile Include="src\SpVectorTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\SpMapTest.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\SpectrumFoundationTest.h">

@@ -29,7 +29,9 @@
 #define sp_mem_release(buffer) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->free( (sp_size*)(buffer) )
 
 #ifdef __cplusplus
-	#define sp_mem_new(Type) (Type*) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type), ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)) Type
+	#define sp_mem_new(Type) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type), ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)) Type
+	#define sp_mem_new_templated1(Type, Type1) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type), ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)) Type<Type1>
+	#define sp_mem_new_templated2(Type, Type1, Type2) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type<Type1,Type2>), ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)) Type<Type1, Type2>
 	#define sp_mem_delete(buffer, Type) (buffer)->~Type(); sp_mem_release(buffer);
 #endif
 

@@ -12,6 +12,17 @@ namespace NAMESPACE_FOUNDATION
 		KEY key;
 		VALUE value;
 
+		SpPair()
+		{
+
+		}
+
+		SpPair(KEY key, VALUE value)
+		{
+			this->key = key;
+			this->value = value;
+		}
+
 	};
 }
 
