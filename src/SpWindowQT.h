@@ -16,7 +16,9 @@
 
 namespace NAMESPACE_FOUNDATION
 {
-	class WindowInputDeviceQT : public QObject, public WindowInputDevice
+	class SpWindowQT
+		: public QObject
+		, public SpWindow
 	{
 		Q_OBJECT
 

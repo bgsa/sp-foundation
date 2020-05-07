@@ -185,9 +185,8 @@
     <ClCompile Include="src\ThreadTest.cpp" />
     <ClCompile Include="src\ThreadUser.cpp" />
     <ClCompile Include="src\Timer.cpp" />
-    <ClCompile Include="src\WindowInputDeviceGLFW.cpp" />
     <ClCompile Include="src\DisplayDeviceQT.cpp" />
-    <ClCompile Include="src\WindowInputDeviceQT.cpp" />
+    <ClCompile Include="src\SpWindowQT.cpp" />
     <ClCompile Include="src\PointerInputDeviceQT.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -227,20 +226,30 @@
     <ClInclude Include="src\KeyboardInputDeviceGLFW.h" />
     <ClInclude Include="src\KeyboardInputDeviceHandler.h" />
     <ClInclude Include="src\Log.hpp" />
+    <ClInclude Include="src\SpEvent.h" />
+    <ClInclude Include="src\SpJoypadEventListener.h" />
+    <ClInclude Include="src\SpKeyboardEventListener.h" />
+    <ClInclude Include="src\SpMouseEventListener.h" />
+    <ClInclude Include="src\SpWindow.h" />
+    <ClInclude Include="src\SpWindowEventListener.h" />
+    <ClInclude Include="src\SpEventDispatcher.h" />
+    <ClInclude Include="src\SpJoypadEvent.h" />
+    <ClInclude Include="src\SpKeyboardEvent.h" />
     <ClInclude Include="src\SpMap.h" />
+    <ClInclude Include="src\SpMouseEvent.h" />
     <ClInclude Include="src\SpPair.h" />
     <ClInclude Include="src\SpString.h" />
     <ClInclude Include="src\SpText.h" />
     <ClInclude Include="src\SpVector.h" />
     <ClInclude Include="src\SpVectorOfReferences.h" />
+    <ClInclude Include="src\SpWindowEvent.h" />
+    <ClInclude Include="src\SpWindowGLFW.h" />
     <ClInclude Include="src\StackMemoryAllocator.h" />
     <ClInclude Include="src\NetworkSubSystem.h" />
     <ClInclude Include="src\Object.h" />
     <ClInclude Include="src\PointerInputDevice.h" />
     <ClInclude Include="src\PointerInputDeviceGLFW.h" />
     <ClInclude Include="src\PointerInputDeviceHandler.h" />
-    <ClInclude Include="src\pugiconfig.hpp" />
-    <ClInclude Include="src\pugixml.hpp" />
     <ClInclude Include="src\SoundEffect.h" />
     <ClInclude Include="src\SoundSubSystem.h" />
     <ClInclude Include="src\StringHelper.h" />
@@ -250,11 +259,9 @@
     <ClInclude Include="src\TouchInputDevice.h" />
     <ClInclude Include="src\TouchInputDeviceHandler.h" />
     <ClInclude Include="src\WindowInputDevice.h" />
-    <ClInclude Include="src\WindowInputDeviceGLFW.h" />
-    <ClInclude Include="src\WindowInputDeviceHandler.h" />
     <ClInclude Include="src\WindowsPlatform.h" />
     <ClInclude Include="src\KeyboardInputDeviceQT.h" />
-    <ClInclude Include="src\WindowInputDeviceQT.h" />
+    <ClInclude Include="src\SpWindowQT.h" />
     <ClInclude Include="src\PointerInputDeviceQT.h" />
     <ClInclude Include="src\DisplayDeviceQT.h" />
   </ItemGroup>

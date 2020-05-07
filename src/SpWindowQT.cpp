@@ -1,6 +1,6 @@
 #ifdef QT_ENABLED
 
-#include "WindowInputDeviceQT.h"
+#include "SpWindowQT.h"
 
 namespace NAMESPACE_FOUNDATION
 {

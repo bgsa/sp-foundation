@@ -156,7 +156,11 @@ namespace NAMESPACE_FOUNDATION
 			if (item == _first)
 			{
 				_first = item->next();
-				_first->_previous = NULL;
+
+				if (_first == NULL)
+					_last = NULL;
+				else
+					_first->_previous = NULL;
 			}
 			else
 				if (item == _last)
