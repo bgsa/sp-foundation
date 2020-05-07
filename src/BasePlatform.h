@@ -4,6 +4,8 @@
 #define HEAP_PROFILING_ALLOC
 #define DEPRECATED
 
+#define PRAGMA(content) _Pragma(#content)
+
 #if defined (_MSC_VER)
 	#define MSVC_COMPILER
 	#define COMPILER_VERSION _MSC_FULL_VER
@@ -20,6 +22,13 @@
 	#elif defined(_M_IX86) || defined(_M_IA64)
 		#define INTEL_PROCESSOR
 	#endif
+
+	#define SP_PUSH_WARNING          PRAGMA( warning push )
+	#define SP_ENABLE_WARNING        PRAGMA( warning pop )
+	#define SP_DISABLE_WARNING(code) \
+		SP_PUSH_WARNING          \
+		PRAGMA( warning disable : code )
+	#define SP_DISABLE_WARNING_IGNORED_ATTRIBUTES SP_DISABLE_WARNING(check the warning MSVC code)
 
 	#if defined(DEBUG)
 		//#define _CRTDBG_MAP_ALLOC
@@ -44,6 +53,13 @@
 	#define GCC_COMPILER
 	#define COMPILER_VERSION __GNUC___.__GNUC_MINOR__
 	#define UNINITIALIZED_HEAP_ADDRESS 0x00000000
+
+	#define SP_PUSH_WARNING          PRAGMA( GCC diagnostic push )
+	#define SP_ENABLE_WARNING        PRAGMA( GCC diagnostic pop )
+	#define SP_DISABLE_WARNING(name)  \
+		SP_PUSH_WARNING           \
+		PRAGMA( GCC diagnostic ignored name )
+	#define SP_DISABLE_WARNING_IGNORED_ATTRIBUTES SP_DISABLE_WARNING("-Wignored-attributes")
 
 	#undef  DEPRECATED
 	#define DEPRECATED __attribute__((deprecated))
@@ -77,6 +93,13 @@
 
 	#undef  DEPRECATED
 	#define DEPRECATED __attribute__((deprecated))
+
+	#define SP_PUSH_WARNING          PRAGMA( clang diagnostic push )
+	#define SP_ENABLE_WARNING        PRAGMA( clang diagnostic pop )
+	#define SP_DISABLE_WARNING(name)  \
+		SP_PUSH_WARNING           \
+		PRAGMA( clang diagnostic ignored name )
+	#define SP_DISABLE_WARNING_IGNORED_ATTRIBUTES SP_DISABLE_WARNING("-Wignored-attributes")
 
 	#if defined(__x86_64__)
 		#define ENV_64BITS
@@ -138,14 +161,22 @@
 
 // Define the Operating System
 #if defined (_WIN32) || defined (_WIN64)
-	#define WINDOWS
-#elif defined (__linux__ && !__ANDROID__)
-	#define LINUX
+	#if !defined(WINDOWS)
+		#define WINDOWS
+	#endif
+#elif defined(__linux__) && !defined(__ANDROID__)
+	#if !defined(LINUX)
+		#define LINUX
+	#endif
 #elif defined (__ANDROID__)
-	#define ANDROID
+	#if !defined(ANDROID)
+		#define ANDROID
+	#endif
 	//__ANDROID_API__
 #elif defined (__APPLE__) // MacOS ou iOS
-	#define OSX
+	#if !defined(OSX)
+		#define OSX
+	#endif
 #endif
 
 /* Define Processor Architecture
@@ -178,6 +209,7 @@ __BIONIC__	       Bionic libc
 __INTEL_CXXLIB_ICC
 */
 
+#include <limits.h>
 
 #define SIZEOF_BOOL      (1)
 #define SIZEOF_CHAR      (1)

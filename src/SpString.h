@@ -218,38 +218,6 @@ namespace NAMESPACE_FOUNDATION
 		{
 			return (T)_data;
 		}
-		template <>
-		API_INTERFACE inline sp_double to()
-		{
-			return std::atof(_data);
-		}
-		template <>
-		API_INTERFACE inline sp_float to<>()
-		{
-			return (sp_float)std::atof(_data);
-		}
-		template <>
-		API_INTERFACE inline sp_int to()
-		{
-			return std::atoi(_data);
-		}
-		template <>
-		API_INTERFACE inline sp_uint to()
-		{
-			return (sp_uint) std::atoi(_data);
-		}
-		template <>
-		API_INTERFACE inline sp_long to()
-		{
-			return std::atol(_data);
-		}
-#ifdef  ENV_64BITS
-		template <>
-		API_INTERFACE inline sp_longlong to()
-		{
-			return std::atoll(_data);
-		}
-#endif
 
 		API_INTERFACE operator sp_char*() const
 		{ 
@@ -290,6 +258,32 @@ namespace NAMESPACE_FOUNDATION
 			std::swap(string1._allocatedLength, string2._allocatedLength);
 		}
 	};
+
+	template <>
+	API_INTERFACE inline sp_double SpString::to()
+	{
+		return std::atof(_data);
+	}
+	template <>
+	API_INTERFACE inline sp_float SpString::to<>()
+	{
+		return (sp_float)std::atof(_data);
+	}
+	template <>
+	API_INTERFACE inline sp_int SpString::to()
+	{
+		return std::atoi(_data);
+	}
+	template <>
+	API_INTERFACE inline sp_uint SpString::to()
+	{
+		return (sp_uint) std::atoi(_data);
+	}
+	template <>
+	API_INTERFACE inline sp_long SpString::to()
+	{
+		return std::atol(_data);
+	}
 }
 
 #endif // SP_STRING_HEADER

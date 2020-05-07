@@ -31,12 +31,16 @@ set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if ( ${ARCH_BITS} STREQUAL "64" )
 	set (ARCH "x86_64")
-	set (CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -m64 -fPIC -std=c11" )
+	set (CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -m64 -fPIC -std=c11"   )
 	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64 -fPIC -std=c++11" )
+	set (CMAKE_LDFLAGS   "${CMAKE_CXX_FLAGS} -m64 -fPIC -std=c++11" )
+	set (LIB_DIR ${SOLUTION_DIR}/vendor/lib/x86_64)
 else()
-	set(ARCH "x86")	
-	set (CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -m32 -fPIC -std=c11" )
+	set (ARCH "x86")	
+	set (CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -m32 -fPIC -std=c11"   )
 	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32 -fPIC -std=c++11" )
+	set (CMAKE_LDFLAGS   "${CMAKE_CXX_FLAGS} -m32 -fPIC -std=c++11" )
+	set (LIB_DIR ${SOLUTION_DIR}/vendor/lib/x86)
 endif()
 
 if ( ${OPERATING_SYSTEM} STREQUAL "WINDOWS" )
@@ -75,14 +79,13 @@ if( ${QT_ENABLED} )
 endif()
 
 include_directories(
-    /usr/local/include
+	/usr/local/include
 	${SOLUTION_DIR}/vendor/glfw/include
-    src
+	src
 )
 
 link_directories(
-	${SOLUTION_DIR}/vendor/lib/x86_64
-	${SOLUTION_DIR}/vendor/lib
+	${LIB_DIR}
 	/usr/local/lib/
 )
 
@@ -92,17 +95,19 @@ else()
 	add_library(${PROJECT_NAME} STATIC ${SOURCES})
 endif()
 
+#set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32")
+
 if ( ${OPERATING_SYSTEM} STREQUAL "WINDOWS" )
-    add_definitions(-DENV_64BITS -DAPI_EXPORT ${CUSTOM_DEFINITIONS} -DWINDOWS)
+    add_definitions(-DAPI_EXPORT ${CUSTOM_DEFINITIONS} -DWINDOWS)
 elseif ( ${OPERATING_SYSTEM} STREQUAL "LINUX" )
-    add_definitions(-DENV_64BITS -DAPI_EXPORT ${CUSTOM_DEFINITIONS} -DLINUX)
+    add_definitions(-DAPI_EXPORT ${CUSTOM_DEFINITIONS} -DLINUX)
 elseif ( ${OPERATING_SYSTEM} STREQUAL "UNIX" )
-    add_definitions(-DENV_64BITS -DAPI_EXPORT ${CUSTOM_DEFINITIONS} -DUNIX)
+    add_definitions(-DAPI_EXPORT ${CUSTOM_DEFINITIONS} -DUNIX)
 else()
     message(FATAL_ERROR "Operating System not defined!")
 endif()
 
 target_link_libraries(${PROJECT_NAME}
     ${OPENGL_LIBRARY}
-    ${SOLUTION_DIR}/vendor/lib/${GLFW_LIB_NAME}
+    ${LIB_DIR}/${GLFW_LIB_NAME}
 )

@@ -108,16 +108,21 @@ typedef uint32_t       sp_uint32     __attribute__((aligned(SIZEOF_INT)));
 typedef uint32_t       sp_uint       __attribute__((aligned(SIZEOF_INT)));
 typedef uint64_t       sp_uint64     __attribute__((aligned(SIZEOF_LONG)));
 typedef uint64_t       sp_ulong      __attribute__((aligned(SIZEOF_LONG)));
-typedef uint64_t       sp_size       __attribute__((aligned(SIZEOF_LONG)));
 typedef uint_least64_t sp_long_size  __attribute__((aligned(SIZEOF_LONG_LONG)));
 
-#if defined( __GNUC__ )
-#define SP_NOT_A_NUMBER   __builtin_nanf( "" )
-#define FLT_MAX           __FLT_MAX__
-#define FLT_MIN           __FLT_MIN__
+#ifdef ENV_32BITS
+typedef uint32_t sp_size;
 #else
-float nanf(const char *);
-#define SP_NOT_A_NUMBER   nanf( "" )  
+typedef uint64_t sp_size;
+#endif
+
+#if defined( __GNUC__ )
+	#define SP_NOT_A_NUMBER   __builtin_nanf( "" )
+	#define FLT_MAX           __FLT_MAX__
+	#define FLT_MIN           __FLT_MIN__
+#else
+	float nanf(const char *);
+	#define SP_NOT_A_NUMBER   nanf( "" )  
 #endif
 
 #endif // LINUX_PLATFORM_HEADER

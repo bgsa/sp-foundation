@@ -18,6 +18,7 @@
 #include "PoolMemoryAllocator.h"
 #include "Log.hpp"
 #include "Object.h"
+#include <cmath>
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -110,7 +111,7 @@ namespace NAMESPACE_FOUNDATION
 	API_INTERFACE inline sp_size floatParts(sp_float value, sp_size* expoent)
 	{
 		*expoent = (sp_size)value;
-		return (sp_size)(std::fabsf(*expoent - value) * 10000.0f);
+		return (sp_size)(fabsf(*expoent - value) * 10000.0f);
 	}
 
 	///<summary>
@@ -184,19 +185,6 @@ namespace NAMESPACE_FOUNDATION
 	///<summary>
 	///Get the next number power of 2
 	///</summary>
-	API_INTERFACE inline sp_uint nextPowOf2(sp_uint value)
-	{
-		sp_uint rval = 1;
-
-		while (rval < value)
-			rval = multiplyBy2(rval);
-
-		return rval;
-	}
-
-	///<summary>
-	///Get the next number power of 2
-	///</summary>
 	API_INTERFACE inline sp_int nextPowOf2(sp_int value)
 	{
 		sp_int rval = ONE_INT;
@@ -207,20 +195,18 @@ namespace NAMESPACE_FOUNDATION
 		return rval;
 	}
 
-	API_INTERFACE inline sp_uint nextDivisorOf(sp_uint n, sp_uint startFrom)
+	///<summary>
+	///Get the next number power of 2
+	///</summary>
+	API_INTERFACE inline sp_uint nextPowOf2(sp_uint value)
 	{
-		for (sp_uint i = startFrom; i <= n; i++)
-			if (n % i == 0)
-				return i;
+		sp_uint rval = 1;
 
-		return n;
+		while (rval < value)
+			rval = multiplyBy2(rval);
+
+		return rval;
 	}
-
-	API_INTERFACE inline sp_uint nextDivisorOf_(sp_uint value, sp_uint of)
-	{
-		return of - (value % of);
-	}
-
 
 #if defined(ENV_64BITS)
 	///<summary>
@@ -237,6 +223,20 @@ namespace NAMESPACE_FOUNDATION
 	}
 #endif
 
+	API_INTERFACE inline sp_uint nextDivisorOf(sp_uint n, sp_uint startFrom)
+	{
+		for (sp_uint i = startFrom; i <= n; i++)
+			if (n % i == 0)
+				return i;
+
+		return n;
+	}
+
+	API_INTERFACE inline sp_uint nextDivisorOf_(sp_uint value, sp_uint of)
+	{
+		return of - (value % of);
+	}
+
 	///<summary>
 	///Round the number given a amount of decimals
 	///</summary>
@@ -244,9 +244,9 @@ namespace NAMESPACE_FOUNDATION
 	API_INTERFACE inline T round(T number, sp_int decimals)
 	{
 		sp_double m = (number < 0.0) ? -ONE_DOUBLE : ONE_DOUBLE; // check if input is negative
-		sp_double power = pow(10, decimals);
+		sp_double power = std::pow(10, decimals);
 
-		return T((floor(m * number * power + HALF_DOUBLE) / power) * m);
+		return T((std::floor(m * number * power + HALF_DOUBLE) / power) * m);
 	}
 
 	///<summary>
@@ -332,7 +332,7 @@ namespace NAMESPACE_FOUNDATION
 	API_INTERFACE inline size_t digitMantissaCount(sp_float value)
 	{
 		sp_float temp;
-		sp_float d = std::modff(value, &temp);
+		sp_float d = modff(value, &temp);
 		sp_size counter = ZERO_SIZE;
 
 		while (d > ZERO_FLOAT && !isCloseEnough(d, ZERO_FLOAT)) {

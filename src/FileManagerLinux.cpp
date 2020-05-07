@@ -10,12 +10,11 @@
 
 namespace NAMESPACE_FOUNDATION
 {
-	sp_bool checkFile(std::ifstream& file, const sp_char * filename)
+	sp_bool checkFile(std::ifstream& file, const sp_char* filename)
 	{
 		if ( file.fail() || file.bad() || ! file.is_open() ) 
 		{
-			char errorMessage[1024];
-			strerror_r(errno, errorMessage, 1024);
+			sp_char* errorMessage = strerror(errno);
 
 			std::string str1 = std::string(errorMessage);
 			std::string str = ": ";
@@ -46,8 +45,7 @@ namespace NAMESPACE_FOUNDATION
 
 		if((dp  = opendir(search_path.c_str())) == NULL) {
 
-			char errorMessage[1024];
-			strerror_r(errno, errorMessage, 1024);
+			sp_char* errorMessage = strerror(errno);
 
 			std::string str1 = std::string(errorMessage);
 			std::string str = ": ";
@@ -139,7 +137,8 @@ namespace NAMESPACE_FOUNDATION
 
 	IFile* FileManagerLinux::open(std::string filename)
 	{
-		return new FileLinux(filename);
+//		return new FileLinux(filename);
+		return NULL;
 	}
 }
 

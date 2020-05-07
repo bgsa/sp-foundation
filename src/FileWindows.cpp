@@ -4,7 +4,7 @@
 
 namespace NAMESPACE_FOUNDATION
 {
-	void FileWindows::open(const sp_char* filename, std::ios::open_mode mode)
+	void FileWindows::open(const sp_char* filename, std::ios_base::openmode mode)
 	{
 		file.open(filename, mode);
 

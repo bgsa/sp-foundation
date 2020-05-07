@@ -4,7 +4,7 @@
 
 namespace NAMESPACE_FOUNDATION
 {
-	void FileLinux::open(const sp_char* filename, std::ios::open_mode mode)
+	void FileLinux::open(const sp_char* filename, std::ios_base::openmode mode)
 	{
 		file.open(filename, mode);
 
@@ -44,7 +44,7 @@ namespace NAMESPACE_FOUNDATION
 		file << buffer;
 	}
 
-	SpString* FileLinux::readTextFile(const sp_char* filename) override
+	SpString* FileLinux::readTextFile(const sp_char* filename)
 	{
 		open(filename, std::ios::in);
 
