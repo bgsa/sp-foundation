@@ -65,6 +65,11 @@ namespace NAMESPACE_FOUNDATION
 			events.push(evt);
 		}
 
+		API_INTERFACE inline sp_bool isEmpty() const
+		{
+			return events.size() == ZERO_SIZE;
+		}
+
 		API_INTERFACE inline void processEvent(SpEvent* evt)
 		{
 			switch (evt->category())

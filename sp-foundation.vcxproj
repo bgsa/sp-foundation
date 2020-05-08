@@ -172,13 +172,11 @@
     <ClCompile Include="src\ImageBMP.cpp" />
     <ClCompile Include="src\ImageJPEG.cpp" />
     <ClCompile Include="src\ImagePNG.cpp" />
-    <ClCompile Include="src\KeyboardInputDeviceGLFW.cpp" />
     <ClCompile Include="src\KeyboardInputDeviceQT.cpp" />
     <ClCompile Include="src\PoolMemoryAllocator.cpp" />
     <ClCompile Include="src\SpString.cpp" />
     <ClCompile Include="src\StackMemoryAllocator.cpp" />
     <ClCompile Include="src\NetworkSubSystem.cpp" />
-    <ClCompile Include="src\PointerInputDeviceGLFW.cpp" />
     <ClCompile Include="src\RendererSize.cpp" />
     <ClCompile Include="src\SoundEffect.cpp" />
     <ClCompile Include="src\SoundSubSystem.cpp" />
@@ -222,9 +220,8 @@
     <ClInclude Include="src\InputDevice.h" />
     <ClInclude Include="src\InputDeviceHandler.h" />
     <ClInclude Include="src\ISubSystem.h" />
-    <ClInclude Include="src\KeyboardInputDevice.h" />
-    <ClInclude Include="src\KeyboardInputDeviceGLFW.h" />
-    <ClInclude Include="src\KeyboardInputDeviceHandler.h" />
+    <ClInclude Include="src\SpKeyboard.h" />
+    <ClInclude Include="src\SpKeyboardGLFW.h" />
     <ClInclude Include="src\Log.hpp" />
     <ClInclude Include="src\SpEvent.h" />
     <ClInclude Include="src\SpJoypadEventListener.h" />
@@ -247,9 +244,8 @@
     <ClInclude Include="src\StackMemoryAllocator.h" />
     <ClInclude Include="src\NetworkSubSystem.h" />
     <ClInclude Include="src\Object.h" />
-    <ClInclude Include="src\PointerInputDevice.h" />
-    <ClInclude Include="src\PointerInputDeviceGLFW.h" />
-    <ClInclude Include="src\PointerInputDeviceHandler.h" />
+    <ClInclude Include="src\SpMouse.h" />
+    <ClInclude Include="src\SpMouseGLFW.h" />
     <ClInclude Include="src\SoundEffect.h" />
     <ClInclude Include="src\SoundSubSystem.h" />
     <ClInclude Include="src\StringHelper.h" />

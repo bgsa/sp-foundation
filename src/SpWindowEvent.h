@@ -3,6 +3,7 @@
 
 #include "SpectrumFoundation.h"
 #include "SpEvent.h"
+#include "SpWindow.h"
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -21,6 +22,8 @@ namespace NAMESPACE_FOUNDATION
 		: public SpEvent
 	{
 	public:
+		SpWindowState previousState = SpWindowState(ZERO_INT, ZERO_INT, ZERO_INT, ZERO_INT);
+		SpWindowState* state;
 
 		API_INTERFACE SpWindowEvent(const SpWindowEventType& type)
 			: SpEvent((sp_uint)type)

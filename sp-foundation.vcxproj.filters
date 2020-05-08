@@ -66,13 +66,7 @@
     <ClCompile Include="src\FileWindows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\KeyboardInputDeviceGLFW.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\KeyboardInputDeviceQT.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\PointerInputDeviceGLFW.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\PointerInputDeviceQT.cpp">
@@ -146,22 +140,10 @@
     <ClInclude Include="src\ISubSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\KeyboardInputDevice.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\KeyboardInputDeviceHandler.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\NetworkSubSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Object.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PointerInputDevice.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PointerInputDeviceHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\SoundEffect.h">
@@ -198,12 +180,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\FileWindows.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\KeyboardInputDeviceGLFW.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\PointerInputDeviceGLFW.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Log.hpp">
@@ -321,6 +297,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\SpWindowQT.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SpMouse.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SpMouseGLFW.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SpKeyboard.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SpKeyboardGLFW.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

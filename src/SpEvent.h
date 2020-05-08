@@ -6,25 +6,25 @@
 namespace NAMESPACE_FOUNDATION
 {
 	enum class SpEventCategory
-		: sp_uint
+		: sp_int
 	{
-		Window = 1u,
-		Editor = 2u,
-		Keyboard = 3u,
-		Mouse = 4u,
-		Joypad = 5u,
-		GamePlay = 6u,
-		Custom1 = 7u,
-		Custom2 = 8u,
-		Custom3 = 9u
+		Window = 1,
+		Editor = 2,
+		Keyboard = 3,
+		Mouse = 4,
+		Joypad = 5,
+		GamePlay = 6,
+		Custom1 = 7,
+		Custom2 = 8,
+		Custom3 = 9
 	};
 
 	class SpEvent
 	{
 	public:
-		sp_uint type;
+		sp_int type;
 		
-		API_INTERFACE SpEvent(const sp_uint type)
+		API_INTERFACE SpEvent(const sp_int type)
 		{
 			this->type = type;
 		}

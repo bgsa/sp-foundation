@@ -6,20 +6,14 @@
 
 namespace NAMESPACE_FOUNDATION
 {
-	enum class SpKeyboardEventType
-		: sp_uint
-	{
-		KeyPressed = 1u,
-		KeyReleased = 2u,
-	};
-
 	class SpKeyboardEvent
 		: public SpEvent
 	{
 	public:
+		sp_int key;
 
-		API_INTERFACE SpKeyboardEvent(const SpKeyboardEventType& type)
-			: SpEvent((sp_uint)type)
+		API_INTERFACE SpKeyboardEvent(const sp_int type)
+			: SpEvent(type)
 		{
 		}
 

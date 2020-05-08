@@ -7,6 +7,8 @@
 #include "SpWindow.h"
 #include "SpEventDispatcher.h"
 #include "SpWindowEvent.h"
+#include "SpMouseGLFW.h"
+#include "SpKeyboardGLFW.h"
 #include <GLFW/glfw3.h>
 
 namespace NAMESPACE_FOUNDATION
@@ -16,6 +18,8 @@ namespace NAMESPACE_FOUNDATION
 	{
 	private:
 		GLFWwindow* window = NULL;
+		SpMouseGLFW* mouse;
+		SpKeyboardGLFW* keyboard;
 
 		static void onClose(GLFWwindow* window)
 		{
@@ -26,6 +30,28 @@ namespace NAMESPACE_FOUNDATION
 		static void onResize(GLFWwindow* window, sp_int width, sp_int height)
 		{
 			SpWindowEvent* evt = sp_mem_new(SpWindowEvent)(SpWindowEventType::Resized);
+
+			SpWindowState* currentState = (SpWindowState*)glfwGetWindowUserPointer(window);
+
+			evt->previousState = SpWindowState(currentState->x, currentState->y, currentState->width, currentState->height);
+
+			currentState->width = width;
+			currentState->height = height;
+
+			SpEventDispatcher::instance()->push(evt);
+		}
+
+		static void onWindowMove(GLFWwindow* window, sp_int x, sp_int y)
+		{
+			SpWindowEvent* evt = sp_mem_new(SpWindowEvent)(SpWindowEventType::Resized);
+
+			SpWindowState* currentState = (SpWindowState*)glfwGetWindowUserPointer(window);
+
+			evt->previousState = SpWindowState(currentState->x, currentState->y, currentState->width, currentState->height);
+
+			currentState->x = x;
+			currentState->y = y;
+
 			SpEventDispatcher::instance()->push(evt);
 		}
 
@@ -49,10 +75,10 @@ namespace NAMESPACE_FOUNDATION
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 #endif
 
-			sp_int windowPosition[2] = { 300, 300 };
-			sp_int windowSize[2] = { 1280, 720 };
+			_state = sp_mem_new(SpWindowState)(300, 300, 1280, 720);
 
-			window = glfwCreateWindow(windowSize[0], windowSize[0], "Spectrum Engine", NULL, NULL);
+			window = glfwCreateWindow(_state->width, _state->height, "Spectrum Engine", NULL, NULL);
+			glfwSetWindowUserPointer(window, _state);
 
 			if (window == NULL)
 			{
@@ -65,7 +91,13 @@ namespace NAMESPACE_FOUNDATION
 
 			glfwSetWindowCloseCallback(window, onClose);
 			glfwSetWindowSizeCallback(window, onResize);
-			//glfwSetWindowPosCallback(window, onWindowMove);
+			glfwSetWindowPosCallback(window, onWindowMove);
+
+			mouse = sp_mem_new(SpMouseGLFW)(window);
+			mouse->init();
+
+			keyboard = sp_mem_new(SpKeyboardGLFW)(window);
+			keyboard->init();
 		}
 
 		API_INTERFACE inline void* handler() override
@@ -80,43 +112,16 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline void setPosition(sp_int x, sp_int y) override
 		{
+			_state->x = x;
+			_state->y = y;
 			glfwSetWindowPos(window, x, y);
 		}
 
-		API_INTERFACE inline sp_int width() override
+		API_INTERFACE inline void setSize(sp_int width, sp_int height) override
 		{
-			sp_int x;
-			sp_int y;
-			glfwGetWindowSize(window, &x, &y);
-
-			return x;
-		}
-
-		API_INTERFACE inline sp_int height() override
-		{
-			sp_int x;
-			sp_int y;
-			glfwGetWindowSize(window, &x, &y);
-
-			return y;
-		}
-
-		API_INTERFACE inline sp_int x() override
-		{
-			sp_double x;
-			sp_double y;
-			glfwGetCursorPos(window, &x, &y);
-
-			return (sp_int) x;
-		}
-
-		API_INTERFACE inline sp_int y() override
-		{
-			sp_double x;
-			sp_double y;
-			glfwGetCursorPos(window, &x, &y);
-
-			return (sp_int)y;
+			_state->width = width;
+			_state->height = height;
+			glfwSetWindowSize(window, width, height);
 		}
 
 		API_INTERFACE inline void close() override
@@ -132,6 +137,24 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline void dispose() override
 		{
+			if (_state != nullptr)
+			{
+				sp_mem_delete(_state, SpWindowState);
+				_state = nullptr;
+			}
+
+			if (mouse != nullptr)
+			{
+				sp_mem_delete(mouse, SpMouseGLFW);
+				mouse = nullptr;
+			}
+
+			if (keyboard != nullptr)
+			{
+				sp_mem_delete(keyboard, SpKeyboardGLFW);
+				keyboard = nullptr;
+			}
+
 			glfwDestroyWindow(window);
 			glfwTerminate();
 		}
