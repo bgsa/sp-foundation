@@ -181,6 +181,15 @@ namespace NAMESPACE_FOUNDATION
 			return findReference(index);
 		}
 
+		API_INTERFACE inline virtual void clear()
+		{
+			//while (_last != nullptr)
+			//	remove(_last);
+			_first = NULL;
+			_last = NULL;
+			_length = ZERO_UINT;
+		}
+
 		API_INTERFACE inline T* operator[](const sp_int index)
 		{
 			return findReference((sp_uint)index)->value();

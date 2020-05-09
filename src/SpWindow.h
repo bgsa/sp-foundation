@@ -36,7 +36,7 @@ namespace NAMESPACE_FOUNDATION
 
 	public:
 
-		API_INTERFACE inline SpWindowState* state()
+		API_INTERFACE inline SpWindowState* state() const noexcept
 		{
 			return _state;
 		}
