@@ -264,12 +264,12 @@ __INTEL_CXXLIB_ICC
 #define ONE_GIGABYTE ONE_MEGABYTE * 1024
 
 #define EULER_NUMBER (2.71828f)   // e^1 = 2.71828
-#define PI (3.14159265358979323846)
-#define TWO_PI (6.28318530717958647692)
-#define HALF_PI (1.57079632679489661923)
-#define PI_DIV_180 (0.017453292519943296)
-#define INV_PI_DIV_180 (57.2957795130823229)
-#define	PI_DIV_360 (0.008726646259971647)
+#define PI (3.1415926f)
+#define TWO_PI (6.2831853f)
+#define HALF_PI (1.5707963f)
+#define PI_DIV_180 (0.0174532f)
+#define INV_PI_DIV_180 (57.2957795f)
+#define	PI_DIV_360 (0.0087266f)
 
 #define degreesToRadians(x)	((x) * PI_DIV_180)
 #define radiansToDegrees(x)	((x) * INV_PI_DIV_180)
@@ -308,6 +308,7 @@ __INTEL_CXXLIB_ICC
 	:                                     \
 		divideBy(value, bit) + 1)
 
+#define SP_CONSTEXPR constexpr
 
 extern "C" {
 	typedef unsigned char  sp_byte;  // 1byte

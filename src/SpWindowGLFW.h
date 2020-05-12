@@ -9,6 +9,7 @@
 #include "SpWindowEvent.h"
 #include "SpMouseGLFW.h"
 #include "SpKeyboardGLFW.h"
+#include "SpDevices.h"
 #include <GLFW/glfw3.h>
 
 namespace NAMESPACE_FOUNDATION
@@ -31,7 +32,8 @@ namespace NAMESPACE_FOUNDATION
 		{
 			SpWindowEvent* evt = sp_mem_new(SpWindowEvent)(SpWindowEventType::Resized);
 
-			SpWindowState* currentState = (SpWindowState*)glfwGetWindowUserPointer(window);
+			SpDevices* devices = (SpDevices*)glfwGetWindowUserPointer(window);
+			SpWindowState* currentState = devices->window->state();
 
 			evt->previousState = SpWindowState(currentState->x, currentState->y, currentState->width, currentState->height);
 
@@ -45,7 +47,8 @@ namespace NAMESPACE_FOUNDATION
 		{
 			SpWindowEvent* evt = sp_mem_new(SpWindowEvent)(SpWindowEventType::Resized);
 
-			SpWindowState* currentState = (SpWindowState*)glfwGetWindowUserPointer(window);
+			SpDevices* devices = (SpDevices*)glfwGetWindowUserPointer(window);
+			SpWindowState* currentState = devices->window->state();
 
 			evt->previousState = SpWindowState(currentState->x, currentState->y, currentState->width, currentState->height);
 
@@ -76,9 +79,7 @@ namespace NAMESPACE_FOUNDATION
 #endif
 
 			_state = sp_mem_new(SpWindowState)(300, 300, 1280, 720);
-
 			window = glfwCreateWindow(_state->width, _state->height, "Spectrum Engine", NULL, NULL);
-			glfwSetWindowUserPointer(window, _state);
 
 			if (window == NULL)
 			{
@@ -98,6 +99,13 @@ namespace NAMESPACE_FOUNDATION
 
 			keyboard = sp_mem_new(SpKeyboardGLFW)(window);
 			keyboard->init();
+
+			SpDevices* devices = SpDevices::instance();
+			devices->window = this;
+			devices->mouse = mouse;
+			devices->keyboard = keyboard;
+
+			glfwSetWindowUserPointer(window, devices);
 		}
 
 		API_INTERFACE inline void* handler() override

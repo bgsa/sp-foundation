@@ -27,6 +27,20 @@ namespace NAMESPACE_FOUNDATION
 #define sp_const(Type, value) (const Type)(value)
 #define sp_constless(Type, value) const_cast<const Type>(value)
 
+	template <typename T>
+	API_INTERFACE SP_CONSTEXPR inline T epsilon()
+	{
+		return std::numeric_limits<T>::epsilon();
+	}
+
+	/// <summary>
+	/// Linear interpolation between v1 and v2, given t
+	/// </summary>
+	API_INTERFACE inline sp_float lerp(sp_float v1, sp_float v2, sp_float t)
+	{
+		return (ONE_FLOAT - t) * v1 + t * v2;
+	}
+
 	///<summary>
 	///Check the number is even or not
 	///</summary>
@@ -41,10 +55,17 @@ namespace NAMESPACE_FOUNDATION
 		return !(value & ONE_INT);
 	}
 	template <>
-	API_INTERFACE inline sp_bool isEven<size_t>(size_t value)
+	API_INTERFACE inline sp_bool isEven<sp_uint>(sp_uint value)
 	{
-		return !(value & ONE_INT);
+		return !(value & ONE_UINT);
 	}
+#ifdef ENV_64BITS
+	template <>
+	API_INTERFACE inline sp_bool isEven<sp_size>(sp_size value)
+	{
+		return !(value & ONE_SIZE);
+	}
+#endif
 
 	///<summary>
 	///Check the number is odd or not

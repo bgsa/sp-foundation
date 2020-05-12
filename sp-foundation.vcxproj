@@ -199,6 +199,7 @@
     <ClInclude Include="src\RendererSize.h" />
     <ClInclude Include="src\SpArray.h" />
     <ClInclude Include="src\SpArrayOfString.h" />
+    <ClInclude Include="src\SpDevices.h" />
     <ClInclude Include="src\SpectrumFoundation.h" />
     <ClInclude Include="src\ColorRGB.h" />
     <ClInclude Include="src\ColorRGBA.h" />

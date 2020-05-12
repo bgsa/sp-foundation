@@ -7,21 +7,11 @@
 #include "SpMouse.h"
 #include "SpMouseEvent.h"
 #include "SpEventDispatcher.h"
+#include "SpDevices.h"
 #include <GLFW/glfw3.h>
 
 namespace NAMESPACE_FOUNDATION
 {
-#define SP_MOUSE_EVENT_BUTTON_PRESSED  GLFW_PRESS
-#define SP_MOUSE_EVENT_BUTTON_RELEASED GLFW_RELEASE
-#define SP_MOUSE_EVENT_MOVED           2
-#define SP_MOUSE_EVENT_SCROLLED        3
-#define SP_MOUSE_EVENT_ENTER           4
-#define SP_MOUSE_EVENT_OUT             5
-
-#define SP_MOUSE_BUTTON_LEFT    GLFW_MOUSE_BUTTON_LEFT
-#define SP_MOUSE_BUTTON_MIDDLE  GLFW_MOUSE_BUTTON_MIDDLE
-#define SP_MOUSE_BUTTON_RIGHT   GLFW_MOUSE_BUTTON_RIGHT
-
 	class SpMouseGLFW
 		: public SpMouse
 	{
@@ -30,35 +20,52 @@ namespace NAMESPACE_FOUNDATION
 
 		static void onMove(GLFWwindow* window, sp_double x, sp_double y)
 		{
+			SpDevices* devices = (SpDevices*)glfwGetWindowUserPointer(window);
+
 			SpMouseEvent* evt = sp_mem_new(SpMouseEvent)(SP_MOUSE_EVENT_MOVED);
+			evt->mouse = devices->mouse;
+			evt->state.previousX = devices->mouse->state()->x;
+			evt->state.previousY = devices->mouse->state()->y;
 			evt->state.x = (sp_int) x;
 			evt->state.y = (sp_int) y;
+
+			devices->mouse->state()->x = (sp_int)x;
+			devices->mouse->state()->y = (sp_int)y;
 
 			SpEventDispatcher::instance()->push(evt);
 		}
 
 		static void onClick(GLFWwindow* window, sp_int button, sp_int action, sp_int mods)
 		{
+			SpDevices* devices = (SpDevices*)glfwGetWindowUserPointer(window);
+
 			sp_double x, y;
 			glfwGetCursorPos(window, &x, &y);
 
 			SpMouseEvent* evt = sp_mem_new(SpMouseEvent)(action);
-			evt->state.button = button;
+			evt->mouse = devices->mouse;
 			evt->state.x = (sp_int)x;
 			evt->state.y = (sp_int)y;
+			evt->state.button = button;
 
 			SpEventDispatcher::instance()->push(evt);
 		}
 
 		static void onScroll(GLFWwindow* window, sp_double xoffset, sp_double yoffset)
 		{
+			SpDevices* devices = (SpDevices*)glfwGetWindowUserPointer(window);
+
 			SpMouseEvent* evt = sp_mem_new(SpMouseEvent)(SP_MOUSE_EVENT_SCROLLED);
+			evt->mouse = devices->mouse;
 			SpEventDispatcher::instance()->push(evt);
 		}
 
 		static void onEnter(GLFWwindow* window, sp_int entered)
 		{
+			SpDevices* devices = (SpDevices*)glfwGetWindowUserPointer(window);
+
 			SpMouseEvent* evt = sp_mem_new(SpMouseEvent)(entered ? SP_MOUSE_EVENT_ENTER : SP_MOUSE_EVENT_OUT);
+			evt->mouse = devices->mouse;
 			SpEventDispatcher::instance()->push(evt);
 		}
 
@@ -89,14 +96,29 @@ namespace NAMESPACE_FOUNDATION
 			glfwSetCursorPos(window, x, y);
 		}
 
-		API_INTERFACE inline sp_bool isPressed(sp_int button)
+		API_INTERFACE inline sp_bool isButtonPressed(sp_int button) override
 		{
 			return glfwGetMouseButton(window, button) == SP_MOUSE_EVENT_BUTTON_PRESSED;
 		}
 
-		API_INTERFACE inline sp_bool isReleased(sp_int button)
+		API_INTERFACE inline sp_bool isButtonReleased(sp_int button)
 		{
 			return glfwGetMouseButton(window, button) == SP_MOUSE_EVENT_BUTTON_RELEASED;
+		}
+
+		API_INTERFACE inline sp_bool isLeftButtonPressed() override
+		{
+			return glfwGetMouseButton(window, SP_MOUSE_BUTTON_LEFT) == SP_MOUSE_EVENT_BUTTON_PRESSED;
+		}
+
+		API_INTERFACE inline sp_bool isRightButtonPressed() override
+		{
+			return glfwGetMouseButton(window, SP_MOUSE_BUTTON_RIGHT) == SP_MOUSE_EVENT_BUTTON_PRESSED;
+		}
+
+		API_INTERFACE inline sp_bool isMiddleButtonPressed() override
+		{
+			return glfwGetMouseButton(window, SP_MOUSE_BUTTON_MIDDLE) == SP_MOUSE_EVENT_BUTTON_PRESSED;
 		}
 
 		API_INTERFACE inline void dispose() override

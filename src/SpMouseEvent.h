@@ -13,6 +13,7 @@ namespace NAMESPACE_FOUNDATION
 	{
 	public:
 		SpMouseState state = SpMouseState(ZERO_INT, ZERO_INT);
+		SpMouse* mouse;
 
 		API_INTERFACE SpMouseEvent(const sp_int type)
 			: SpEvent(type)
