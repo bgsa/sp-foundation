@@ -57,6 +57,7 @@ namespace NAMESPACE_FOUNDATION
 
 			SpMouseEvent* evt = sp_mem_new(SpMouseEvent)(SP_MOUSE_EVENT_SCROLLED);
 			evt->mouse = devices->mouse;
+			evt->state.scrollDeltaY = (sp_float)yoffset;
 			SpEventDispatcher::instance()->push(evt);
 		}
 

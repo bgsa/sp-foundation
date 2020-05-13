@@ -25,12 +25,16 @@ namespace NAMESPACE_FOUNDATION
 	public:
 		sp_int previousX, previousY;
 		sp_int x, y;
+		sp_float scrollDeltaY;
 		sp_int button;
 
 		SpMouseState(sp_int x, sp_int y)
 		{
 			this->x = x;
 			this->y = y;
+			previousX = ZERO_INT;
+			previousY = ZERO_INT;
+			scrollDeltaY = ZERO_FLOAT;
 		}
 	};
 

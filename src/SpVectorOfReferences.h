@@ -49,7 +49,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline SpVectorItem<T*>* previous()
 		{
-			return _next;
+			return _previous;
 		}
 
 		API_INTERFACE inline virtual const sp_char* toString() override
