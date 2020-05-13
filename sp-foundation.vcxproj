@@ -195,6 +195,7 @@
     <ClInclude Include="src\FileSystem.h" />
     <ClInclude Include="src\LinuxPlatform.h" />
     <ClInclude Include="src\MutexSpinLock.h" />
+    <ClInclude Include="src\OSXPlatform.h" />
     <ClInclude Include="src\PoolMemoryAllocator.h" />
     <ClInclude Include="src\RendererSize.h" />
     <ClInclude Include="src\SpArray.h" />

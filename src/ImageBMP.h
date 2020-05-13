@@ -72,9 +72,7 @@ namespace NAMESPACE_FOUNDATION
 			ImageBMP *image = sp_mem_new(ImageBMP)();
 			BMPFileHeader fileHeader;
 			BMPHeaderInfo headerInfo;
-
-			const sp_size size = 3 * image->_width * image->_height;
-					
+		
 	#ifdef ANDROID
 			FileManagerAndroid fileManager;
 			AAssetManager *assetManager = fileManager.getAssetManager();
@@ -102,6 +100,8 @@ namespace NAMESPACE_FOUNDATION
 
 			image->_width = headerInfo.width;
 			image->_height = headerInfo.height;
+
+			const sp_size size = THREE_INT * image->_width * image->_height;
 
 			fseek(file, fileHeader.offBits, SEEK_SET);
 			

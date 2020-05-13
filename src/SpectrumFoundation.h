@@ -33,6 +33,24 @@ namespace NAMESPACE_FOUNDATION
 		return std::numeric_limits<T>::epsilon();
 	}
 
+	API_INTERFACE SP_CONSTEXPR inline sp_float degreesToRadians(sp_float value)
+	{
+		return value * PI_DIV_180;
+	}
+	API_INTERFACE SP_CONSTEXPR inline sp_float degreesToRadians(sp_int value)
+	{
+		return value * PI_DIV_180;
+	}
+
+	API_INTERFACE SP_CONSTEXPR inline sp_float radiansToDegrees(sp_float value)
+	{
+		return value * INV_PI_DIV_180;
+	}
+	API_INTERFACE SP_CONSTEXPR inline sp_float radiansToDegrees(sp_int value)
+	{
+		return value * INV_PI_DIV_180;
+	}
+
 	/// <summary>
 	/// Linear interpolation between v1 and v2, given t
 	/// </summary>

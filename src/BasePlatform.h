@@ -211,6 +211,8 @@ __INTEL_CXXLIB_ICC
 
 #include <limits.h>
 
+#define SP_CONSTEXPR constexpr
+
 #define SIZEOF_BOOL      (1)
 #define SIZEOF_CHAR      (1)
 #define SIZEOF_SHORT     (2)
@@ -271,15 +273,6 @@ __INTEL_CXXLIB_ICC
 #define INV_PI_DIV_180 (57.2957795f)
 #define	PI_DIV_360 (0.0087266f)
 
-#define degreesToRadians(x)	((x) * PI_DIV_180)
-#define radiansToDegrees(x)	((x) * INV_PI_DIV_180)
-
-#define hourToDegrees(x) ( x * (1.0f / 15.0f) )
-#define hourToRadians(x) degreesToRadians(hourToDegrees(x))
-
-#define degreesToHout(x) ((x) * 15.0f))
-#define radiansToHour(x) degreesToHout(radiansToDegrees(x))
-
 #define DECIMAL_BASE (10)
 
 #define MAX_DIGITS_EXPOENT  (5)
@@ -307,8 +300,6 @@ __INTEL_CXXLIB_ICC
 		divideBy(value, bit)              \
 	:                                     \
 		divideBy(value, bit) + 1)
-
-#define SP_CONSTEXPR constexpr
 
 extern "C" {
 	typedef unsigned char  sp_byte;  // 1byte
