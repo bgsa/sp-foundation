@@ -25,12 +25,12 @@ namespace NAMESPACE_FOUNDATION
 			this->_allocatedLength = length;
 		}
 		API_INTERFACE SpArray(const sp_uint length, const sp_uint reserved = ZERO_UINT)
-			: SpArray((T*) sp_mem_calloc(length, sizeof(T)), length, reserved)
+			: SpArray((T*)sp_mem_new_array(T,length), length, reserved)
 		{
 		}
 
 		API_INTERFACE SpArray(const SpArray& source) // copy-constructor
-			: SpArray((T*)sp_mem_calloc(source._length, sizeof(T)), source._length, source._allocatedLength)
+			: SpArray((T*)sp_mem_new_array(T, source._length), source._length, source._allocatedLength)
 		{
 			std::memcpy(_data, source._data, source._allocatedLength * sizeof(T));
 		}
