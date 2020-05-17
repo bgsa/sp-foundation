@@ -1,34 +1,28 @@
-#ifndef SP_SIZE_HEADER
-#define SP_SIZE_HEADER
+#ifndef SP_POINT_HEADER
+#define SP_POINT_HEADER
 
 #include "SpectrumFoundation.h"
 
 namespace NAMESPACE_FOUNDATION
 {
 	template<typename T>
-	class SpSize
+	class SpPoint3
 	{
 	public:
-		T width, height;
+		T x, y, z;
 
-		API_INTERFACE SpSize()
+		API_INTERFACE SpPoint3()
 		{
-			width = T(0);
-			height = T(0);
+			x = T(0);
+			y = T(0);
+			z = T(0);
 		}
 
-		API_INTERFACE SpSize(T width, T height)
+		API_INTERFACE SpPoint3(T x, T y, T z)
 		{
-			this->width = width;
-			this->height = height;
-		}
-
-		/// <summary>
-		/// Get the aspect ratio
-		/// </summary>
-		API_INTERFACE sp_float aspectRatio()
-		{
-			return (sp_float)(width / height);
+			this->x = x;
+			this->y = y;
+			this->z = z;
 		}
 
 		/// <summary>
@@ -36,8 +30,8 @@ namespace NAMESPACE_FOUNDATION
 		/// </summary>
 		API_INTERFACE T operator[](sp_int index) const
 		{
-			sp_assert(index >= 0 && index < TWO_INT);
-			return *(this)[index];
+			sp_assert(index >= ZERO_INT && index < THREE_UINT);
+			return reinterpret_cast<const T*>(this)[index];
 		}
 
 		/// <summary>
@@ -45,7 +39,7 @@ namespace NAMESPACE_FOUNDATION
 		/// </summary>
 		API_INTERFACE T& operator[](sp_int index)
 		{
-			sp_assert(index >= ZERO_INT && index < TWO_INT);
+			sp_assert(index >= ZERO_INT && index < THREE_UINT);
 			return *(this)[index];
 		}
 
@@ -54,8 +48,8 @@ namespace NAMESPACE_FOUNDATION
 		/// </summary>
 		API_INTERFACE T operator[](sp_uint index) const
 		{
-			sp_assert(index >= ZERO_UINT && index < TWO_UINT);
-			return *(this)[index];
+			sp_assert(index >= ZERO_UINT && index < THREE_UINT);
+			return reinterpret_cast<const T*>(this)[index];
 		}
 
 		/// <summary>
@@ -63,7 +57,7 @@ namespace NAMESPACE_FOUNDATION
 		/// </summary>
 		API_INTERFACE T& operator[](sp_uint index)
 		{
-			sp_assert(index >= ZERO_UINT && index < TWO_UINT);
+			sp_assert(index >= ZERO_UINT && index < THREE_UINT);
 			return *(this)[index];
 		}
 
@@ -73,16 +67,16 @@ namespace NAMESPACE_FOUNDATION
 		/// </summary>
 		API_INTERFACE T operator[](sp_size index) const
 		{
-			sp_assert(index >= ZERO_SIZE && index < TWO_SIZE);
+			sp_assert(index >= ZERO_SIZE && index < THREE_UINT);
 			return *(this)[index];
-	}
+		}
 
 		/// <summary>
 		/// Get a index of component
 		/// </summary>
 		API_INTERFACE T& operator[](sp_size index)
 		{
-			sp_assert(index >= ZERO_SIZE && index < TWO_SIZE);
+			sp_assert(index >= ZERO_SIZE && index < THREE_UINT);
 			return *(this)[index];
 		}
 #endif
@@ -91,4 +85,4 @@ namespace NAMESPACE_FOUNDATION
 
 }
 
-#endif // SP_SIZE_HEADER
+#endif // SP_POINT_HEADER

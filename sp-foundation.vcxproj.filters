@@ -317,10 +317,13 @@
     <ClInclude Include="src\OSXPlatform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SpPoint.h">
+    <ClInclude Include="src\SpSize.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SpSize.h">
+    <ClInclude Include="src\SpPoint2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SpPoint3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

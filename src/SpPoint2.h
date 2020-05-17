@@ -1,28 +1,20 @@
-#ifndef SP_SIZE_HEADER
-#define SP_SIZE_HEADER
+#ifndef SP_POINT_HEADER
+#define SP_POINT_HEADER
 
 #include "SpectrumFoundation.h"
 
 namespace NAMESPACE_FOUNDATION
 {
 	template<typename T>
-	class SpSize
+	class SpPoint2
 	{
 	public:
-		T width, height;
+		T x, y;
 
-		API_INTERFACE SpSize()
+		API_INTERFACE SpPoint2()
 		{
 			x = T(0);
 			y = T(0);
-		}
-
-		/// <summary>
-		/// Get the aspect ratio
-		/// </summary>
-		API_INTERFACE sp_float aspectRatio()
-		{
-			return (sp_float)(width / height);
 		}
 
 		/// <summary>
@@ -68,4 +60,4 @@ namespace NAMESPACE_FOUNDATION
 
 }
 
-#endif // SP_SIZE_HEADER
+#endif // SP_POINT_HEADER

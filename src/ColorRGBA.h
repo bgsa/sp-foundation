@@ -42,9 +42,9 @@ namespace NAMESPACE_FOUNDATION
 		/// <summary>
 		/// Get a index from the vector
 		/// </summary>
-		API_INTERFACE Vec4<T> toVec4()
+		API_INTERFACE Vec4 toVec4()
 		{
-			return Vec4<T>{ Red, Green, Blue, Alpha };
+			return Vec4{ Red, Green, Blue, Alpha };
 		}
 
 		/// <summary>

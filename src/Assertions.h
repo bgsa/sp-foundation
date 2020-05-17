@@ -1,10 +1,11 @@
 #ifndef ASSERTIONS_HEADER
 #define ASSERTIONS_HEADER
 
-#include <cassert>
-
 #ifdef DEBUG
-	#define sp_assert(condition) assert(condition)
+	#include <cassert>
+	#include <iostream>
+
+	#define sp_assert(condition) std::cout << std::strerror(errno); assert(condition)
 #else
 	#define sp_assert(condition)
 #endif

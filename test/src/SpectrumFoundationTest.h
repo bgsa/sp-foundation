@@ -45,11 +45,11 @@ using namespace NAMESPACE_FOUNDATION;
 			{
 
 			}
-			static void AreEqual(const Vec2f& value1, const Vec2f& value2, const wchar_t* message, const char* filename, const char* functionName, const int line)
+			static void AreEqual(const Vec2& value1, const Vec2& value2, const wchar_t* message, const char* filename, const char* functionName, const int line)
 			{
 
 			}
-			static void AreEqual(const Vec3f& value1, const Vec3f& value2, const wchar_t* message, const char* filename, const char* functionName, const int line)
+			static void AreEqual(const Vec3& value1, const Vec3& value2, const wchar_t* message, const char* filename, const char* functionName, const int line)
 			{
 
 			}
