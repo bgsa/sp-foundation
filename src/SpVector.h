@@ -130,7 +130,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline virtual void remove(SpVectorItem<T>* item)
 		{
-			sp_assert(item != NULL);
+			sp_assert(item != NULL, "NullPointerException");
 
 			if (item == _first)
 			{
@@ -154,7 +154,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline virtual SpVectorItem<T>* find(const sp_uint index)
 		{
-			sp_assert(index >= ZERO_UINT && index < _length);
+			sp_assert(index >= ZERO_UINT && index < _length, "IndexOutOfrangeException");
 
 			SpVectorItem<T>* element = _first;
 

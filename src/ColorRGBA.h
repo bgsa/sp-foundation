@@ -52,7 +52,7 @@ namespace NAMESPACE_FOUNDATION
 		/// </summary>
 		API_INTERFACE T& operator[](sp_int index)
 		{
-			sp_assert(index >= 0 && index < 4);
+			sp_assert(index >= 0 && index < 4, "IndexOutOfRangeException");
 			
 			return toVec4()[index];
 		}

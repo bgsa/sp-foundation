@@ -33,7 +33,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE SpString(const sp_uint length, const sp_uint reserved = ZERO_UINT) 
 		{
-			sp_assert(length >= reserved);
+			sp_assert(length >= reserved, "IndexOutOfRangeException");
 
 			_length = reserved;
 			_allocatedLength = length + ONE_UINT;
@@ -83,7 +83,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline void reserve(const sp_uint value)
 		{
-			sp_assert(value <= _allocatedLength);
+			sp_assert(value <= _allocatedLength, "IndexOutOfRange");
 			_length = value;
 		}
 
@@ -99,7 +99,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline SpString* substring(const sp_uint start, sp_uint end = ZERO_UINT)
 		{
-			sp_assert(start >= ZERO_UINT && end < _length);
+			sp_assert(start >= ZERO_UINT && end < _length, "IndexOutOfRange");
 
 			if (end == ZERO_UINT)
 				end = _length;
@@ -180,35 +180,35 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline sp_char operator[](const sp_int index) const
 		{
-			sp_assert(index >= ZERO_INT && (sp_uint)index < _length);
+			sp_assert(index >= ZERO_INT && (sp_uint)index < _length, "IndexOutOfRangeException");
 			return _data[index];
 		}
 		API_INTERFACE inline sp_char& operator[](const sp_int index)
 		{
-			sp_assert(index >= ZERO_INT && (sp_uint)index < _length);
+			sp_assert(index >= ZERO_INT && (sp_uint)index < _length, "IndexOutOfRangeException");
 			return _data[index];
 		}
 
 		API_INTERFACE inline sp_char operator[](const sp_uint index) const
 		{
-			sp_assert(index >= ZERO_UINT && index < _length);
+			sp_assert(index >= ZERO_UINT && index < _length, "IndexOutOfRangeException");
 			return _data[index];
 		}
 		API_INTERFACE inline sp_char& operator[](const sp_uint index)
 		{
-			sp_assert(index >= ZERO_UINT && index < _length);
+			sp_assert(index >= ZERO_UINT && index < _length, "IndexOutOfRangeException");
 			return _data[index];
 		}
 
 #ifdef ENV_64BITS
 		API_INTERFACE inline sp_char operator[](const sp_size index) const
 		{
-			sp_assert(index >= ZERO_SIZE && (sp_uint)index < _length);
+			sp_assert(index >= ZERO_SIZE && (sp_uint)index < _length, "IndexOutOfRangeException");
 			return _data[index];
 		}
 		API_INTERFACE inline sp_char& operator[](const sp_size index)
 		{
-			sp_assert(index >= ZERO_SIZE && (sp_uint)index < _length);
+			sp_assert(index >= ZERO_SIZE && (sp_uint)index < _length, "IndexOutOfRangeException");
 			return _data[index];
 		}
 #endif

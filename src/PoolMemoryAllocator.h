@@ -66,7 +66,7 @@ namespace NAMESPACE_FOUNDATION
 
 		inline void init(const sp_size size)
 		{
-			sp_assert(size > ZERO_SIZE);
+			sp_assert(size > ZERO_SIZE, "IndexOutOfRange");
 			
 			initialPointer = (sp_size)std::malloc(size);
 			currentPointer = initialPointer;
@@ -77,7 +77,7 @@ namespace NAMESPACE_FOUNDATION
 			syncCounter = ONE_SIZE;
 			syncPreviousCounter = ZERO_SIZE;
 
-			sp_assert(initialPointer != NULL);
+			sp_assert(initialPointer != NULL, "NullPointerException");
 		}
 
 	public:
@@ -105,7 +105,7 @@ namespace NAMESPACE_FOUNDATION
 
 			sp_size addressLength = sp_ceilBit(size, SIZEOF_WORD, SIZEOF_WORD_DIVISOR_BIT);
 
-			sp_assert(lastPointer > currentPointer + SIZEOF_WORD + multiplyBy(addressLength, SIZEOF_WORD_DIVISOR_BIT));
+			sp_assert(lastPointer > currentPointer + SIZEOF_WORD + multiplyBy(addressLength, SIZEOF_WORD_DIVISOR_BIT), "OutOfMemoryException");
 
 			// findFirstFit block of memory ...
 			for (sp_size i = 0; i < freedMemoryLength; ++i)
@@ -174,7 +174,7 @@ namespace NAMESPACE_FOUNDATION
 		{
 			initialPointer = (sp_size)std::realloc((void*)initialPointer, newSize);
 
-			sp_assert(initialPointer != NULL);
+			sp_assert(initialPointer != NULL, "NullPointerException");
 
 			currentPointer = initialPointer;
 			lastPointer = initialPointer + newSize;

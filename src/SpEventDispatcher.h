@@ -24,7 +24,7 @@ namespace NAMESPACE_FOUNDATION
 
 		inline SpEvent* pop()
 		{
-			sp_assert(events.size() > ZERO_SIZE);
+			sp_assert(events.size() > ZERO_SIZE, "StackEmptyException");
 
 			SpEvent* evt = events.front();
 			events.pop();

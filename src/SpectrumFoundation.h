@@ -160,7 +160,7 @@ namespace NAMESPACE_FOUNDATION
 	{
 		sp_short result = (sp_short)((sp_uint)(value / std::pow(DECIMAL_BASE, index)) % DECIMAL_BASE);
 
-		sp_assert(result >= ZERO_SHORT && result < TEN_SHORT);
+		sp_assert(result >= ZERO_SHORT && result < TEN_SHORT, "IndexOutOfRange");
 		return result;
 	}
 	///<summary>
@@ -170,7 +170,7 @@ namespace NAMESPACE_FOUNDATION
 	{
 		sp_short result = (sp_short)((sp_uint)(value / std::pow(DECIMAL_BASE, index)) % DECIMAL_BASE);
 
-		sp_assert(result >= ZERO_SHORT && result < TEN_SHORT);
+		sp_assert(result >= ZERO_SHORT && result < TEN_SHORT, "IndexOutOfRange");
 		return result;
 	}
 	///<summary>
@@ -180,7 +180,7 @@ namespace NAMESPACE_FOUNDATION
 	{
 		sp_short result = (sp_short)((sp_uint)(value / std::pow(DECIMAL_BASE, index)) % DECIMAL_BASE);
 
-		sp_assert(result >= ZERO_SHORT && result < TEN_SHORT);
+		sp_assert(result >= ZERO_SHORT && result < TEN_SHORT, "IndexOutOfRange");
 		return result;
 	}
 	///<summary>
@@ -190,7 +190,7 @@ namespace NAMESPACE_FOUNDATION
 	{
 		sp_short result = (sp_short)((sp_uint)(value / std::pow(DECIMAL_BASE, index)) % DECIMAL_BASE);
 
-		sp_assert(result >= ZERO_SHORT && result < TEN_SHORT);
+		sp_assert(result >= ZERO_SHORT && result < TEN_SHORT, "IndexOutOfRange");
 		return result;
 	}
 

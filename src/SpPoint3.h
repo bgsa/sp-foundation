@@ -30,7 +30,7 @@ namespace NAMESPACE_FOUNDATION
 		/// </summary>
 		API_INTERFACE T operator[](sp_int index) const
 		{
-			sp_assert(index >= ZERO_INT && index < THREE_UINT);
+			sp_assert(index >= ZERO_INT && index < THREE_UINT, "IndexOutOfRangeException");
 			return reinterpret_cast<const T*>(this)[index];
 		}
 
@@ -39,7 +39,7 @@ namespace NAMESPACE_FOUNDATION
 		/// </summary>
 		API_INTERFACE T& operator[](sp_int index)
 		{
-			sp_assert(index >= ZERO_INT && index < THREE_UINT);
+			sp_assert(index >= ZERO_INT && index < THREE_UINT, "IndexOutOfRangeException");
 			return *(this)[index];
 		}
 
@@ -48,7 +48,7 @@ namespace NAMESPACE_FOUNDATION
 		/// </summary>
 		API_INTERFACE T operator[](sp_uint index) const
 		{
-			sp_assert(index >= ZERO_UINT && index < THREE_UINT);
+			sp_assert(index >= ZERO_UINT && index < THREE_UINT, "IndexOutOfRangeException");
 			return reinterpret_cast<const T*>(this)[index];
 		}
 
@@ -57,7 +57,7 @@ namespace NAMESPACE_FOUNDATION
 		/// </summary>
 		API_INTERFACE T& operator[](sp_uint index)
 		{
-			sp_assert(index >= ZERO_UINT && index < THREE_UINT);
+			sp_assert(index >= ZERO_UINT && index < THREE_UINT, "IndexOutOfRangeException");
 			return *(this)[index];
 		}
 
@@ -67,7 +67,7 @@ namespace NAMESPACE_FOUNDATION
 		/// </summary>
 		API_INTERFACE T operator[](sp_size index) const
 		{
-			sp_assert(index >= ZERO_SIZE && index < THREE_UINT);
+			sp_assert(index >= ZERO_SIZE && index < THREE_UINT, "IndexOutOfRangeException");
 			return *(this)[index];
 		}
 
@@ -76,7 +76,7 @@ namespace NAMESPACE_FOUNDATION
 		/// </summary>
 		API_INTERFACE T& operator[](sp_size index)
 		{
-			sp_assert(index >= ZERO_SIZE && index < THREE_UINT);
+			sp_assert(index >= ZERO_SIZE && index < THREE_UINT, "IndexOutOfRangeException");
 			return *(this)[index];
 		}
 #endif

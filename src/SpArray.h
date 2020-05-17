@@ -57,48 +57,48 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline void reserve(const sp_uint value)
 		{
-			sp_assert(value <= _allocatedLength);
+			sp_assert(value <= _allocatedLength, "IndexOutOfRangeException");
 			_length = value;
 		}
 
 		API_INTERFACE inline virtual void add(const T& value)
 		{
-			sp_assert(_length < _allocatedLength);
+			sp_assert(_length < _allocatedLength, "IndexOutOfRangeException");
 
 			_data[_length++] = value;
 		}
 
 		API_INTERFACE inline T operator[](const sp_int index) const
 		{
-			sp_assert(index >= ZERO_INT && (sp_uint)index < _length);
+			sp_assert(index >= ZERO_INT && (sp_uint)index < _length, "IndexOutOfRangeException");
 			return _data[index];
 		}
 		API_INTERFACE inline T& operator[](const sp_int index)
 		{
-			sp_assert(index >= ZERO_INT && (sp_uint)index < _length);
+			sp_assert(index >= ZERO_INT && (sp_uint)index < _length, "IndexOutOfRangeException");
 			return _data[index];
 		}
 
 		API_INTERFACE inline T operator[](const sp_uint index) const
 		{
-			sp_assert(index >= ZERO_UINT && index < _length);
+			sp_assert(index >= ZERO_UINT && index < _length, "IndexOutOfRangeException");
 			return _data[index];
 		}
 		API_INTERFACE inline T& operator[](const sp_uint index)
 		{
-			sp_assert(index >= ZERO_UINT && index < _length);
+			sp_assert(index >= ZERO_UINT && index < _length, "IndexOutOfRangeException");
 			return _data[index];
 		}
 
 #ifdef ENV_64BITS
 		API_INTERFACE inline T operator[](const sp_size index) const
 		{
-			sp_assert(index >= ZERO_SIZE && (sp_uint)index < _length);
+			sp_assert(index >= ZERO_SIZE && (sp_uint)index < _length, "IndexOutOfRangeException");
 			return _data[index];
 		}
 		API_INTERFACE inline T& operator[](const sp_size index)
 		{
-			sp_assert(index >= ZERO_SIZE && (sp_uint)index < _length);
+			sp_assert(index >= ZERO_SIZE && (sp_uint)index < _length, "IndexOutOfRangeException");
 			return _data[index];
 		}
 #endif

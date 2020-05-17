@@ -95,7 +95,7 @@ namespace NAMESPACE_FOUNDATION
 	private:
 		API_INTERFACE inline virtual SpVectorItemReference* findReference(const sp_uint index)
 		{
-			sp_assert(index >= ZERO_UINT && index < _length);
+			sp_assert(index >= ZERO_UINT && index < _length, "IndexOutOfrangeException");
 
 			SpVectorItem<T*>* element = _first;
 
@@ -151,7 +151,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline virtual void remove(SpVectorItemReference* item)
 		{
-			sp_assert(item != NULL);
+			sp_assert(item != NULL, "NullPointerException");
 
 			if (item == _first)
 			{
