@@ -32,7 +32,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE SpVectorItem(T* data, SpVectorItem<T*>* previous = NULL)
 		{
-			_next = NULL;
+			_next = nullptr;
 			_data = data;
 			_previous = previous;
 		}
@@ -59,17 +59,17 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline virtual void dispose() override
 		{
-			if (_next != NULL)
+			if (_next != nullptr)
 			{
 				sp_mem_delete(_next, SpVectorItem<T*>);
-				_next = NULL;
+				_next = nullptr;
 			}
 
 			if (_data != NULL)
 			{
 				sp_mem_delete(_data, T);
-				_data = NULL;
-				_previous = NULL;
+				_data = nullptr;
+				_previous = nullptr;
 			}
 		}
 
@@ -110,7 +110,7 @@ namespace NAMESPACE_FOUNDATION
 		API_INTERFACE SpVector()
 		{
 			_length = ZERO_UINT;
-			_first = NULL;
+			_first = nullptr;
 		}
 
 		API_INTERFACE inline sp_uint length() noexcept
@@ -135,7 +135,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline virtual SpVectorItemReference* add(T* value)
 		{
-			if (_first == NULL)
+			if (_first == nullptr)
 			{
 				_first = sp_mem_new(SpVectorItem<T*>)(value);
 				_last = _first;
@@ -151,28 +151,28 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline virtual void remove(SpVectorItemReference* item)
 		{
-			sp_assert(item != NULL, "NullPointerException");
+			sp_assert(item != nullptr, "NullPointerException");
 
 			if (item == _first)
 			{
 				_first = item->next();
 
-				if (_first == NULL)
-					_last = NULL;
+				if (_first == nullptr)
+					_last = nullptr;
 				else
-					_first->_previous = NULL;
+					_first->_previous = nullptr;
 			}
 			else
 				if (item == _last)
 				{
 					_last = item->previous();
-					_last->_next = NULL;
+					_last->_next = nullptr;
 				}
 				else
 					item->previous()->_next = item->next();
 
-			item->_previous = NULL;
-			item->_next = NULL;
+			item->_previous = nullptr;
+			item->_next = nullptr;
 			_length--;
 		}
 
@@ -181,12 +181,19 @@ namespace NAMESPACE_FOUNDATION
 			return findReference(index);
 		}
 
+		API_INTERFACE inline virtual SpVectorItemReference* find(const T* value)
+		{
+			for (SpVectorItemReference* item = _first; item != nullptr; item = item->next())
+				if (item->value() == value)
+					return item;
+
+			return nullptr;
+		}
+
 		API_INTERFACE inline virtual void clear()
 		{
-			//while (_last != nullptr)
-			//	remove(_last);
-			_first = NULL;
-			_last = NULL;
+			_first = nullptr;
+			_last = nullptr;
 			_length = ZERO_UINT;
 		}
 
@@ -226,12 +233,12 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline virtual void dispose() override
 		{
-			if (_first != NULL)
+			if (_first != nullptr)
 			{
 				sp_mem_delete(_first, SpVectorItem<T*>);
 
-				_first = NULL;
-				_last = NULL;
+				_first = nullptr;
+				_last = nullptr;
 				_length = ZERO_UINT;
 			}
 		}
