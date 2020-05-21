@@ -3,6 +3,7 @@
 
 #include "SpectrumFoundation.h"
 #include "SpArray.h"
+#include <stdlib.h>
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -87,6 +88,29 @@ namespace NAMESPACE_FOUNDATION
 			_length = value;
 		}
 
+		API_INTERFACE inline void resize(const sp_uint newLength)
+		{
+			_allocatedLength = newLength;
+
+			sp_char* newChar = (sp_char*) sp_mem_alloc(SIZEOF_CHAR * newLength);
+			std::memcpy(newChar, _data, SIZEOF_CHAR * _length);
+			newChar[_length] = END_OF_STRING;
+
+			sp_mem_release(_data);
+			_data = newChar;
+		}
+
+		API_INTERFACE inline void append(const sp_char* content, const sp_uint index = ZERO_UINT)
+		{
+			const sp_uint contentLength = std::strlen(content);
+
+			std::memcpy(&_data[contentLength + index], &_data[index], SIZEOF_CHAR * _length);
+			std::memcpy(&_data[index], content, SIZEOF_CHAR * contentLength);
+
+			_length += contentLength;
+			_data[_length] = END_OF_STRING;
+		}
+
 		API_INTERFACE inline sp_uint length() const
 		{
 			return _length;
@@ -150,9 +174,36 @@ namespace NAMESPACE_FOUNDATION
 			return ZERO_UINT;
 		}
 
-		API_INTERFACE inline void add(const sp_char character) noexcept
+		API_INTERFACE inline SpString* add(const sp_char character) noexcept
 		{
 			_data[_length++] = character;
+			return this;
+		}
+
+		API_INTERFACE inline SpString* add(const sp_char* content) noexcept
+		{
+			const sp_uint len = std::strlen(content);
+
+			sp_assert(_length + len < _allocatedLength, "InvalidArgumentException");
+
+			std::memcpy(&_data[_length], content, len);
+			_length += len;
+			_data[_length] = END_OF_STRING;
+
+			return this;
+		}
+
+		API_INTERFACE inline SpString* add(const sp_uint uintValue) noexcept
+		{
+			const sp_uint len = std::numeric_limits<sp_uint>::digits10 + 1u /*0-terminator*/;
+
+			sp_assert(_length + len < _allocatedLength, "InvalidArgumentException");
+
+			std::sprintf(&_data[_length], "%u", uintValue);
+			_length += len;
+			_data[_length] = END_OF_STRING;
+
+			return this;
 		}
 
 		API_INTERFACE inline void clear() noexcept
@@ -229,6 +280,39 @@ namespace NAMESPACE_FOUNDATION
 			return _data;
 		}
 
+		API_INTERFACE inline static SpString* convert(const sp_int intValue)
+		{
+			const sp_int maxSize = std::numeric_limits<sp_int>::digits10 + 1 /*sign*/ + 1 /*0-terminator*/;
+
+			SpString* str = sp_mem_new(SpString)(maxSize, maxSize);
+			sprintf(str->_data, "%d", intValue);
+			str->_data[maxSize] = END_OF_STRING;
+
+			return str;
+		}
+
+		API_INTERFACE inline static SpString* convert(const sp_uint uintValue)
+		{
+			const sp_int maxSize = std::numeric_limits<sp_uint>::digits10 + 1 /*0-terminator*/;
+
+			SpString* str = sp_mem_new(SpString)(maxSize, maxSize);
+			sprintf(str->_data, "%u", uintValue);
+			str->_data[maxSize] = END_OF_STRING;
+
+			return str;
+		}
+
+		API_INTERFACE inline static SpString* convert(const sp_float floatValue)
+		{
+			const sp_int maxSize = std::numeric_limits<sp_float>::digits10 + 1 /*sign*/ + 1 /*0-terminator*/;
+
+			SpString* str = sp_mem_new(SpString)(maxSize, maxSize);
+			sprintf(str->_data, "%f", floatValue);
+			str->_data[maxSize] = END_OF_STRING;
+
+			return str;
+		}
+
 		API_INTERFACE virtual const sp_char* toString() override
 		{
 			return _data;
@@ -257,7 +341,8 @@ namespace NAMESPACE_FOUNDATION
 			std::swap(string1._length, string2._length);
 			std::swap(string1._allocatedLength, string2._allocatedLength);
 		}
-	};
+
+};
 
 	template <>
 	API_INTERFACE inline sp_double SpString::to()
