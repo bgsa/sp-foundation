@@ -30,7 +30,7 @@ namespace NAMESPACE_FOUNDATION
 			printf("%s%c", errorMessage.c_str(), END_OF_LINE);
 	#endif
 	#ifdef MSTEST_ENABLED
-			Logger::WriteMessage(errorMessage.c_str());
+			OutputDebugStringA(errorMessage.c_str());
 	#endif
 		}
 
@@ -43,7 +43,7 @@ namespace NAMESPACE_FOUNDATION
 			printf("%s%c", message.c_str(), END_OF_LINE);
 	#endif	
 	#ifdef MSTEST_ENABLED
-			Logger::WriteMessage(message.c_str());
+			OutputDebugStringA(message.c_str());
 	#endif
 		}
 
@@ -56,7 +56,7 @@ namespace NAMESPACE_FOUNDATION
 			printf("%s%c", message.c_str(), END_OF_LINE);
 	#endif		
 	#ifdef MSTEST_ENABLED
-			Logger::WriteMessage(message.c_str());
+			OutputDebugStringA(message.c_str());
 	#endif
 		}
 
