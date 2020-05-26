@@ -2,7 +2,7 @@
 #define SP_FOUNDATION_TEST_HEADER
 
 #include "SpectrumFoundation.h"
-#include <chrono>
+#include "SpPerformanceCounter.h"
 
 #ifndef NAMESPACE_FOUNDATION_TEST
 	#define NAMESPACE_FOUNDATION_TEST SpFoundationTest
