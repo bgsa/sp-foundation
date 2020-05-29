@@ -13,10 +13,11 @@ namespace NAMESPACE_FOUNDATION
 		Keyboard = 3,
 		Mouse = 4,
 		Joypad = 5,
-		GamePlay = 6,
-		Custom1 = 7,
-		Custom2 = 8,
-		Custom3 = 9
+		Collision = 6,
+		Gameplay = 7,
+		Custom1 = 8,
+		Custom2 = 9,
+		Custom3 = 10
 	};
 
 	class SpEvent

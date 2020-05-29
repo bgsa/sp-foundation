@@ -200,6 +200,8 @@
     <ClInclude Include="src\RendererSize.h" />
     <ClInclude Include="src\SpArray.h" />
     <ClInclude Include="src\SpArrayOfString.h" />
+    <ClInclude Include="src\SpCollisionEvent.h" />
+    <ClInclude Include="src\SpCollisionEventListener.h" />
     <ClInclude Include="src\SpDevices.h" />
     <ClInclude Include="src\SpDirectory.h" />
     <ClInclude Include="src\SpectrumFoundation.h" />

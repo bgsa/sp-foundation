@@ -9,6 +9,7 @@
 #include "SpKeyboardEventListener.h"
 #include "SpMouseEventListener.h"
 #include "SpJoypadEventListener.h"
+#include "SpCollisionEventListener.h"
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -21,6 +22,7 @@ namespace NAMESPACE_FOUNDATION
 		SpVector<SpKeyboardEventListener*> keyboardListeners;
 		SpVector<SpMouseEventListener*> mouseListeners;
 		SpVector<SpJoypadEventListener*> joypadListeners;
+		SpVector<SpCollisionEventListener*> collisionListeners;
 
 		inline SpEvent* pop()
 		{
@@ -59,6 +61,11 @@ namespace NAMESPACE_FOUNDATION
 		{
 			joypadListeners.add(listener);
 		}
+
+		API_INTERFACE inline void addCollisionListener(SpCollisionEventListener* listener)
+		{
+			collisionListeners.add(listener);
+		}
 		
 		API_INTERFACE inline void push(SpEvent* evt)
 		{
@@ -92,7 +99,13 @@ namespace NAMESPACE_FOUNDATION
 				sp_mem_delete((SpKeyboardEvent*)evt, SpKeyboardEvent);
 				break;
 
-			case SpEventCategory::GamePlay:
+			case SpEventCategory::Collision:
+				for (SpVectorItem<SpCollisionEventListener*>* item = collisionListeners.last(); item != NULL; item = item->previous())
+					item->value()->onCollisionEvent((SpCollisionEvent*)evt);
+				sp_mem_delete((SpCollisionEvent*)evt, SpCollisionEvent);
+				break;
+
+			case SpEventCategory::Gameplay:
 				break;
 
 			case SpEventCategory::Window:
