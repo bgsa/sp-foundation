@@ -125,6 +125,9 @@ typedef uint64_t sp_size;
 	#define SP_NOT_A_NUMBER   nanf( "" )  
 #endif
 
+#define SP_DIRECTORY_SEPARATOR '/'
+#define SP_DIRECTORY_SEPARATOR_LENGTH (1)
+
 #endif // LINUX_PLATFORM_HEADER
 
 #endif // LINUX

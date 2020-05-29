@@ -2,14 +2,12 @@
 
 namespace NAMESPACE_FOUNDATION
 {
-	sp_longlong timeCounter = 0;
+	sp_float timeCounter = 0;
 	sp_int fpsCounter = 0;
 
 	void Timer::calculateFramesPerSecond() 
 	{
-		sp_bool oneSecondPassed = timeCounter > 1000;
-
-		if (oneSecondPassed)
+		if (timeCounter > 1000.0f) // if one second passed ...
 		{
 			framesPerSecond = fpsCounter;
 			timeCounter = 0;
@@ -29,16 +27,16 @@ namespace NAMESPACE_FOUNDATION
 	{
 		high_resolution_clock::time_point currentTime = Clock::now();
 		
-		deltaTime = duration_cast<milliseconds>(currentTime - timeLastFrame);
+		deltaTime = duration_cast<nanoseconds>(currentTime - timeLastFrame);
 
 		timeLastFrame = currentTime;
 
 		calculateFramesPerSecond();
 	}
 
-	sp_longlong Timer::getElapsedTime()
+	sp_float Timer::getElapsedTime()
 	{
-		return deltaTime.count();
+		return deltaTime.count() / 1000000.0f;
 	}
 
 	sp_int Timer::getFramesPerSecond()

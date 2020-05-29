@@ -2,6 +2,7 @@
 #define FILE_SYSTEM_HEADER
 
 #include "SpectrumFoundation.h"
+#include "SpDirectory.h"
 
 #ifdef WINDOWS
 	#include "FileWindows.h"

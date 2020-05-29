@@ -1,10 +1,7 @@
 #ifndef LOG_HEADER
 #define LOG_HEADER
 
-#include <cstdio>
-#include <iostream>
-#include <string>
-#include "StringHelper.h"
+#include "SpectrumFoundation.h"
 
 #ifdef ANDROID
 #include <android/log.h>
@@ -21,48 +18,49 @@ namespace NAMESPACE_FOUNDATION
 	{
 	public:
 
-		API_INTERFACE static void error(std::string errorMessage)
+		API_INTERFACE static void error(const char* text)
 		{
-	#ifdef ANDROID
-			__android_log_print(ANDROID_LOG_ERROR, "ERROR", "%s", errorMessage.c_str());
-	#endif
-	#if defined(WINDOWS) || defined(LINUX) || defined(OSX)
-			printf("%s%c", errorMessage.c_str(), END_OF_LINE);
-	#endif
-	#ifdef MSTEST_ENABLED
-			OutputDebugStringA(errorMessage.c_str());
-	#endif
+#ifdef ANDROID
+			__android_log_print(ANDROID_LOG_ERROR, "ERROR", "%s", text);
+#endif
+#if defined(WINDOWS) || defined(LINUX) || defined(OSX)
+			printf("%s%c", text, END_OF_LINE);
+#endif
+#ifdef MSTEST_ENABLED
+			//OutputDebugStringA(text);
+#endif
 		}
 
-		API_INTERFACE static void info(std::string message)
+		API_INTERFACE static void info(const char* text)
 		{
 	#ifdef ANDROID
-			__android_log_print(ANDROID_LOG_INFO, "INFO", "%s", message.c_str());
+			__android_log_print(ANDROID_LOG_INFO, "INFO", "%s", text);
 	#endif
 	#if defined(WINDOWS) || defined(LINUX) || defined(OSX)
-			printf("%s%c", message.c_str(), END_OF_LINE);
+			printf("%s%c", text, END_OF_LINE);
 	#endif	
 	#ifdef MSTEST_ENABLED
-			OutputDebugStringA(message.c_str());
+			//OutputDebugStringA(text);
 	#endif
 		}
 
-		API_INTERFACE static void debug(std::string message)
+		API_INTERFACE static void debug(const char* text)
 		{
 	#ifdef ANDROID
-			__android_log_print(ANDROID_LOG_DEBUG, "DEBUG", "%s", message.c_str());
+			__android_log_print(ANDROID_LOG_DEBUG, "DEBUG", "%s", text);
 	#endif
 	#if defined(WINDOWS) || defined(LINUX) || defined(OSX)
-			printf("%s%c", message.c_str(), END_OF_LINE);
+			printf("%s%c", text, END_OF_LINE);
 	#endif		
 	#ifdef MSTEST_ENABLED
-			OutputDebugStringA(message.c_str());
+			//OutputDebugStringA(text);
 	#endif
 		}
 
-		API_INTERFACE static void onError(sp_int errorCode, const sp_char* description)
+		API_INTERFACE static void onError(int errorCode, const char* description)
 		{
-			error("Error: " + std::string(description));
+			error("Error: ");
+			error(description);
 		}
 
 	};

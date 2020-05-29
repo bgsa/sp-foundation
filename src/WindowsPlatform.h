@@ -147,6 +147,9 @@ typedef unsigned __int64 sp_size;
 
 #define SP_NOT_A_NUMBER     (INFINITY - INFINITY)
 
+#define SP_DIRECTORY_SEPARATOR "\\"
+#define SP_DIRECTORY_SEPARATOR_LENGTH (2)
+
 #endif // WINDOWS_PLATFORM_HEADER
 
 #endif // WINDOWS

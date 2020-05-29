@@ -14,7 +14,7 @@ namespace NAMESPACE_FOUNDATION
 	{
 	private:
 		high_resolution_clock::time_point timeLastFrame;
-		milliseconds deltaTime;
+		nanoseconds deltaTime;
 		sp_int framesPerSecond;
 		sp_float framePerSecondLimit = 30.0f;
 		sp_float skipTick = 1000.0f / framePerSecondLimit;
@@ -25,7 +25,7 @@ namespace NAMESPACE_FOUNDATION
 		API_INTERFACE void start();
 		API_INTERFACE void update();
 
-		API_INTERFACE sp_longlong getElapsedTime();
+		API_INTERFACE sp_float getElapsedTime();
 		API_INTERFACE sp_int getFramesPerSecond();
 
 		API_INTERFACE sp_float getFramePerSecondLimit();

@@ -2,6 +2,7 @@
 #define SP_STRING_HEADER
 
 #include "SpectrumFoundation.h"
+#include "Object.h"
 #include "SpArray.h"
 #include <stdlib.h>
 
