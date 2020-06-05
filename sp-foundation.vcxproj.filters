@@ -51,9 +51,6 @@
     <ClCompile Include="src\ThreadUser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Timer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\DisplayDeviceGLFW.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

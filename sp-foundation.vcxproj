@@ -182,7 +182,6 @@
     <ClCompile Include="src\SoundSubSystem.cpp" />
     <ClCompile Include="src\ThreadTest.cpp" />
     <ClCompile Include="src\ThreadUser.cpp" />
-    <ClCompile Include="src\Timer.cpp" />
     <ClCompile Include="src\DisplayDeviceQT.cpp" />
     <ClCompile Include="src\SpWindowQT.cpp" />
     <ClCompile Include="src\PointerInputDeviceQT.cpp" />

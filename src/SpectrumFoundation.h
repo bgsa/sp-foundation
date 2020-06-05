@@ -51,6 +51,44 @@ namespace NAMESPACE_FOUNDATION
 		return value * INV_PI_DIV_180;
 	}
 
+	API_INTERFACE SP_CONSTEXPR inline sp_float dxdt(sp_float x, sp_float t)
+	{
+		return (t - x) * 0.5f;
+	}
+
+	/*
+	/// <summary>
+	/// Finds value of position
+	/// Given newVelocity using stepSize and initial position at initialX
+	/// </summary>
+	API_INTERFACE sp_float rungeKutta(sp_float velocity, sp_float position, sp_float newVelocity, sp_float stepSize)
+	{
+		sp_float k1, k2, k3, k4;
+		constexpr sp_float oneOverSix = 1.0f / 6.0f;
+
+		// Count number of iterations using step size or step height h 
+		sp_int n = (sp_int)((newVelocity - velocity) / stepSize);
+
+		// Iterate for number of iterations 
+		for (sp_int i = 1; i <= n; i++)
+		{
+			// Apply Runge Kutta Formulas to find next value of position
+			k1 = stepSize * dxdt(velocity, position);
+			k2 = stepSize * dxdt(velocity + 0.5f*stepSize, position + 0.5f*k1);
+			k3 = stepSize * dxdt(velocity + 0.5f*stepSize, position + 0.5f*k2);
+			k4 = stepSize * dxdt(velocity + stepSize, position + k3);
+
+			// Update next value of position
+			position = position + oneOverSix * (k1 + 2.0f * k2 + 2.0f * k3 + k4);;
+
+			// Update next value of x 
+			velocity = velocity + stepSize;
+		}
+
+		return position;
+	}
+	*/
+
 	/// <summary>
 	/// Linear interpolation between v1 and v2, given t
 	/// </summary>
