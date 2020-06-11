@@ -28,8 +28,15 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline ColorRGB normalizeColor()
 		{
-			return ColorRGB(Red / 255.0f, Green / 255.0f, Blue / 255.0f);
+			SP_CONSTEXPR sp_float inverse = 1.0f / 255.0f;
+			return ColorRGB(Red * inverse, Green * inverse, Blue * inverse);
 		}
+
+		API_INTERFACE inline operator sp_float*()
+		{
+			return (sp_float*)this;
+		}
+
 	};
 }
 

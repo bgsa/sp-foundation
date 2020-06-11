@@ -58,8 +58,9 @@ namespace NAMESPACE_FOUNDATION
 
 		const sp_uint len = length();
 
-		sp_char* content = (sp_char*)sp_mem_alloc(len);
+		sp_char* content = (sp_char*)sp_mem_alloc(len + 1u);
 		read(content, len);
+		content[len] = END_OF_STRING;
 
 		close();
 
