@@ -1,4 +1,4 @@
-#ifdef LINUX
+#if defined(LINUX) || defined(OSX)
 
 #ifndef FILE_LINUX_HEADER
 #define FILE_LINUX_HEADER
@@ -33,7 +33,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE SpString* readTextFile(const sp_char* filename) override;
 
-		API_INTERFACE void close();
+		API_INTERFACE void close() override;
 
 		API_INTERFACE ~FileLinux();
 	};

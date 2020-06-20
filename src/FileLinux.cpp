@@ -1,4 +1,4 @@
-#ifdef LINUX
+#if defined(LINUX) || defined(OSX)
 
 #include "FileLinux.h"
 
@@ -8,9 +8,9 @@ namespace NAMESPACE_FOUNDATION
 	{
 		file.open(filename, mode);
 
-		sp_assert(!file.bad());
-		sp_assert(!file.fail());
-		sp_assert(file.good());
+		sp_assert(!file.bad(), "FileException");
+		sp_assert(!file.fail(), "FileException");
+		sp_assert(file.good(), "FileException");
 	}
 
 	sp_bool FileLinux::isOpened()

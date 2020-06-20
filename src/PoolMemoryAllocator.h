@@ -7,8 +7,9 @@
 	#include "WindowsPlatform.h"
 #elif defined(LINUX)
 	#include "LinuxPlatform.h"	
+#elif defined(OSX)
+	#include "OSXPlatform.h"	
 #endif
-
 #ifndef NAMESPACE_FOUNDATION
 	#define NAMESPACE_FOUNDATION SpFoundation
 #endif // NAMESPACE_FOUNDATION
@@ -197,8 +198,9 @@ namespace NAMESPACE_FOUNDATION
 			status.dwLength = sizeof(status);
 			GlobalMemoryStatusEx(&status);
 			return (sp_size)status.ullTotalPhys;
-#elif UNIX
+#elif defined (LINUX) || defined(OSX)
 			//return vmsize.t_rm;
+			return 0;
 #endif
 		}
 

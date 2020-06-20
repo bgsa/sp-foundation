@@ -15,7 +15,7 @@
 		assert(condition)
 			
 #else
-	#define sp_assert(condition)
+	#define sp_assert(condition, message)
 #endif
 
 #endif // ASSERTIONS_HEADER

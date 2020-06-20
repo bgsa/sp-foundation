@@ -121,6 +121,8 @@ namespace NAMESPACE_FOUNDATION
 			image->_width = headerInfo.width;
 			image->_height = headerInfo.height;
 
+			const sp_size size = THREE_INT * image->_width * image->_height;
+
 			fseek(file, fileHeader.offBits, SEEK_SET);
 			
 			image->_data = (sp_uchar*) sp_mem_calloc(size, SIZEOF_UCHAR);

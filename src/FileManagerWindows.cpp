@@ -28,7 +28,7 @@ namespace NAMESPACE_FOUNDATION
 		{
 			do 
 			{
-				bool isDirectory = fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY;
+				sp_bool isDirectory = fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY;
 				
 				if ( ! isDirectory )
 				{

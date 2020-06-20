@@ -1,4 +1,4 @@
-#ifdef LINUX
+#if defined(LINUX) || defined(OSX)
 
 #include "FileManagerLinux.h"
 
@@ -6,7 +6,6 @@
 #include <errno.h>
 #include <string.h>
 #include <locale.h>
-#include <cassert>
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -16,12 +15,9 @@ namespace NAMESPACE_FOUNDATION
 		{
 			sp_char* errorMessage = strerror(errno);
 
-			std::string str1 = std::string(errorMessage);
-			std::string str = ": ";
-			std::string message = str1 + str + filename;
-			
-			Log::error(message);
-			
+			Log::error(errorMessage);
+			Log::error(filename);
+
 			return false;
 		}
 		
@@ -47,11 +43,8 @@ namespace NAMESPACE_FOUNDATION
 
 			sp_char* errorMessage = strerror(errno);
 
-			std::string str1 = std::string(errorMessage);
-			std::string str = ": ";
-			std::string message = str1 + str + search_path;
-			
-			Log::error(message);
+			Log::error(errorMessage);
+			Log::error(search_path.c_str());
 
 			return files;
 		}

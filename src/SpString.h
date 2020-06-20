@@ -200,7 +200,7 @@ namespace NAMESPACE_FOUNDATION
 
 			sp_assert(_length + len < _allocatedLength, "InvalidArgumentException");
 
-			std::sprintf(&_data[_length], "%u", uintValue);
+			sprintf(&_data[_length], "%u", uintValue);
 			_length += len;
 			_data[_length] = END_OF_STRING;
 
