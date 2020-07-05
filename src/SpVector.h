@@ -164,6 +164,15 @@ namespace NAMESPACE_FOUNDATION
 			return element;
 		}
 
+		API_INTERFACE inline void clear()
+		{
+			sp_mem_delete(_first, SpVectorItem<T>);
+
+			_first = NULL;
+			_last = NULL;
+			_length = ZERO_UINT;
+		}
+
 		API_INTERFACE inline T operator[](const sp_int index)
 		{
 			return find((sp_uint)index)->value();
@@ -201,13 +210,7 @@ namespace NAMESPACE_FOUNDATION
 		API_INTERFACE inline virtual void dispose() override
 		{
 			if (_first != NULL)
-			{
-				sp_mem_delete(_first, SpVectorItem<T>);
-
-				_first = NULL;
-				_last = NULL;
-				_length = ZERO_UINT;
-			}
+				clear();
 		}
 
 		API_INTERFACE ~SpVector()

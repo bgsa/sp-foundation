@@ -27,6 +27,11 @@ namespace NAMESPACE_FOUNDATION
 #define sp_const(Type, value) (const Type)(value)
 #define sp_constless(Type, value) const_cast<const Type>(value)
 
+	API_INTERFACE SP_CONSTEXPR inline sp_float sp_pow2(sp_float value)
+	{
+		return value * value;
+	}
+
 	template <typename T>
 	API_INTERFACE SP_CONSTEXPR inline T epsilon()
 	{
@@ -420,6 +425,34 @@ namespace NAMESPACE_FOUNDATION
 
 		return counter;
 	}
+
+	API_INTERFACE inline sp_int gcd(sp_int a, sp_int b)
+	{
+		while(true)
+		{
+			if (a == 0) 
+				return b;
+
+			b %= a;
+
+			if (b == 0) 
+				return a;
+
+			a %= b;
+		}
+	}
+
+	///<summary>
+	/// Least Commom Multiple (MMC)
+	///</summary>
+	API_INTERFACE inline sp_int lcm(sp_int a, sp_int b)
+	{
+		sp_int temp = gcd(a, b);
+
+		return temp ? (a / temp * b) : 0;
+	}
+
+
 }
 
 

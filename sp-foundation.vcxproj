@@ -233,6 +233,7 @@
     <ClInclude Include="src\SpMouseEventListener.h" />
     <ClInclude Include="src\SpPerformanceCounter.h" />
     <ClInclude Include="src\SpPoint3.h" />
+    <ClInclude Include="src\SpPropertyInfo.h" />
     <ClInclude Include="src\SpSize.h" />
     <ClInclude Include="src\SpPoint2.h" />
     <ClInclude Include="src\SpWindow.h" />

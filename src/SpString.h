@@ -271,7 +271,7 @@ namespace NAMESPACE_FOUNDATION
 			return (T)_data;
 		}
 
-		API_INTERFACE operator sp_char*() const
+		API_INTERFACE operator const sp_char*() const
 		{ 
 			return _data; 
 		}
@@ -312,6 +312,14 @@ namespace NAMESPACE_FOUNDATION
 			str->_data[maxSize] = END_OF_STRING;
 
 			return str;
+		}
+
+		API_INTERFACE inline static void convert(const sp_float floatValue, sp_char* value)
+		{
+			const sp_int maxSize = std::numeric_limits<sp_float>::digits10 + 1 /*sign*/ + 1 /*0-terminator*/;
+
+			sprintf(value, "%f", floatValue);
+			value[maxSize] = END_OF_STRING;
 		}
 
 		API_INTERFACE virtual const sp_char* toString() override
