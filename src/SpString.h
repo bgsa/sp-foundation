@@ -10,6 +10,12 @@ namespace NAMESPACE_FOUNDATION
 {
 #define SP_DEFAULT_STRING_LENGTH 255
 #define SP_DEFAULT_STRING_SIZE   256
+
+	enum class EndOfLineType
+	{
+		LF = 1,
+		CRLF = 2
+	};
 	
 	class SpArrayOfString;
 
@@ -294,7 +300,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline static SpString* convert(const sp_uint uintValue)
 		{
-			const sp_int maxSize = std::numeric_limits<sp_uint>::digits10 + 1 /*0-terminator*/;
+			const sp_uint maxSize = std::numeric_limits<sp_uint>::digits10 + 1 /*0-terminator*/;
 
 			SpString* str = sp_mem_new(SpString)(maxSize, maxSize);
 			sprintf(str->_data, "%u", uintValue);
@@ -325,6 +331,29 @@ namespace NAMESPACE_FOUNDATION
 		API_INTERFACE virtual const sp_char* toString() override
 		{
 			return _data;
+		}
+
+		API_INTERFACE static inline EndOfLineType endOfLineType(const sp_char* text)
+		{
+			const sp_uint length = std::strlen(text);
+			
+			if (length == ZERO_UINT)
+				return EndOfLineType::LF;
+
+			sp_char value[2];	
+			value[0] = text[0];
+
+			for (sp_uint i = 1; i < length; i++)
+			{
+				value[1] = text[i];
+
+				if (std::strcmp(value, END_OF_LINE_CRLF) == 0)
+					return EndOfLineType::CRLF;
+
+				value[0] = value[1];
+			}
+
+			return EndOfLineType::LF;
 		}
 
 		API_INTERFACE virtual void dispose() override

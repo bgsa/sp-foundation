@@ -15,6 +15,7 @@ namespace NAMESPACE_FOUNDATION
 	{
 	private:
 		std::fstream file;
+		EndOfLineType eofType;
 
 	public:
 

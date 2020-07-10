@@ -14,6 +14,13 @@ namespace NAMESPACE_FOUNDATION
 		sp_uint colorFormat;
 		
 	public:
+
+		API_INTERFACE Image()
+		{
+			_data = nullptr;
+			_width = _height = ZERO_UINT;
+			colorFormat = ZERO_UINT;
+		}
 		
 		API_INTERFACE inline sp_int width()
 		{

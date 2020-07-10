@@ -14,12 +14,20 @@ namespace NAMESPACE_FOUNDATION
 		sp_uint countLines(const sp_char* text)
 		{
 			sp_uint lines = ZERO_SIZE;
+			sp_char crlf[2];
 
 			sp_uint counter = ZERO_SIZE;
 			while (text[counter] != END_OF_STRING)
 			{
-				while (text[counter] != END_OF_LINE && text[counter] != END_OF_STRING)
+				while (text[counter] != END_OF_LINE_LF
+					&& std::strcmp(crlf, END_OF_LINE_CRLF) != 0
+					&& text[counter] != END_OF_LINE_CR
+					&& text[counter] != END_OF_STRING)
+				{
 					counter++;
+					crlf[0] = crlf[1];
+					crlf[1] = text[counter];
+				}
 
 				lines++;
 				counter++;
@@ -38,13 +46,17 @@ namespace NAMESPACE_FOUNDATION
 			_length = countLines(text);
 			_data = (SpString**) sp_mem_calloc(_length, sizeof(SpString*));
 
+			sp_char crlf[2];
 			sp_uint counter = ZERO_UINT;
 			for (sp_uint i = 0; i < _length; i++)
 			{
 				sp_uint lineSize = ZERO_UINT;
 
-				while (text[counter] != END_OF_LINE && text[counter] != END_OF_STRING)
+				while (text[counter] != END_OF_LINE_LF && text[counter] != END_OF_STRING 
+					&& std::strcmp(crlf, END_OF_LINE_CRLF) != 0 && text[counter] != END_OF_LINE_CR)
 				{
+					crlf[0] = crlf[1];
+					crlf[1] = text[counter];
 					lineSize++;
 					counter++;
 				}

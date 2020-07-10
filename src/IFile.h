@@ -6,6 +6,7 @@
 
 namespace NAMESPACE_FOUNDATION
 {
+
 	class IFile 
 	{
 	public:

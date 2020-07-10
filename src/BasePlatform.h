@@ -7,6 +7,8 @@
 #define PRAGMA(content) _Pragma(#content)
 
 #if defined (_MSC_VER)
+	#include <codeanalysis\warnings.h>
+
 	#define MSVC_COMPILER
 	#define COMPILER_VERSION _MSC_FULL_VER
 	#define UNINITIALIZED_HEAP_ADDRESS 0xcdcdcdcd
@@ -306,7 +308,11 @@ extern "C" {
 	typedef unsigned short sp_word;  // 2bytes
 	typedef unsigned long  sp_dword; // 4bytes
 
-	const char END_OF_LINE = '\n';
+	const char END_OF_LINE_CR = '\r';
+	const char END_OF_LINE_LF = '\n';
+	const char END_OF_LINE_CRLF[2] = { '\r', '\n' };
+	
+	const char END_OF_LINE = END_OF_LINE_LF;
 	const char END_OF_STRING = '\0';
 }
 

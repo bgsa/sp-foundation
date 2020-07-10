@@ -34,15 +34,16 @@ typedef struct
 	sp_uint   colorsUsed;      /* Number of colors used */
 	sp_uint   colorsImportant; /* Number of important colors */
 } BMPHeaderInfo;
-typedef struct 
+class BMPColorHeader
 {
-	sp_uint red_mask{ 0x00ff0000 };         // Bit mask for the red channel
-	sp_uint green_mask{ 0x0000ff00 };       // Bit mask for the green channel
-	sp_uint blue_mask{ 0x000000ff };        // Bit mask for the blue channel
-	sp_uint alpha_mask{ 0xff000000 };       // Bit mask for the alpha channel
-	sp_int color_space_type{ 0x73524742 }; // Default "sRGB" (0x73524742)
-	sp_int unused[16]{ 0 };                // Unused data for sRGB color space
-} BMPColorHeader;
+public:
+	sp_uint red_mask = 0x00ff0000;         // Bit mask for the red channel
+	sp_uint green_mask = 0x0000ff00;       // Bit mask for the green channel
+	sp_uint blue_mask = 0x000000ff;        // Bit mask for the blue channel
+	sp_uint alpha_mask = 0xff000000;       // Bit mask for the alpha channel
+	sp_int color_space_type = 0x73524742; // Default "sRGB" (0x73524742)
+	sp_int unused[16];                // Unused data for sRGB color space
+};
 #pragma pack(pop)
 
 namespace NAMESPACE_FOUNDATION
