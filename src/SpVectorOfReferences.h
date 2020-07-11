@@ -111,6 +111,7 @@ namespace NAMESPACE_FOUNDATION
 		{
 			_length = ZERO_UINT;
 			_first = nullptr;
+			_last = nullptr;
 		}
 
 		API_INTERFACE inline sp_uint length() noexcept
