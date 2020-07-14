@@ -69,7 +69,7 @@ namespace NAMESPACE_FOUNDATION
 		{
 			if (this->_data != source) //self assignment
 			{
-				_length = std::strlen(source);
+				_length = (sp_uint) std::strlen(source);
 				_allocatedLength = _length + ONE_UINT;
 				_data = source;
 			}
