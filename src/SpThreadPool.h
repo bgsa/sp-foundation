@@ -2,13 +2,10 @@
 #define SP_THREAD_POOL_HEADER
 
 #include "SpectrumFoundation.h"
-#include "SpArray.h"
+#include "SpHardwareInfo.h"
+#include "MutexSpinLock.h"
 #include <thread>
 #include <functional>
-#include "SpHardwareInfo.h"
-#include <mutex>
-#include "SpPair.h"
-#include "SpMap.h"
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -30,7 +27,7 @@ namespace NAMESPACE_FOUNDATION
 	private:
 		sp_uint threadLength;
 		SpThread* threads;
-		std::mutex* workersMutex;
+		MutexSpinLock* workersMutex;
 		SpVector<SpThreadTask*>* tasks;
 		sp_uint threadAvailableIndex;
 
@@ -38,10 +35,10 @@ namespace NAMESPACE_FOUNDATION
 		{
 			sp_uint coresLength = SpHardwareInfo::instance()->processors()->begin()->value()->cores;
 
-			//threadLength = multiplyBy2(coresLength);
-			threadLength = coresLength;
+			threadLength = multiplyBy2(coresLength);
+			//threadLength = coresLength;
 			threads = sp_mem_new_array(SpThread, threadLength + 1);
-			workersMutex = sp_mem_new_array(std::mutex, threadLength + 1);
+			workersMutex = sp_mem_new_array(MutexSpinLock, threadLength + 1);
 			threadAvailableIndex = ZERO_UINT;
 
 			tasks = new SpVector<SpThreadTask*>[threadLength];
@@ -72,7 +69,7 @@ namespace NAMESPACE_FOUNDATION
 				}
 				else
 				{
-					std::this_thread::sleep_for(std::chrono::nanoseconds(300000)); // 0.3 miliseconds
+					std::this_thread::sleep_for(std::chrono::nanoseconds(10000)); // 0.01 miliseconds
 				}
 			}
 		}
@@ -116,7 +113,7 @@ namespace NAMESPACE_FOUNDATION
 					break;
 				else
 				{
-					std::this_thread::sleep_for(std::chrono::nanoseconds(100000)); // 0.1 miliseconds
+					//std::this_thread::sleep_for(std::chrono::nanoseconds(100000)); // 0.1 miliseconds
 					isEmpty = true;
 				}
 			}
