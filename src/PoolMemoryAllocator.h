@@ -63,7 +63,7 @@ namespace NAMESPACE_FOUNDATION
 		std::vector<sp_size*> freedMemory;
 		sp_size freedMemoryLength = ZERO_SIZE;
 
-		sp_size syncCounter;
+		volatile sp_size syncCounter;
 
 		inline void init(const sp_size size)
 		{

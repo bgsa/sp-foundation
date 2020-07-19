@@ -50,7 +50,7 @@ namespace NAMESPACE_FOUNDATION
 		static void run(sp_uint id)
 		{
 			SpThreadPool* threadPool = SpThreadPool::instance();
-			std::cout << "thrad " << id << " started" << END_OF_LINE;
+
 			while (true)
 			{
 				SpVectorItem<SpThreadTask*>* taskQueue = threadPool->tasks[id].begin();
@@ -68,7 +68,6 @@ namespace NAMESPACE_FOUNDATION
 
 					threadPool->workersMutex[id].lock();
 					threadPool->tasks[id].clear();
-					std::cout << "thread " << id << " completed" << END_OF_LINE;
 					threadPool->workersMutex[id].unlock();
 				}
 				else

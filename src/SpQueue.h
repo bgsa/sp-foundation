@@ -80,6 +80,9 @@ namespace NAMESPACE_FOUNDATION
 			_head = next;
 			_length--;
 
+			if (_head == nullptr)
+				_tail = nullptr;
+
 			return value;
 		}
 

@@ -177,6 +177,14 @@ namespace NAMESPACE_FOUNDATION
 			_length--;
 		}
 
+		API_INTERFACE inline void removeFirst()
+		{
+			sp_assert(_first != nullptr, "NullPointerException");
+
+			_first = _first->next();
+			_length--;
+		}
+
 		API_INTERFACE inline virtual SpVectorItemReference* find(const sp_uint index)
 		{
 			return findReference(index);

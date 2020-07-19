@@ -10,13 +10,14 @@
 #include "SpMouseEventListener.h"
 #include "SpJoypadEventListener.h"
 #include "SpCollisionEventListener.h"
+#include "SpQueue.h"
 
 namespace NAMESPACE_FOUNDATION
 {
 	class SpEventDispatcher
 	{
 	private:
-		std::queue<SpEvent*> events;
+		SpQueue<SpEvent*> events;
 
 		SpVector<SpWindowEventListener*> windowListeners;
 		SpVector<SpKeyboardEventListener*> keyboardListeners;
@@ -26,7 +27,7 @@ namespace NAMESPACE_FOUNDATION
 
 		inline SpEvent* pop()
 		{
-			sp_assert(events.size() > ZERO_SIZE, "StackEmptyException");
+			sp_assert(events.length() > ZERO_SIZE, "StackEmptyException");
 
 			SpEvent* evt = events.front();
 			events.pop();
@@ -74,7 +75,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline sp_bool isEmpty() const
 		{
-			return events.size() == ZERO_SIZE;
+			return events.length() == ZERO_SIZE;
 		}
 
 		API_INTERFACE inline void processEvent(SpEvent* evt)
@@ -84,25 +85,25 @@ namespace NAMESPACE_FOUNDATION
 			case SpEventCategory::Joypad:
 				for (SpVectorItem<SpJoypadEventListener*>* item = joypadListeners.last(); item != NULL; item = item->previous())
 					item->value()->onJoypadEvent((SpJoypadEvent*)evt);
-				sp_mem_delete((SpJoypadEvent*)evt, SpJoypadEvent);
+				//sp_mem_delete((SpJoypadEvent*)evt, SpJoypadEvent);
 				break;
 
 			case SpEventCategory::Mouse:
 				for (SpVectorItem<SpMouseEventListener*>* item = mouseListeners.last(); item != NULL; item = item->previous())
 					item->value()->onMouseEvent((SpMouseEvent*)evt);
-				sp_mem_delete((SpMouseEvent*)evt, SpMouseEvent);
+				//sp_mem_delete((SpMouseEvent*)evt, SpMouseEvent);
 				break;
 
 			case SpEventCategory::Keyboard:
 				for (SpVectorItem<SpKeyboardEventListener*>* item = keyboardListeners.last(); item != NULL; item = item->previous())
 					item->value()->onKeyboardEvent((SpKeyboardEvent*)evt);
-				sp_mem_delete((SpKeyboardEvent*)evt, SpKeyboardEvent);
+				//sp_mem_delete((SpKeyboardEvent*)evt, SpKeyboardEvent);
 				break;
 
 			case SpEventCategory::Collision:
 				for (SpVectorItem<SpCollisionEventListener*>* item = collisionListeners.last(); item != NULL; item = item->previous())
 					item->value()->onCollisionEvent((SpCollisionEvent*)evt);
-				sp_mem_delete((SpCollisionEvent*)evt, SpCollisionEvent);
+				//sp_mem_delete((SpCollisionEvent*)evt, SpCollisionEvent);
 				break;
 
 			case SpEventCategory::Gameplay:
@@ -111,7 +112,7 @@ namespace NAMESPACE_FOUNDATION
 			case SpEventCategory::Window:
 				for (SpVectorItem<SpWindowEventListener*>* item = windowListeners.last(); item != NULL; item = item->previous())
 					item->value()->onWindowEvent((SpWindowEvent*)evt);
-				sp_mem_delete((SpWindowEvent*)evt, SpWindowEvent);
+				//sp_mem_delete((SpWindowEvent*)evt, SpWindowEvent);
 				break;
 
 			default:
@@ -121,13 +122,10 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline void processAllEvents()
 		{
-			for (sp_size i = ZERO_SIZE; i < events.size(); i++)
+			while (!events.isEmpty())
 			{
-				SpEvent* evt = events.front();
-
+				SpEvent* evt = events.pop();
 				processEvent(evt);
-
-				events.pop();
 			}
 		}
 

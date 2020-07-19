@@ -165,9 +165,6 @@
     <ClCompile Include="src\FileLinux.cpp" />
     <ClCompile Include="src\FileManagerWindows.cpp" />
     <ClCompile Include="src\FileWindows.cpp" />
-    <ClCompile Include="src\HttpConnection.cpp" />
-    <ClCompile Include="src\HttpConnectionManager.cpp" />
-    <ClCompile Include="src\HttpOperationResult.cpp" />
     <ClCompile Include="src\Image.cpp" />
     <ClCompile Include="src\ImageBMP.cpp" />
     <ClCompile Include="src\ImageJPEG.cpp" />
@@ -176,7 +173,6 @@
     <ClCompile Include="src\PoolMemoryAllocator.cpp" />
     <ClCompile Include="src\SpString.cpp" />
     <ClCompile Include="src\StackMemoryAllocator.cpp" />
-    <ClCompile Include="src\NetworkSubSystem.cpp" />
     <ClCompile Include="src\RendererSize.cpp" />
     <ClCompile Include="src\SoundEffect.cpp" />
     <ClCompile Include="src\SoundSubSystem.cpp" />
@@ -208,9 +204,6 @@
     <ClInclude Include="src\DisplayDeviceGLFW.h" />
     <ClInclude Include="src\FileManagerWindows.h" />
     <ClInclude Include="src\FileWindows.h" />
-    <ClInclude Include="src\HttpConnection.h" />
-    <ClInclude Include="src\HttpConnectionManager.h" />
-    <ClInclude Include="src\HttpOperationResult.h" />
     <ClInclude Include="src\IEquatable.h" />
     <ClInclude Include="src\IFile.h" />
     <ClInclude Include="src\IFileManager.h" />
@@ -253,7 +246,6 @@
     <ClInclude Include="src\SpWindowEvent.h" />
     <ClInclude Include="src\SpWindowGLFW.h" />
     <ClInclude Include="src\StackMemoryAllocator.h" />
-    <ClInclude Include="src\NetworkSubSystem.h" />
     <ClInclude Include="src\Object.h" />
     <ClInclude Include="src\SpMouse.h" />
     <ClInclude Include="src\SpMouseGLFW.h" />
