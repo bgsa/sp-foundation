@@ -45,12 +45,6 @@
     <ClCompile Include="src\SoundSubSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ThreadTest.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ThreadUser.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\DisplayDeviceGLFW.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -150,12 +144,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\StringHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ThreadTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ThreadUser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Timer.h">
@@ -336,6 +324,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\SpPropertyInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SpThreadPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SpHardwareInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SpProcessorInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SpQueue.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

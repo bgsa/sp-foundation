@@ -180,8 +180,6 @@
     <ClCompile Include="src\RendererSize.cpp" />
     <ClCompile Include="src\SoundEffect.cpp" />
     <ClCompile Include="src\SoundSubSystem.cpp" />
-    <ClCompile Include="src\ThreadTest.cpp" />
-    <ClCompile Include="src\ThreadUser.cpp" />
     <ClCompile Include="src\DisplayDeviceQT.cpp" />
     <ClCompile Include="src\SpWindowQT.cpp" />
     <ClCompile Include="src\PointerInputDeviceQT.cpp" />
@@ -224,6 +222,7 @@
     <ClInclude Include="src\InputDevice.h" />
     <ClInclude Include="src\InputDeviceHandler.h" />
     <ClInclude Include="src\ISubSystem.h" />
+    <ClInclude Include="src\SpHardwareInfo.h" />
     <ClInclude Include="src\SpKeyboard.h" />
     <ClInclude Include="src\SpKeyboardGLFW.h" />
     <ClInclude Include="src\Log.hpp" />
@@ -233,9 +232,12 @@
     <ClInclude Include="src\SpMouseEventListener.h" />
     <ClInclude Include="src\SpPerformanceCounter.h" />
     <ClInclude Include="src\SpPoint3.h" />
+    <ClInclude Include="src\SpProcessorInfo.h" />
     <ClInclude Include="src\SpPropertyInfo.h" />
+    <ClInclude Include="src\SpQueue.h" />
     <ClInclude Include="src\SpSize.h" />
     <ClInclude Include="src\SpPoint2.h" />
+    <ClInclude Include="src\SpThreadPool.h" />
     <ClInclude Include="src\SpWindow.h" />
     <ClInclude Include="src\SpWindowEventListener.h" />
     <ClInclude Include="src\SpEventDispatcher.h" />
@@ -258,8 +260,6 @@
     <ClInclude Include="src\SoundEffect.h" />
     <ClInclude Include="src\SoundSubSystem.h" />
     <ClInclude Include="src\StringHelper.h" />
-    <ClInclude Include="src\ThreadTest.h" />
-    <ClInclude Include="src\ThreadUser.h" />
     <ClInclude Include="src\Timer.h" />
     <ClInclude Include="src\TouchInputDevice.h" />
     <ClInclude Include="src\TouchInputDeviceHandler.h" />
