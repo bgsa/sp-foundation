@@ -3,7 +3,7 @@
 
 #include "SpectrumFoundation.h"
 #include "SpHardwareInfo.h"
-#include "MutexSpinLock.h"
+#include "SpMutexSpinLock.h"
 #include <thread>
 #include <functional>
 
@@ -27,7 +27,7 @@ namespace NAMESPACE_FOUNDATION
 	private:
 		sp_uint threadLength;
 		SpThread* threads;
-		MutexSpinLock* workersMutex;
+		SpMutexSpinLock* workersMutex;
 		SpVector<SpThreadTask*>* tasks;
 		sp_uint threadAvailableIndex;
 
@@ -38,7 +38,7 @@ namespace NAMESPACE_FOUNDATION
 			threadLength = multiplyBy2(coresLength);
 			//threadLength = coresLength;
 			threads = sp_mem_new_array(SpThread, threadLength + 1);
-			workersMutex = sp_mem_new_array(MutexSpinLock, threadLength + 1);
+			workersMutex = sp_mem_new_array(SpMutexSpinLock, threadLength + 1);
 			threadAvailableIndex = ZERO_UINT;
 
 			tasks = new SpVector<SpThreadTask*>[threadLength];
@@ -112,10 +112,7 @@ namespace NAMESPACE_FOUNDATION
 				if (isEmpty)
 					break;
 				else
-				{
-					//std::this_thread::sleep_for(std::chrono::nanoseconds(100000)); // 0.1 miliseconds
 					isEmpty = true;
-				}
 			}
 		}
 
