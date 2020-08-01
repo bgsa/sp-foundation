@@ -35,7 +35,7 @@ namespace NAMESPACE_FOUNDATION
 		{
 			sp_uint coresLength = SpHardwareInfo::instance()->processors()->begin()->value()->cores;
 
-			threadLength = multiplyBy2(coresLength);
+			threadLength = multiplyBy4(coresLength);
 			//threadLength = coresLength;
 			threads = sp_mem_new_array(SpThread, threadLength + 1);
 			workersMutex = sp_mem_new_array(SpMutexSpinLock, threadLength + 1);
