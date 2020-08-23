@@ -179,6 +179,7 @@
     <ClCompile Include="src\DisplayDeviceQT.cpp" />
     <ClCompile Include="src\SpWindowQT.cpp" />
     <ClCompile Include="src\PointerInputDeviceQT.cpp" />
+    <ClCompile Include="src\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Assertions.h" />

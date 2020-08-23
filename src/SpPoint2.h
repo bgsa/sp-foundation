@@ -1,5 +1,5 @@
-#ifndef SP_POINT_HEADER
-#define SP_POINT_HEADER
+#ifndef SP_POINT2_HEADER
+#define SP_POINT2_HEADER
 
 #include "SpectrumFoundation.h"
 
@@ -22,17 +22,7 @@ namespace NAMESPACE_FOUNDATION
 		/// </summary>
 		API_INTERFACE T& operator[](sp_int index)
 		{
-			sp_assert(index >= 0 && index < 4);
-
-			return toVec4()[index];
-		}
-
-		/// <summary>
-		/// Get a index of component
-		/// </summary>
-		API_INTERFACE T& operator[](sp_int index)
-		{
-			sp_assert(index >= ZERO_INT && index < TWO_INT);
+			sp_assert(index >= ZERO_INT && index < TWO_INT, "InvalidOperationException");
 			return *(this)[index];
 		}
 
@@ -41,7 +31,7 @@ namespace NAMESPACE_FOUNDATION
 		/// </summary>
 		API_INTERFACE T& operator[](sp_uint index)
 		{
-			sp_assert(index >= ZERO_UINT && index < TWO_UINT);
+			sp_assert(index >= ZERO_UINT && index < TWO_UINT, "InvalidOperationException");
 			return *(this)[index];
 		}
 
@@ -51,7 +41,7 @@ namespace NAMESPACE_FOUNDATION
 		/// </summary>
 		API_INTERFACE T& operator[](sp_size index)
 		{
-			sp_assert(index >= ZERO_SIZE && index < TWO_SIZE);
+			sp_assert(index >= ZERO_SIZE && index < TWO_SIZE, "InvalidOperationException");
 			return *(this)[index];
 		}
 #endif
@@ -60,4 +50,4 @@ namespace NAMESPACE_FOUNDATION
 
 }
 
-#endif // SP_POINT_HEADER
+#endif // SP_POINT2_HEADER

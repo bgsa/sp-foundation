@@ -34,6 +34,12 @@ namespace NAMESPACE_FOUNDATION
 		
 	public:
 
+		API_INTERFACE static Timer* physicTimer();
+		API_INTERFACE static Timer* renderTimer();
+		API_INTERFACE static Timer* frameTimer();
+
+		API_INTERFACE static void init();
+
 		API_INTERFACE inline void start()
 		{
 			timeLastFrame = Clock::now();
@@ -49,8 +55,15 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline sp_float elapsedTime() const
 		{
-			return std::chrono::duration_cast<std::chrono::nanoseconds>
+			sp_float time = std::chrono::duration_cast<std::chrono::nanoseconds>
 				(Clock::now() - timeLastFrame).count() / 1000000.0f;
+
+#ifdef DEBUG
+			if (time > framePerSecondLimit() * 4.0f) // application sttoped at breakpoint
+				time = framePerSecondLimit();
+#endif
+
+			return time;
 		}
 
 		API_INTERFACE inline sp_int framesPerSecond() const

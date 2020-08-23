@@ -22,7 +22,8 @@
 
 namespace NAMESPACE_FOUNDATION
 {
-	const sp_float DefaultErrorMargin = 0.0001f;
+	#define SP_DEFAULT_ERROR_MARGIN 0.0001f;
+	const sp_float DefaultErrorMargin = SP_DEFAULT_ERROR_MARGIN;
 
 #define sp_const(Type, value) (const Type)(value)
 #define sp_constless(Type, value) const_cast<const Type>(value)
@@ -250,10 +251,9 @@ namespace NAMESPACE_FOUNDATION
 	///Return  0 if value == 0
 	///Return  1 if value >  0
 	///</summary>
-	template <typename T>
-	API_INTERFACE inline int sign(T value)
+	API_INTERFACE inline sp_int sign(sp_float value)
 	{
-		return (T(0) < value) - (value < T(0));
+		return (ZERO_FLOAT < value) - (value < ZERO_FLOAT);
 	}
 
 	///<summary>

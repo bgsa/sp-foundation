@@ -56,29 +56,30 @@ namespace NAMESPACE_FOUNDATION
 	class PoolMemoryAllocator
 	{
 	private:
-		sp_size initialPointer;
-		sp_size currentPointer;
+		sp_size _initialPointer;
+		sp_size _currentPointer;
 		sp_size lastPointer;
 
 		std::vector<sp_size*> freedMemory;
 		sp_size freedMemoryLength = ZERO_SIZE;
 
 		volatile sp_size syncCounter;
+		volatile sp_bool memoryAligned;
 
 		inline void init(const sp_size size)
 		{
 			sp_assert(size > ZERO_SIZE, "IndexOutOfRange");
 			
-			initialPointer = (sp_size)std::malloc(size);
-			currentPointer = initialPointer;
-			lastPointer = initialPointer + size;
+			_initialPointer = (sp_size)std::malloc(size);
+			_currentPointer = _initialPointer;
+			lastPointer = _initialPointer + size;
 
 			freedMemory.reserve(100);
 
 			syncCounter = ONE_SIZE;
 			syncPreviousCounter = ZERO_SIZE;
 
-			sp_assert(initialPointer != NULL, "NullPointerException");
+			sp_assert(_initialPointer != NULL, "NullPointerException");
 		}
 
 	public:
@@ -88,7 +89,22 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline PoolMemoryAllocator(const sp_size size)
 		{
+			memoryAligned = false;
 			init(size);
+		}
+
+		API_INTERFACE inline void enableMemoryAlignment() noexcept
+		{
+			memoryAligned = true;
+		}
+		API_INTERFACE inline void disableMemoryAlignment() noexcept
+		{
+			memoryAligned = false;
+		}
+
+		API_INTERFACE inline sp_size currentAddress() const noexcept
+		{
+			return _currentPointer;
 		}
 
 		API_INTERFACE inline sp_size findFirstFit(sp_size addressLength) noexcept
@@ -97,7 +113,7 @@ namespace NAMESPACE_FOUNDATION
 				if (*(freedMemory[i] - ONE_SIZE) >= addressLength)
 					return (sp_size) freedMemory[i];
 
-			return currentPointer;
+			return _currentPointer;
 		}
 
 		API_INTERFACE HEAP_PROFILING_ALLOC inline void* alloc(const sp_size size, sp_uint syncValue) noexcept
@@ -106,47 +122,50 @@ namespace NAMESPACE_FOUNDATION
 
 			sp_size addressLength = sp_ceilBit(size, SIZEOF_WORD, SIZEOF_WORD_DIVISOR_BIT);
 
-			sp_assert(lastPointer > currentPointer + SIZEOF_WORD + multiplyBy(addressLength, SIZEOF_WORD_DIVISOR_BIT), "OutOfMemoryException");
+			sp_assert(lastPointer > _currentPointer + SIZEOF_WORD + multiplyBy(addressLength, SIZEOF_WORD_DIVISOR_BIT), "OutOfMemoryException");
 
-			// findFirstFit block of memory ...
-			for (sp_size i = 0; i < freedMemoryLength; ++i)
-				if (*(freedMemory[i] - ONE_SIZE) >= addressLength)
-				{
-					sp_size* newPointer = freedMemory[i] - ONE_SIZE;
-
-					// resize the remaining memory block for a new free block
-					if (newPointer[0] - addressLength > ONE_SIZE)    // if the block size is "too big", 
+			if (!memoryAligned)
+			{
+				// findFirstFit block of memory ...
+				for (sp_size i = 0; i < freedMemoryLength; ++i)
+					if (*(freedMemory[i] - ONE_SIZE) >= addressLength)
 					{
-						freedMemory[i] = freedMemory[i] + addressLength + ONE_SIZE; // create a new free block with the remaining size
-						(freedMemory[i] - 1)[0] = newPointer[0] - addressLength - ONE_SIZE; // set the length of block header
+						sp_size* newPointer = freedMemory[i] - ONE_SIZE;
 
-						newPointer[0] = addressLength;
+						// resize the remaining memory block for a new free block
+						if (newPointer[0] - addressLength > ONE_SIZE)    // if the block size is "too big", 
+						{
+							freedMemory[i] = freedMemory[i] + addressLength + ONE_SIZE; // create a new free block with the remaining size
+							(freedMemory[i] - 1)[0] = newPointer[0] - addressLength - ONE_SIZE; // set the length of block header
+
+							newPointer[0] = addressLength;
+						}
+						else
+						{
+							freedMemoryLength--; // free the memory block
+							freedMemory.erase(freedMemory.begin() + i);
+						}
+
+						syncCounter++;
+						return (void*)(newPointer + ONE_SIZE);
 					}
-					else
-					{
-						freedMemoryLength--; // free the memory block
-						freedMemory.erase(freedMemory.begin() + i);
-					}
+			}
 
-					syncCounter++;
-					return (void*)(newPointer + ONE_SIZE);
-				}
+			((sp_size*)_currentPointer)[0] = addressLength;
+			_currentPointer += SIZEOF_WORD + multiplyBy(addressLength, SIZEOF_WORD_DIVISOR_BIT);
 
-			((sp_size*)currentPointer)[0] = addressLength;
-			currentPointer += SIZEOF_WORD + multiplyBy(addressLength, SIZEOF_WORD_DIVISOR_BIT);
-
-			sp_size newPointer = (currentPointer - multiplyBy(addressLength, SIZEOF_WORD_DIVISOR_BIT));
+			sp_size newPointer = (_currentPointer - multiplyBy(addressLength, SIZEOF_WORD_DIVISOR_BIT));
 
 			syncCounter++;
 			return (void*)newPointer;
 		}
 
-#define IS_LAST_ALLOCATION ((sp_size)*(buffer - ONE_SIZE)) * SIZEOF_WORD + (sp_size)buffer == currentPointer
+#define IS_LAST_ALLOCATION ((sp_size)*(buffer - ONE_SIZE)) * SIZEOF_WORD + (sp_size)buffer == _currentPointer
 		API_INTERFACE inline void free(sp_size* buffer) noexcept
 		{
 			if (IS_LAST_ALLOCATION)
 			{
-				currentPointer = (sp_size)(buffer - ONE_SIZE);
+				_currentPointer = (sp_size)(buffer - ONE_SIZE);
 			}
 			else
 			{
@@ -161,27 +180,27 @@ namespace NAMESPACE_FOUNDATION
 			return (MemoryPageHeader*)((sp_size*)address - ONE_SIZE);
 		}
 
-		API_INTERFACE inline sp_size memorySize() noexcept
+		API_INTERFACE inline sp_size memorySize() const noexcept
 		{
-			return lastPointer - initialPointer;
+			return lastPointer - _initialPointer;
 		}
 
-		API_INTERFACE inline sp_bool hasAvailableMemory(const sp_size size) noexcept
+		API_INTERFACE inline sp_bool hasAvailableMemory(const sp_size size) const noexcept
 		{
-			return (lastPointer - currentPointer - size) > ZERO_SIZE;
+			return (lastPointer - _currentPointer - size) > ZERO_SIZE;
 		}
 
 		API_INTERFACE inline void resize(sp_size newSize) noexcept
 		{
-			initialPointer = (sp_size)std::realloc((void*)initialPointer, newSize);
+			_initialPointer = (sp_size)std::realloc((void*)_initialPointer, newSize);
 
-			sp_assert(initialPointer != NULL, "NullPointerException");
+			sp_assert(_initialPointer != NULL, "NullPointerException");
 
-			currentPointer = initialPointer;
-			lastPointer = initialPointer + newSize;
+			_currentPointer = _initialPointer;
+			lastPointer = _initialPointer + newSize;
 		}
 
-		API_INTERFACE inline sp_size freedMemorySize() noexcept
+		API_INTERFACE inline sp_size freedMemorySize() const noexcept
 		{
 			return freedMemoryLength;
 		}
@@ -215,15 +234,15 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline void release() noexcept
 		{
-			if (initialPointer != ZERO_SIZE)
+			if (_initialPointer != ZERO_SIZE)
 			{
 				freedMemory.clear();
 				freedMemoryLength = ZERO_SIZE;
 
-				std::free((void*)initialPointer);
+				std::free((void*)_initialPointer);
 
-				initialPointer = ZERO_SIZE;
-				currentPointer = ZERO_SIZE;
+				_initialPointer = ZERO_SIZE;
+				_currentPointer = ZERO_SIZE;
 				lastPointer = ZERO_SIZE;
 
 				syncCounter = ONE_SIZE;

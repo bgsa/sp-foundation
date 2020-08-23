@@ -306,6 +306,12 @@ __INTEL_CXXLIB_ICC
 	:                                     \
 		divideBy(value, bit) + 1)
 
+#define sp_isHeapInitialized(value) \
+	value != UNINITIALIZED_HEAP_ADDRESS
+
+#define sp_isStackInitialized(value) \
+	value != UNINITIALIZED_STACK_ADDRESS
+
 extern "C" {
 	typedef unsigned char  sp_byte;  // 1byte
 	typedef unsigned short sp_word;  // 2bytes

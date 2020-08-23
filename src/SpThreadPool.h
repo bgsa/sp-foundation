@@ -6,6 +6,7 @@
 #include "SpMutexSpinLock.h"
 #include <thread>
 #include <functional>
+#include <mutex>
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -31,6 +32,8 @@ namespace NAMESPACE_FOUNDATION
 		SpVector<SpThreadTask*>* tasks;
 		sp_uint threadAvailableIndex;
 
+		std::mutex globalMutex;
+
 		SpThreadPool()
 		{
 			sp_uint coresLength = SpHardwareInfo::instance()->processors()->begin()->value()->cores;
@@ -52,9 +55,11 @@ namespace NAMESPACE_FOUNDATION
 			{
 				SpVectorItem<SpThreadTask*>* taskQueue = threadPool->tasks[id].begin();
 
-				if (taskQueue != nullptr)
+				if (taskQueue == nullptr) // if task list is empty, sleep...
+					std::this_thread::sleep_for(std::chrono::nanoseconds(10000)); // 0.01 miliseconds
+				else
 				{
-					while (taskQueue != nullptr)
+					while (taskQueue != nullptr) // while task list is not empty, do ...
 					{
 						SpThreadTask* task = taskQueue->value();
 
@@ -66,10 +71,6 @@ namespace NAMESPACE_FOUNDATION
 					threadPool->workersMutex[id].lock();
 					threadPool->tasks[id].clear();
 					threadPool->workersMutex[id].unlock();
-				}
-				else
-				{
-					std::this_thread::sleep_for(std::chrono::nanoseconds(10000)); // 0.01 miliseconds
 				}
 			}
 		}
@@ -102,17 +103,14 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline void waitToFinish()
 		{
-			sp_bool isEmpty = true;
+			sp_bool isEmpty = false;
 
-			while (true)
+			while (!isEmpty)
 			{
+				isEmpty = true;
+
 				for (sp_uint i = 0; i < threadLength; i++)
 					isEmpty = isEmpty && tasks[i].length() == ZERO_UINT;
-
-				if (isEmpty)
-					break;
-				else
-					isEmpty = true;
 			}
 		}
 

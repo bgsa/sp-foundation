@@ -50,7 +50,7 @@ namespace NAMESPACE_FOUNDATION
 			return _allocatedLength;
 		}
 
-		API_INTERFACE inline T* data() const noexcept
+		API_INTERFACE inline T* data() noexcept
 		{
 			return _data;
 		}
