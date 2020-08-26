@@ -38,16 +38,16 @@ namespace NAMESPACE_FOUNDATION_TEST
 
 	SP_TEST_METHOD(CLASS_NAME, signTest)
 	{
-		sp_float result = sign(-100.0f);
-		sp_float expected = -1.0f;
+		sp_int result = sign(-100.0f);
+		sp_int expected = -1;
 		Assert::AreEqual(expected, result, L"Wrong value");
 
 		result = sign(100.0f);
-		expected = 1.0f;
+		expected = 1;
 		Assert::AreEqual(expected, result, L"Wrong value");
 	
 		result = sign(0.0f);
-		expected = 0.0f;
+		expected = 0;
 		Assert::AreEqual(expected, result, L"Wrong value");
 	}
 #undef CLASS_NAME
