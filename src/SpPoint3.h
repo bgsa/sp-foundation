@@ -25,6 +25,13 @@ namespace NAMESPACE_FOUNDATION
 			this->z = z;
 		}
 
+		API_INTERFACE SpPoint3(T* values)
+		{
+			this->x = values[0];
+			this->y = values[1];
+			this->z = values[2];
+		}
+
 		/// <summary>
 		/// Get a index of component
 		/// </summary>

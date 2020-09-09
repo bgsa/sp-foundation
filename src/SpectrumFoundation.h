@@ -452,6 +452,24 @@ namespace NAMESPACE_FOUNDATION
 		return temp ? (a / temp * b) : 0;
 	}
 
+	/// <summary>
+	/// Clamp "value" parameter to lie within the range [min, max]
+	/// </summary>
+	/// <param name="value">Value to be clamped</param>
+	/// <param name="min">Minimium value</param>
+	/// <param name="max">Maximum value</param>
+	/// <returns>Valule clamped</returns>
+	API_INTERFACE inline sp_float clamp(const sp_float value, const sp_float min, const sp_float max)
+	{  
+		if (value < min)
+			return min;
+
+		if (value > max)
+			return max;  
+		
+		return value;  
+	} 
+
 
 }
 

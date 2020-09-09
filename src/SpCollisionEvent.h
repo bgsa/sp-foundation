@@ -6,7 +6,7 @@
 
 namespace NAMESPACE_FOUNDATION
 {
-	enum class SpCollisionType
+	enum class SpCollisionBodyType
 		: sp_uint
 	{
 		RigidBody = 1u
@@ -20,7 +20,7 @@ namespace NAMESPACE_FOUNDATION
 		sp_uint indexBody1;
 		sp_uint indexBody2;
 
-		API_INTERFACE SpCollisionEvent(const SpCollisionType& type = SpCollisionType::RigidBody)
+		API_INTERFACE SpCollisionEvent(const SpCollisionBodyType& type = SpCollisionBodyType::RigidBody)
 			: SpEvent((sp_uint)type)
 		{
 		}

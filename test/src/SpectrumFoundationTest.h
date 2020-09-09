@@ -3,6 +3,7 @@
 
 #include "SpectrumFoundation.h"
 #include "SpPerformanceCounter.h"
+#include <mutex>
 
 #ifndef NAMESPACE_FOUNDATION_TEST
 	#define NAMESPACE_FOUNDATION_TEST SpFoundationTest
@@ -94,6 +95,13 @@ using namespace NAMESPACE_FOUNDATION;
 
 namespace NAMESPACE_FOUNDATION_TEST
 {
+	class TestFoundation
+	{
+	public:
+		API_INTERFACE inline static void lock();
+		API_INTERFACE inline static void unlock();
+	};
+
 	API_INTERFACE void resetMemory();
 	API_INTERFACE void setupModule();
 	API_INTERFACE void tearDownModule();

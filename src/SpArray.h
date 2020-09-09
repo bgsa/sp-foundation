@@ -61,7 +61,7 @@ namespace NAMESPACE_FOUNDATION
 			_length = value;
 		}
 
-		API_INTERFACE inline virtual void add(const T& value)
+		API_INTERFACE inline void add(const T& value)
 		{
 			sp_assert(_length < _allocatedLength, "IndexOutOfRangeException");
 
@@ -85,6 +85,12 @@ namespace NAMESPACE_FOUNDATION
 			return _data[index];
 		}
 		API_INTERFACE inline T& operator[](const sp_uint index)
+		{
+			sp_assert(index >= ZERO_UINT && index < _length, "IndexOutOfRangeException");
+			return _data[index];
+		}
+
+		API_INTERFACE inline T& get(const sp_uint index)
 		{
 			sp_assert(index >= ZERO_UINT && index < _length, "IndexOutOfRangeException");
 			return _data[index];
@@ -115,7 +121,24 @@ namespace NAMESPACE_FOUNDATION
 			std::swap(array1._allocatedLength, array2._allocatedLength);
 			std::swap(array1._firstPointer, array2._firstPointer);
 		}
+
 	};
+
+	/// <summary>
+	/// Check if the value parameter contains on list
+	/// </summary>
+	/// <param name="list">List of uint</param>
+	/// <param name="listLength">Length of list</param>
+	/// <param name="value">Value to be looked up</param>
+	/// <returns>True if contains in list or else False</returns>
+	API_INTERFACE inline sp_bool contains(sp_uint* list, sp_uint listLength, sp_uint value)
+	{
+		for (sp_uint i = 0; i < listLength; i++)
+			if (list[i] == value)
+				return true;
+
+		return false;
+	}
 
 }
 

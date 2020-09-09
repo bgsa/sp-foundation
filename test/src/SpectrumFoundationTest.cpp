@@ -2,6 +2,17 @@
 
 namespace NAMESPACE_FOUNDATION_TEST
 {
+	static std::mutex locker;
+
+	void TestFoundation::lock()
+	{
+		locker.lock();
+	}
+	void TestFoundation::unlock()
+	{
+		locker.unlock();
+	}
+
 	API_INTERFACE void resetMemory()
 	{
 		PoolMemoryAllocator::main()->reset();
