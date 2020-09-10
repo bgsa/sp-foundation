@@ -171,6 +171,7 @@
     <ClCompile Include="src\ImagePNG.cpp" />
     <ClCompile Include="src\KeyboardInputDeviceQT.cpp" />
     <ClCompile Include="src\PoolMemoryAllocator.cpp" />
+    <ClCompile Include="src\SpLogger.cpp" />
     <ClCompile Include="src\SpString.cpp" />
     <ClCompile Include="src\StackMemoryAllocator.cpp" />
     <ClCompile Include="src\RendererSize.cpp" />
@@ -188,6 +189,9 @@
     <ClInclude Include="src\FileLinux.h" />
     <ClInclude Include="src\FileSystem.h" />
     <ClInclude Include="src\LinuxPlatform.h" />
+    <ClInclude Include="src\SpLogConsoleProvider.h" />
+    <ClInclude Include="src\SpLogger.h" />
+    <ClInclude Include="src\SpLogProvider.h" />
     <ClInclude Include="src\SpMutexSpinLock.h" />
     <ClInclude Include="src\OSXPlatform.h" />
     <ClInclude Include="src\PoolMemoryAllocator.h" />
