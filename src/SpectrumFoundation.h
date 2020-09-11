@@ -16,7 +16,6 @@
 #include "Assertions.h"
 #include "StackMemoryAllocator.h"
 #include "PoolMemoryAllocator.h"
-#include "Log.hpp"
 #include "Object.h"
 #include <cmath>
 

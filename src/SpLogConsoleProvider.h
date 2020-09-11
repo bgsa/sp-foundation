@@ -18,9 +18,6 @@ namespace NAMESPACE_FOUNDATION
 #endif
 #if defined(WINDOWS) || defined(LINUX) || defined(OSX)
 			printf("%s%c", text, END_OF_LINE);
-#endif	
-#ifdef MSTEST_ENABLED
-			//OutputDebugStringA(text);
 #endif
 		}
 
@@ -31,9 +28,6 @@ namespace NAMESPACE_FOUNDATION
 #endif
 #if defined(WINDOWS) || defined(LINUX) || defined(OSX)
 			printf("%s%c", text, END_OF_LINE);
-#endif		
-#ifdef MSTEST_ENABLED
-			//OutputDebugStringA(text);
 #endif
 		}
 
@@ -45,8 +39,15 @@ namespace NAMESPACE_FOUNDATION
 #if defined(WINDOWS) || defined(LINUX) || defined(OSX)
 			printf("%s%c", text, END_OF_LINE);
 #endif
-#ifdef MSTEST_ENABLED
-			//OutputDebugStringA(text);
+		}
+
+		API_INTERFACE void newLine() override
+		{
+#ifdef ANDROID
+			__android_log_print(ANDROID_LOG_ERROR, "ERROR", "%s", text);
+#endif
+#if defined(WINDOWS) || defined(LINUX) || defined(OSX)
+			printf("%c", END_OF_LINE);
 #endif
 		}
 

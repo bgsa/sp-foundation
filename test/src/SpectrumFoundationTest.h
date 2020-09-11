@@ -3,6 +3,8 @@
 
 #include "SpectrumFoundation.h"
 #include "SpPerformanceCounter.h"
+#include "SpLogger.h"
+#include "SpLogMsTestProvider.h"
 #include <mutex>
 
 #ifndef NAMESPACE_FOUNDATION_TEST

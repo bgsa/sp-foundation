@@ -191,6 +191,7 @@
     <ClInclude Include="src\LinuxPlatform.h" />
     <ClInclude Include="src\SpLogConsoleProvider.h" />
     <ClInclude Include="src\SpLogger.h" />
+    <ClInclude Include="src\SpLogMsTestProvider.h" />
     <ClInclude Include="src\SpLogProvider.h" />
     <ClInclude Include="src\SpMutexSpinLock.h" />
     <ClInclude Include="src\OSXPlatform.h" />
@@ -223,7 +224,6 @@
     <ClInclude Include="src\SpHardwareInfo.h" />
     <ClInclude Include="src\SpKeyboard.h" />
     <ClInclude Include="src\SpKeyboardGLFW.h" />
-    <ClInclude Include="src\Log.hpp" />
     <ClInclude Include="src\SpEvent.h" />
     <ClInclude Include="src\SpJoypadEventListener.h" />
     <ClInclude Include="src\SpKeyboardEventListener.h" />

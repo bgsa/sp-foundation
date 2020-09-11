@@ -33,10 +33,13 @@ namespace NAMESPACE_FOUNDATION_TEST
 	TEST_MODULE_INITIALIZE(ModuleInitialize)
 	{
 		setupModule();
+		SpLogMsTestProvider* logProvider = ALLOC_NEW(SpLogMsTestProvider);
+		SpLogger::init(logProvider);
 	}
 	TEST_MODULE_CLEANUP(ModuleCleanup)
 	{
 		tearDownModule();
+		SpLogger::dispose();
 	}
 #endif // MSTEST_ENABLED
 
