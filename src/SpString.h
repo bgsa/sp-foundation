@@ -407,6 +407,34 @@ namespace NAMESPACE_FOUNDATION
 	{
 		return std::atol(_data);
 	}
+
+
+	API_INTERFACE inline void convert(const sp_float floatValue, sp_char* output, sp_uint* length)
+	{
+		sprintf(output, "%f", floatValue);
+
+		length[0] = strlen(output);
+
+		output[*length] = END_OF_STRING;
+	}
+
+	API_INTERFACE inline void convert(const sp_int intValue, sp_char* output, sp_uint* length)
+	{
+		sprintf(output, "%i", intValue);
+
+		length[0] = strlen(output);
+
+		output[*length] = END_OF_STRING;
+	}
+
+	API_INTERFACE inline void convert(const sp_uint uintValue, sp_char* output, sp_uint* length)
+	{
+		sprintf(output, "%u", uintValue);
+		
+		length[0] = strlen(output);
+
+		output[*length] = END_OF_STRING;
+	}
 }
 
 #endif // SP_STRING_HEADER
