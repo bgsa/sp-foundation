@@ -83,16 +83,33 @@ namespace NAMESPACE_FOUNDATION
 
 	};
 
-#define sp_log_info1s(text) SpLogger::instance()->info(text)
+#ifdef LOG_ENABLED
 
-#define sp_log_info1f(value) SpLogger::instance()->info(value)
-#define sp_log_info3f(value1, value2, value3) SpLogger::instance()->info(value1, value2, value3)
+	#define sp_log_info1s(text) SpLogger::instance()->info(text)
 
-#define sp_log_debug1s(text) SpLogger::instance()->debug(text)
+	#define sp_log_info1f(value) SpLogger::instance()->info(value)
+	#define sp_log_info3f(value1, value2, value3) SpLogger::instance()->info(value1, value2, value3)
 
-#define sp_log_error1s(text) SpLogger::instance()->error(text)
+	#define sp_log_debug1s(text) SpLogger::instance()->debug(text)
 
-#define sp_log_newline() SpLogger::instance()->newLine()
+	#define sp_log_error1s(text) SpLogger::instance()->error(text)
+
+	#define sp_log_newline() SpLogger::instance()->newLine()
+
+#else
+
+#define sp_log_info1s(text)
+
+#define sp_log_info1f(value)
+#define sp_log_info3f(value1, value2, value3)
+
+#define sp_log_debug1s(text)
+
+#define sp_log_error1s(text)
+
+#define sp_log_newline()
+
+#endif
 
 }
 

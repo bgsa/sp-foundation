@@ -1,6 +1,12 @@
 #ifndef SPECTRUM_FOUNDATION_HEADER
 #define SPECTRUM_FOUNDATION_HEADER
 
+#define SSE4_ENABLED
+#define SSE_ENABLED
+#define AVX_ENABLED
+//#define LOG_ENABLED
+#define SP_ASSERT_ENABLED
+
 #ifndef NAMESPACE_FOUNDATION
 	#define NAMESPACE_FOUNDATION SpFoundation
 #endif
@@ -468,7 +474,6 @@ namespace NAMESPACE_FOUNDATION
 		
 		return value;  
 	} 
-
 
 }
 

@@ -1,7 +1,7 @@
 #ifndef ASSERTIONS_HEADER
 #define ASSERTIONS_HEADER
 
-#ifdef DEBUG
+#if defined(DEBUG) && defined(SP_ASSERT_ENABLED)
 	#include <cassert>
 	#include <iostream>
 
