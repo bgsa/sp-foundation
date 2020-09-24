@@ -4,8 +4,15 @@
 #define SSE4_ENABLED
 #define SSE_ENABLED
 #define AVX_ENABLED
-//#define LOG_ENABLED
-#define SP_ASSERT_ENABLED
+
+#ifdef DEBUG
+	#ifndef LOG_ENABLED
+		#define LOG_ENABLED
+	#endif
+	#ifndef SP_ASSERT_ENABLED
+		#define SP_ASSERT_ENABLED
+	#endif
+#endif
 
 #ifndef NAMESPACE_FOUNDATION
 	#define NAMESPACE_FOUNDATION SpFoundation

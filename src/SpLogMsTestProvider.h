@@ -28,8 +28,9 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE void newLine() override
 		{
-			sp_char temp[1];
+			sp_char temp[2];
 			temp[0] = END_OF_LINE;
+			temp[1] = END_OF_STRING;
 			OutputDebugStringA(temp);
 		}
 
