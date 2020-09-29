@@ -8,25 +8,25 @@ namespace NAMESPACE_FOUNDATION
 	class ColorRGBA
 	{
 	public:
-		sp_float Red;
-		sp_float Green;
-		sp_float Blue;
-		sp_float Alpha;
+		sp_float red;
+		sp_float green;
+		sp_float blue;
+		sp_float alpha;
 
 		API_INTERFACE ColorRGBA()
 		{
-			Red = ZERO_FLOAT;
-			Green = ZERO_FLOAT;
-			Blue = ZERO_FLOAT;
-			Alpha = ZERO_FLOAT;
+			this->red = ZERO_FLOAT;
+			this->green = ZERO_FLOAT;
+			this->blue = ZERO_FLOAT;
+			this->alpha = ZERO_FLOAT;
 		}
 
 		API_INTERFACE ColorRGBA(sp_float red, sp_float green, sp_float blue, sp_float alpha)
 		{
-			Red = red;
-			Green = green;
-			Blue = blue;
-			Alpha = alpha;
+			this->red = red;
+			this->green = green;
+			this->blue = blue;
+			this->alpha = alpha;
 		}
 
 		API_INTERFACE ColorRGBA normalize() 
@@ -34,18 +34,10 @@ namespace NAMESPACE_FOUNDATION
 			const sp_float factor = 1.0f / 255.0f;
 
 			return ColorRGBA(
-				Red * factor,
-				Green * factor,
-				Blue * factor,
-				Alpha * factor);
-		}
-
-		/// <summary>
-		/// Get a index from the vector
-		/// </summary>
-		API_INTERFACE Vec4 toVec4()
-		{
-			return Vec4(Red, Green, Blue, Alpha);
+				this->red * factor,
+				this->green * factor,
+				this->blue * factor,
+				this->alpha * factor);
 		}
 
 		/// <summary>
@@ -54,9 +46,35 @@ namespace NAMESPACE_FOUNDATION
 		API_INTERFACE sp_float operator[](const sp_int index)
 		{
 			sp_assert(index >= 0 && index < 4, "IndexOutOfRangeException");
-			return toVec4()[index];
+			return ((sp_float*)this)[index];
 		}
 
+		/// <summary>
+		/// Get a index component color from the color
+		/// </summary>
+		API_INTERFACE sp_float operator[](const sp_int index) const
+		{
+			sp_assert(index >= 0 && index < 4, "IndexOutOfRangeException");
+			return ((sp_float*)this)[index];
+		}
+
+		/// <summary>
+		/// Get a index component color from the color
+		/// </summary>
+		API_INTERFACE sp_float operator[](const sp_uint index)
+		{
+			sp_assert(index >= 0 && index < 4, "IndexOutOfRangeException");
+			return ((sp_float*)this)[index];
+		}
+
+		/// <summary>
+		/// Get a index component color from the color
+		/// </summary>
+		API_INTERFACE sp_float operator[](const sp_uint index) const
+		{
+			sp_assert(index >= 0 && index < 4, "IndexOutOfRangeException");
+			return ((sp_float*)this)[index];
+		}
 	};
 }
 
