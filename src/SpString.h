@@ -328,6 +328,14 @@ namespace NAMESPACE_FOUNDATION
 			value[maxSize] = END_OF_STRING;
 		}
 
+		API_INTERFACE inline static void convert(const sp_longlong llValue, sp_char* value)
+		{
+			const sp_int maxSize = std::numeric_limits<sp_longlong>::digits10 + 1 /*0-terminator*/;
+
+			sprintf(value, "%lld", llValue);
+			value[maxSize] = END_OF_STRING;
+		}
+
 		API_INTERFACE virtual const sp_char* toString() override
 		{
 			return _data;

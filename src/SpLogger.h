@@ -66,6 +66,13 @@ namespace NAMESPACE_FOUNDATION
 			_provider->info(text);
 		}
 
+		API_INTERFACE void info(const sp_longlong value)
+		{
+			sp_char text[128];
+			SpString::convert(value, text);
+			_provider->info(text);
+		}
+		
 		API_INTERFACE inline void debug(const sp_char* text)
 		{
 			_provider->debug(text);
@@ -89,6 +96,7 @@ namespace NAMESPACE_FOUNDATION
 
 	#define sp_log_info1f(value) SpLogger::instance()->info(value)
 	#define sp_log_info3f(value1, value2, value3) SpLogger::instance()->info(value1, value2, value3)
+	#define sp_log_info1ll(value) SpLogger::instance()->info(value)
 
 	#define sp_log_debug1s(text) SpLogger::instance()->debug(text)
 
@@ -102,6 +110,7 @@ namespace NAMESPACE_FOUNDATION
 
 #define sp_log_info1f(value)
 #define sp_log_info3f(value1, value2, value3)
+#define sp_log_info1ll(value)
 
 #define sp_log_debug1s(text)
 
