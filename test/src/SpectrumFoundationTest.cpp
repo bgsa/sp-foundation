@@ -34,7 +34,8 @@ namespace NAMESPACE_FOUNDATION_TEST
 	{
 		setupModule();
 		SpLogMsTestProvider* logProvider = ALLOC_NEW(SpLogMsTestProvider);
-		SpLogger::init(logProvider);
+		SpLogger::init();
+		SpLogger::instance()->addProvider(logProvider);
 	}
 	TEST_MODULE_CLEANUP(ModuleCleanup)
 	{

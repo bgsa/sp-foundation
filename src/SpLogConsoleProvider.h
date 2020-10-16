@@ -17,7 +17,7 @@ namespace NAMESPACE_FOUNDATION
 			__android_log_print(ANDROID_LOG_INFO, "INFO", "%s", text);
 #endif
 #if defined(WINDOWS) || defined(LINUX) || defined(OSX)
-			printf("%s%c", text, END_OF_LINE);
+			printf("%s", text);
 #endif
 		}
 
@@ -27,7 +27,7 @@ namespace NAMESPACE_FOUNDATION
 			__android_log_print(ANDROID_LOG_DEBUG, "DEBUG", "%s", text);
 #endif
 #if defined(WINDOWS) || defined(LINUX) || defined(OSX)
-			printf("%s%c", text, END_OF_LINE);
+			printf("%s", text);
 #endif
 		}
 
@@ -37,7 +37,7 @@ namespace NAMESPACE_FOUNDATION
 			__android_log_print(ANDROID_LOG_ERROR, "ERROR", "%s", text);
 #endif
 #if defined(WINDOWS) || defined(LINUX) || defined(OSX)
-			printf("%s%c", text, END_OF_LINE);
+			printf("%s", text);
 #endif
 		}
 

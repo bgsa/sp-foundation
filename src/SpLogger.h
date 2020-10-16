@@ -4,46 +4,56 @@
 #include "SpectrumFoundation.h"
 #include "SpLogProvider.h"
 #include "SpString.h"
+#include "SpVector.h"
 
 namespace NAMESPACE_FOUNDATION
 {
 	class SpLogger
 	{
 	private:
-		SpLogProvider* _provider;
+		SpVector<SpLogProvider*>* _providers;
 
-		SpLogger(SpLogProvider* provider)
+		SpLogger()
 		{
-			_provider = provider;
+			_providers = sp_mem_new(SpVector<SpLogProvider*>)();
 		}
 
 	public:
 
-		API_INTERFACE static void init(SpLogProvider* defaultProvider);
+		API_INTERFACE static void init();
 		API_INTERFACE static void dispose();
 
 		API_INTERFACE static SpLogger* instance();
 
-		API_INTERFACE SpLogProvider* provider() const
+		API_INTERFACE SpVector<SpLogProvider*>* providers() const
 		{
-			return _provider;
+			return _providers;
+		}
+
+		API_INTERFACE void addProvider(SpLogProvider* provider) const
+		{
+			_providers->add(provider);
 		}
 
 		API_INTERFACE inline void error(const sp_char* text)
 		{
-			_provider->error(text);
+			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
+				item->value()->error(text);
 		}
 
 		API_INTERFACE void info(const sp_char* text)
 		{
-			_provider->info(text);
+			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
+				item->value()->info(text);
 		}
 
 		API_INTERFACE void info(const sp_float value)
 		{
 			sp_char text[128];
 			SpString::convert(value, text);
-			_provider->info(text);
+
+			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
+				item->value()->info(text);
 		}
 		API_INTERFACE void info(const sp_float value1, const sp_float value2, const sp_float value3)
 		{
@@ -63,29 +73,43 @@ namespace NAMESPACE_FOUNDATION
 
 			SpString::convert(value3, &text[len + 2]);
 
-			_provider->info(text);
+			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
+				item->value()->info(text);
 		}
 
 		API_INTERFACE void info(const sp_longlong value)
 		{
 			sp_char text[128];
 			SpString::convert(value, text);
-			_provider->info(text);
+
+			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
+				item->value()->info(text);
 		}
 		
 		API_INTERFACE inline void debug(const sp_char* text)
 		{
-			_provider->debug(text);
+			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
+				item->value()->debug(text);
 		}
 		
 		API_INTERFACE inline void newLine()
 		{
-			_provider->newLine();
+			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
+				item->value()->newLine();
 		}
 
 		API_INTERFACE inline void onError(sp_int errorCode, const sp_char* description)
 		{
 			error(description);
+		}
+
+		~SpLogger()
+		{
+			if (_providers != nullptr)
+			{
+				sp_mem_delete(_providers, SpVector<SpLogProvider*>);
+				_providers = nullptr;
+			}
 		}
 
 	};
