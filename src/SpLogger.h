@@ -5,6 +5,7 @@
 #include "SpLogProvider.h"
 #include "SpString.h"
 #include "SpVector.h"
+#include <mutex>
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -12,6 +13,7 @@ namespace NAMESPACE_FOUNDATION
 	{
 	private:
 		SpVector<SpLogProvider*>* _providers;
+		std::mutex locker;
 
 		SpLogger()
 		{
@@ -49,11 +51,15 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE void info(const sp_float value)
 		{
+			locker.lock();
+
 			sp_char text[128];
 			SpString::convert(value, text);
 
 			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
 				item->value()->info(text);
+		
+			locker.unlock();
 		}
 		API_INTERFACE void info(const sp_float value1, const sp_float value2, const sp_float value3)
 		{
