@@ -323,6 +323,8 @@ extern "C" {
 	
 	const char END_OF_LINE = END_OF_LINE_LF;
 	const char END_OF_STRING = '\0';
+
+	const char SP_STRING_SPACE = ' ';
 }
 
 #endif // BASE_PLATFORM_HEADER

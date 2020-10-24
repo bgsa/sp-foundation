@@ -78,8 +78,16 @@ namespace NAMESPACE_FOUNDATION
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 #endif
 
-			_state = sp_mem_new(SpWindowState)(300, 300, 1280, 720);
+			GLFWmonitor* glfwMonitor = glfwGetPrimaryMonitor();
+			const GLFWvidmode* mode = glfwGetVideoMode(glfwMonitor);
+			
+			sp_int xpos, ypos, width, height;
+			glfwGetMonitorWorkarea(glfwMonitor, &xpos, &ypos, &width, &height);
+			const sp_int windowHeaderSize = 30;
+
+			_state = sp_mem_new(SpWindowState)(0, 0, width, height);
 			window = glfwCreateWindow(_state->width, _state->height, "Spectrum Engine", NULL, NULL);
+			glfwSetWindowPos(window, xpos, ypos + windowHeaderSize);
 
 			if (window == NULL)
 			{
