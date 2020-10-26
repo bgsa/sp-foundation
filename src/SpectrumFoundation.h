@@ -374,23 +374,28 @@ namespace NAMESPACE_FOUNDATION
 		return value;
 	}
 
-	///<summary>
-	///Check the number is close enough given a other number. It is used to check aproximation value and calculate the error measure.
-	///Epsilon is the tolerated value
-	///</summary>
-	template<typename T>
-	API_INTERFACE inline sp_bool isCloseEnough(T value, T compare, T epsilon)
+	/// <summary>
+	/// Check the number is close enough given a other number. It is used to check aproximation value and calculate the error measure.
+	/// </summary>
+	/// <param name="value">Value</param>
+	/// <param name="compare">Compare with</param>
+	/// <param name="epsilon">Threashold</param>
+	/// <returns>True if the value is closes to compare</returns>
+	API_INTERFACE inline sp_bool isCloseEnough(const sp_double value, const sp_double compare, const sp_double _epsilon = DefaultErrorMargin)
 	{
-		return abs(value - compare) < epsilon;
+		return abs(value - compare) < _epsilon;
 	}
 
-	///<summary>
-	///Check the number is close enough given a other number. It is used to check aproximation value and calculate the error measure.
-	///</summary>
-	template<typename T>
-	API_INTERFACE inline sp_bool isCloseEnough(T value, T compare)
+	/// <summary>
+	/// Check the number is close enough given a other number. It is used to check aproximation value and calculate the error measure.
+	/// </summary>
+	/// <param name="value">Value</param>
+	/// <param name="compare">Compare with</param>
+	/// <param name="epsilon">Threashold</param>
+	/// <returns>True if the value is closes to compare</returns>
+	API_INTERFACE inline sp_bool isCloseEnough(const sp_float value, const sp_float compare, const sp_float _epsilon = DefaultErrorMargin)
 	{
-		return isCloseEnough(value, compare, T(DefaultErrorMargin));
+		return fabsf(value - compare) < _epsilon;
 	}
 
 	///<summary>
