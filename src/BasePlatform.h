@@ -283,13 +283,13 @@ __INTEL_CXXLIB_ICC
 #define MAX_DIGITS_EXPOENT  (5)
 #define MAX_DIGITS_MANTISSA (4)
 
-#define divideBy(value, bit) (value >> bit)
+#define divideBy(value, bit) ((value) >> bit)
 #define divideBy2(value) divideBy(value, SHIFT_BIT_ONE)
-#define divideBy4(value) (value >> SHIFT_BIT_TWO)
-#define divideBy8(value) (value >> SHIFT_BIT_THREE)
-#define divideBy16(value) (value >> SHIFT_BIT_FOUR)
+#define divideBy4(value) ((value) >> SHIFT_BIT_TWO)
+#define divideBy8(value) ((value) >> SHIFT_BIT_THREE)
+#define divideBy16(value) ((value) >> SHIFT_BIT_FOUR)
 
-#define multiplyBy(value, bit) (value << bit)
+#define multiplyBy(value, bit) ((value) << bit)
 #define multiplyBy2(value) multiplyBy(value, SHIFT_BIT_ONE)
 #define multiplyBy3(value) (multiplyBy2(value) + value)
 #define multiplyBy4(value) multiplyBy(value, SHIFT_BIT_TWO)
