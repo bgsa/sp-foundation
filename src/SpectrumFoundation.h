@@ -34,7 +34,9 @@
 
 namespace NAMESPACE_FOUNDATION
 {
-	#define SP_DEFAULT_ERROR_MARGIN 0.0001f;
+	#define SP_DEFAULT_ERROR_MARGIN 0.0001f
+	#define SP_EPSILON_THREE_DIGITS 0.0009f
+	#define SP_EPSILON_TWO_DIGITS   0.009f
 	const sp_float DefaultErrorMargin = SP_DEFAULT_ERROR_MARGIN;
 
 #define sp_const(Type, value) (const Type)(value)

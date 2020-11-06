@@ -309,6 +309,15 @@ namespace NAMESPACE_FOUNDATION
 			return str;
 		}
 
+		API_INTERFACE inline static void convert(const sp_uint uintValue, sp_char* value)
+		{
+			const sp_int maxSize = std::numeric_limits<sp_uint>::digits10 + 1 /*0-terminator*/;
+
+			sprintf(value, "%u", uintValue);
+			value[maxSize] = END_OF_STRING;
+		}
+
+
 		API_INTERFACE inline static SpString* convert(const sp_float floatValue)
 		{
 			const sp_int maxSize = std::numeric_limits<sp_float>::digits10 + 1 /*sign*/ + 1 /*0-terminator*/;
