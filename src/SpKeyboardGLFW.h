@@ -8,6 +8,7 @@
 #include "SpKeyboardEvent.h"
 #include "SpEventDispatcher.h"
 #include <GLFW/glfw3.h>
+#include "SpLogger.h"
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -22,8 +23,16 @@ namespace NAMESPACE_FOUNDATION
 
 		static void onKeyboardEvent(GLFWwindow* window, sp_int key, sp_int scancode, sp_int action, sp_int mods)
 		{
-			SpKeyboardEvent* evt = sp_mem_new(SpKeyboardEvent)(action);
+			SpKeyboardEvent* evt = sp_mem_new(SpKeyboardEvent)((SpKeyEventType)action);
 			evt->key = key;
+
+			/* Debug 
+			sp_log_info1s("KEY: ");
+			sp_log_info1i(key);
+			sp_log_info1s(" - ");
+			sp_log_info1i(action);
+			sp_log_newline();
+			*/
 
 			SpEventDispatcher::instance()->push(evt);
 		}

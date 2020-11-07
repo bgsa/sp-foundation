@@ -49,6 +49,18 @@ namespace NAMESPACE_FOUNDATION
 				item->value()->info(text);
 		}
 
+		API_INTERFACE void info(const sp_int value)
+		{
+			locker.lock();
+
+			sp_char text[128];
+			SpString::convert(value, text);
+
+			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
+				item->value()->info(text);
+
+			locker.unlock();
+		}
 		API_INTERFACE void info(const sp_uint value)
 		{
 			locker.lock();
@@ -136,6 +148,7 @@ namespace NAMESPACE_FOUNDATION
 
 	#define sp_log_info1s(text) SpLogger::instance()->info(text)
 
+	#define sp_log_info1i(value) SpLogger::instance()->info(value)
 	#define sp_log_info1u(value) SpLogger::instance()->info(value)
 	#define sp_log_info1f(value) SpLogger::instance()->info(value)
 	#define sp_log_info3f(value1, value2, value3) SpLogger::instance()->info(value1, value2, value3)

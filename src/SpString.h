@@ -317,6 +317,13 @@ namespace NAMESPACE_FOUNDATION
 			value[maxSize] = END_OF_STRING;
 		}
 
+		API_INTERFACE inline static void convert(const sp_int intValue, sp_char* value)
+		{
+			const sp_int maxSize = std::numeric_limits<sp_int>::digits10 + 1 /*sign*/ + 1 /*0-terminator*/;
+
+			sprintf(value, "%d", intValue);
+			value[maxSize] = END_OF_STRING;
+		}
 
 		API_INTERFACE inline static SpString* convert(const sp_float floatValue)
 		{
