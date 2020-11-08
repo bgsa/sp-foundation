@@ -96,7 +96,8 @@ namespace NAMESPACE_FOUNDATION
 			}
 
 			glfwMakeContextCurrent(window);
-			glfwSwapInterval(1); // Enable vsync
+			//glfwSwapInterval(1); // Enable v-sync
+			glfwSwapInterval(0); // Disable vsync (much much faster in swap buffer)
 
 			glfwSetWindowCloseCallback(window, onClose);
 			glfwSetWindowSizeCallback(window, onResize);

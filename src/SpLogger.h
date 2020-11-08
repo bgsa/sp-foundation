@@ -48,7 +48,6 @@ namespace NAMESPACE_FOUNDATION
 			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
 				item->value()->info(text);
 		}
-
 		API_INTERFACE void info(const sp_int value)
 		{
 			locker.lock();
@@ -106,7 +105,6 @@ namespace NAMESPACE_FOUNDATION
 			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
 				item->value()->info(text);
 		}
-
 		API_INTERFACE void info(const sp_longlong value)
 		{
 			sp_char text[128];
@@ -121,7 +119,48 @@ namespace NAMESPACE_FOUNDATION
 			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
 				item->value()->debug(text);
 		}
-		
+		API_INTERFACE void debug(const sp_float value)
+		{
+			locker.lock();
+
+			sp_char text[128];
+			SpString::convert(value, text);
+
+			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
+				item->value()->debug(text);
+
+			locker.unlock();
+		}
+		API_INTERFACE void debug(const sp_float value1, const sp_float value2, const sp_float value3)
+		{
+			sp_char text[64];
+
+			SpString::convert(value1, text);
+
+			sp_uint len = strlen(text);
+			text[len] = ',';
+			text[len + 1] = ' ';
+
+			SpString::convert(value2, &text[len + 2]);
+
+			len = strlen(text);
+			text[len] = ',';
+			text[len + 1] = ' ';
+
+			SpString::convert(value3, &text[len + 2]);
+
+			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
+				item->value()->debug(text);
+		}
+		API_INTERFACE void debug(const sp_longlong value)
+		{
+			sp_char text[128];
+			SpString::convert(value, text);
+
+			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
+				item->value()->debug(text);
+		}
+
 		API_INTERFACE inline void newLine()
 		{
 			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
@@ -155,6 +194,8 @@ namespace NAMESPACE_FOUNDATION
 	#define sp_log_info1ll(value) SpLogger::instance()->info(value)
 
 	#define sp_log_debug1s(text) SpLogger::instance()->debug(text)
+	#define sp_log_debug1ll(value) SpLogger::instance()->debug(value)
+	#define sp_log_debug1f(value) SpLogger::instance()->debug(value)
 
 	#define sp_log_error1s(text) SpLogger::instance()->error(text)
 
