@@ -38,10 +38,10 @@ namespace NAMESPACE_FOUNDATION
 		{
 			sp_uint coresLength = SpHardwareInfo::instance()->processors()->begin()->value()->cores;
 
-			threadLength = multiplyBy4(coresLength);
-			//threadLength = coresLength;
-			threads = sp_mem_new_array(SpThread, threadLength + 1);
-			workersMutex = sp_mem_new_array(SpMutexSpinLock, threadLength + 1);
+			//threadLength = multiplyBy4(coresLength);
+			threadLength = coresLength;
+			threads = sp_mem_new_array(SpThread, threadLength);
+			workersMutex = sp_mem_new_array(SpMutexSpinLock, threadLength);
 			threadAvailableIndex = ZERO_UINT;
 
 			tasks = new SpVector<SpThreadTask*>[threadLength];
@@ -110,7 +110,9 @@ namespace NAMESPACE_FOUNDATION
 				isEmpty = true;
 
 				for (sp_uint i = 0; i < threadLength; i++)
-					isEmpty = isEmpty && tasks[i].length() == ZERO_UINT;
+					isEmpty = isEmpty && tasks[i].isEmpty();
+
+				std::this_thread::sleep_for(std::chrono::nanoseconds(100000));
 			}
 		}
 

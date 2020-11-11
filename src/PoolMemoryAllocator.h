@@ -26,15 +26,15 @@
 #define SP_BYTE_ADDRESS_LENGTH(byteLength) sp_ceilBit(charLength, SIZEOF_WORD, SIZEOF_WORD_DIVISOR_BIT)
 
 #define sp_mem_header(buffer) ((MemoryPageHeader*)(((sp_size*)arr) - ONE_SIZE))
-#define sp_mem_alloc(size) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(size, ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)
-#define sp_mem_calloc(length, size) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc( (length) * (size), ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)
+#define sp_mem_alloc(size) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(size)
+#define sp_mem_calloc(length, size) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc( (length) * (size))
 #define sp_mem_release(buffer) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->free( (sp_size*)(buffer) )
 
 #ifdef __cplusplus
-	#define sp_mem_new(Type) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type), ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)) Type
-	#define sp_mem_new_array(Type, length) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type) * length, ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)) Type[ length ]
-	#define sp_mem_new_templated1(Type, Type1) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type), ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)) Type<Type1>
-	#define sp_mem_new_templated2(Type, Type1, Type2) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type<Type1,Type2>), ++NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->syncPreviousCounter)) Type<Type1, Type2>
+	#define sp_mem_new(Type) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type))) Type
+	#define sp_mem_new_array(Type, length) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type) * (length))) Type[ (length) ]
+	#define sp_mem_new_templated1(Type, Type1) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type))) Type<Type1>
+	#define sp_mem_new_templated2(Type, Type1, Type2) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type<Type1,Type2>))) Type<Type1, Type2>
 	#define sp_mem_delete(buffer, Type) (buffer)->~Type(); sp_mem_release(buffer);
 #endif
 
@@ -63,7 +63,6 @@ namespace NAMESPACE_FOUNDATION
 		std::vector<sp_size*> freedMemory;
 		sp_size freedMemoryLength = ZERO_SIZE;
 
-		volatile sp_size syncCounter;
 		volatile sp_bool memoryAligned;
 
 		inline void init(const sp_size size)
@@ -76,14 +75,10 @@ namespace NAMESPACE_FOUNDATION
 
 			freedMemory.reserve(100);
 
-			syncCounter = ONE_SIZE;
-			syncPreviousCounter = ZERO_SIZE;
-
 			sp_assert(_initialPointer != NULL, "NullPointerException");
 		}
 
 	public:
-		volatile sp_size syncPreviousCounter = ZERO_SIZE;
 
 		API_INTERFACE static PoolMemoryAllocator* main();
 
@@ -116,10 +111,8 @@ namespace NAMESPACE_FOUNDATION
 			return _currentPointer;
 		}
 
-		API_INTERFACE HEAP_PROFILING_ALLOC inline void* alloc(const sp_size size, sp_uint syncValue) noexcept
+		API_INTERFACE HEAP_PROFILING_ALLOC inline void* alloc(const sp_size size) noexcept
 		{
-			while (syncCounter != syncValue) { }
-
 			sp_size addressLength = sp_ceilBit(size, SIZEOF_WORD, SIZEOF_WORD_DIVISOR_BIT);
 
 			sp_assert(lastPointer > _currentPointer + SIZEOF_WORD + multiplyBy(addressLength, SIZEOF_WORD_DIVISOR_BIT), "OutOfMemoryException");
@@ -146,7 +139,6 @@ namespace NAMESPACE_FOUNDATION
 							freedMemory.erase(freedMemory.begin() + i);
 						}
 
-						syncCounter++;
 						return (void*)(newPointer + ONE_SIZE);
 					}
 			}
@@ -156,7 +148,6 @@ namespace NAMESPACE_FOUNDATION
 
 			sp_size newPointer = (_currentPointer - multiplyBy(addressLength, SIZEOF_WORD_DIVISOR_BIT));
 
-			syncCounter++;
 			return (void*)newPointer;
 		}
 
@@ -244,8 +235,6 @@ namespace NAMESPACE_FOUNDATION
 				_initialPointer = ZERO_SIZE;
 				_currentPointer = ZERO_SIZE;
 				lastPointer = ZERO_SIZE;
-
-				syncCounter = ONE_SIZE;
 			}
 		}
 

@@ -119,16 +119,32 @@ namespace NAMESPACE_FOUNDATION
 			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
 				item->value()->debug(text);
 		}
-		API_INTERFACE void debug(const sp_float value)
+		API_INTERFACE inline void debug(const sp_float value)
 		{
-			locker.lock();
-
-			sp_char text[128];
+			sp_char text[32];
 			SpString::convert(value, text);
 
 			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
 				item->value()->debug(text);
+		}
+		API_INTERFACE inline void debug(const sp_char* text, const sp_float value)
+		{
+			locker.lock();
 
+			const sp_uint length = strlen(text);
+			
+			sp_char* result = ALLOC_ARRAY(sp_char, length + 20);
+			std::memcpy(result, text, length);
+			
+			SpString::convert(value, &result[length]);
+			
+			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
+			{
+				item->value()->debug(result);
+				item->value()->newLine();
+			}
+
+			ALLOC_RELEASE(result);
 			locker.unlock();
 		}
 		API_INTERFACE void debug(const sp_float value1, const sp_float value2, const sp_float value3)
@@ -196,6 +212,7 @@ namespace NAMESPACE_FOUNDATION
 	#define sp_log_debug1s(text) SpLogger::instance()->debug(text)
 	#define sp_log_debug1ll(value) SpLogger::instance()->debug(value)
 	#define sp_log_debug1f(value) SpLogger::instance()->debug(value)
+	#define sp_log_debug1sfnl(text, value) SpLogger::instance()->debug(text, value)
 
 	#define sp_log_error1s(text) SpLogger::instance()->error(text)
 

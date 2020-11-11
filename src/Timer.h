@@ -43,7 +43,7 @@ namespace NAMESPACE_FOUNDATION
 		API_INTERFACE inline void start()
 		{
 			timeLastFrame = Clock::now();
-			timeLastFrame -= std::chrono::milliseconds(1L);
+			//timeLastFrame -= std::chrono::milliseconds(1L);
 			update();
 		}
 
@@ -57,11 +57,6 @@ namespace NAMESPACE_FOUNDATION
 		{
 			sp_float time = std::chrono::duration_cast<std::chrono::nanoseconds>
 				(Clock::now() - timeLastFrame).count() / 1000000.0f;
-
-#ifdef DEBUG
-			if (time > framePerSecondLimit() * 4.0f) // application sttoped at breakpoint
-				time = framePerSecondLimit();
-#endif
 
 			return time;
 		}
