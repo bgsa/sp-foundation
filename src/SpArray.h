@@ -140,6 +140,21 @@ namespace NAMESPACE_FOUNDATION
 		return false;
 	}
 
+	/// <summary>
+	/// Find the index of the element, given a value
+	/// </summary>
+	/// <param name="list">List of uint</param>
+	/// <param name="listLength">Length of list</param>
+	/// <param name="value">Value to be looked up</param>
+	/// <returns>SP_UINT_MAX if not found, else the index of the element</returns>
+	API_INTERFACE inline sp_uint indexOf(sp_uint* list, sp_uint listLength, sp_uint value)
+	{
+		for (sp_uint i = 0; i < listLength; i++)
+			if (list[i] == value)
+				return i;
+
+		return SP_UINT_MAX;
+	}
 }
 
 #endif // SP_ARRAY_HEADER
