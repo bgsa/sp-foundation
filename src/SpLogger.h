@@ -223,8 +223,9 @@ namespace NAMESPACE_FOUNDATION
 #define sp_log_info1s(text)
 
 #define sp_log_info1f(value)
-#define sp_log_info3f(value1, value2, value3)
 #define sp_log_info1ll(value)
+#define sp_log_info3f(value1, value2, value3)
+#define sp_log_debug1sfnl(text, value)
 
 #define sp_log_debug1s(text)
 

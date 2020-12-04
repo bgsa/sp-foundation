@@ -10,6 +10,8 @@
 
 namespace NAMESPACE_FOUNDATION
 {
+	const std::chrono::nanoseconds SpDefaultThreadWait = std::chrono::nanoseconds(10000);
+
 	class SpThreadTask
 	{
 	public:
@@ -56,7 +58,7 @@ namespace NAMESPACE_FOUNDATION
 				SpVectorItem<SpThreadTask*>* taskQueue = threadPool->tasks[id].begin();
 
 				if (taskQueue == nullptr) // if task list is empty, sleep...
-					std::this_thread::sleep_for(std::chrono::nanoseconds(10000)); // 0.01 miliseconds
+					std::this_thread::sleep_for(SpDefaultThreadWait);
 				else
 				{
 					while (taskQueue != nullptr) // while task list is not empty, do ...
@@ -112,7 +114,7 @@ namespace NAMESPACE_FOUNDATION
 				for (sp_uint i = 0; i < threadLength; i++)
 					isEmpty = isEmpty && tasks[i].isEmpty();
 
-				std::this_thread::sleep_for(std::chrono::nanoseconds(100000));
+				std::this_thread::sleep_for(SpDefaultThreadWait);
 			}
 		}
 
