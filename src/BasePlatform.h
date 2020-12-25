@@ -298,6 +298,7 @@ __INTEL_CXXLIB_ICC
 #define multiplyBy8(value) multiplyBy(value, SHIFT_BIT_THREE)
 #define multiplyBy9(value) (multiplyBy8(value) + value)
 #define multiplyBy10(value) (multiplyBy8(value) + multiplyBy2(value))
+#define multiplyBy12(value) (multiplyBy8(value) + multiplyBy4(value))
 #define multiplyBy16(value) multiplyBy(value, SHIFT_BIT_FOUR)
 
 #define sp_ceilBit(value, divisor, bit)   \

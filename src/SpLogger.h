@@ -200,6 +200,7 @@ namespace NAMESPACE_FOUNDATION
 	};
 
 #ifdef LOG_ENABLED
+	#define sp_log_newline() SpLogger::instance()->newLine()
 
 	#define sp_log_info1s(text) SpLogger::instance()->info(text)
 
@@ -210,13 +211,13 @@ namespace NAMESPACE_FOUNDATION
 	#define sp_log_info1ll(value) SpLogger::instance()->info(value)
 
 	#define sp_log_debug1s(text) SpLogger::instance()->debug(text)
+	#define sp_log_debug1snl(text) SpLogger::instance()->debug(text); sp_log_newline();
 	#define sp_log_debug1ll(value) SpLogger::instance()->debug(value)
 	#define sp_log_debug1f(value) SpLogger::instance()->debug(value)
 	#define sp_log_debug1sfnl(text, value) SpLogger::instance()->debug(text, value)
 
 	#define sp_log_error1s(text) SpLogger::instance()->error(text)
 
-	#define sp_log_newline() SpLogger::instance()->newLine()
 
 #else
 
