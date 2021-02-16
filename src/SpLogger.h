@@ -127,6 +127,14 @@ namespace NAMESPACE_FOUNDATION
 			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
 				item->value()->debug(text);
 		}
+		API_INTERFACE inline void debug(const sp_float* list, const sp_uint listLength)
+		{
+			for (sp_uint i = 0u; i < listLength; i++)
+			{
+				debug(list[i]);
+				debug(", ");
+			}
+		}
 		API_INTERFACE inline void debug(const sp_char* text, const sp_float value)
 		{
 			locker.lock();
@@ -214,25 +222,30 @@ namespace NAMESPACE_FOUNDATION
 	#define sp_log_debug1snl(text) SpLogger::instance()->debug(text); sp_log_newline();
 	#define sp_log_debug1ll(value) SpLogger::instance()->debug(value)
 	#define sp_log_debug1f(value) SpLogger::instance()->debug(value)
+	#define sp_log_debugXf(list, listLength) SpLogger::instance()->debug(list, listLength)
 	#define sp_log_debug1sfnl(text, value) SpLogger::instance()->debug(text, value)
 
 	#define sp_log_error1s(text) SpLogger::instance()->error(text)
 
-
 #else
+	#define sp_log_newline()
 
-#define sp_log_info1s(text)
+	#define sp_log_info1s(text) 
 
-#define sp_log_info1f(value)
-#define sp_log_info1ll(value)
-#define sp_log_info3f(value1, value2, value3)
-#define sp_log_debug1sfnl(text, value)
+	#define sp_log_info1i(value)
+	#define sp_log_info1u(value)
+	#define sp_log_info1f(value)
+	#define sp_log_info3f(value1, value2, value3)
+	#define sp_log_info1ll(value)
 
-#define sp_log_debug1s(text)
+	#define sp_log_debug1s(text)
+	#define sp_log_debug1snl(text)
+	#define sp_log_debug1ll(value)
+	#define sp_log_debug1f(value) 
+	#define sp_log_debugXf(list, listLength)
+	#define sp_log_debug1sfnl(text, value)
 
-#define sp_log_error1s(text)
-
-#define sp_log_newline()
+	#define sp_log_error1s(text)
 
 #endif
 

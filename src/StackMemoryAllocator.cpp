@@ -15,22 +15,15 @@ void StackMemoryAllocator::init(const sp_size initialSize) noexcept
 
 	currentPointer = initialPointer;
 	lastPointer = (void*) ((sp_size)initialPointer + initialSize);
-
-	stack_syncCounter = ONE_SIZE;
-	stack_syncPreviousCounter = ZERO_SIZE;
 }
 
-void StackMemoryAllocator::free(void* buffer, sp_uint syncValue) noexcept
+void StackMemoryAllocator::free(void* buffer) noexcept
 {
-	while (stack_syncCounter != syncValue) {}
-
 	sp_assert(buffer != NULL, "NullPointerException");
 	sp_assert(buffer >= initialPointer && buffer <= lastPointer, "IndexOutOfRangeException");
 
 	if (currentPointer > buffer) // memory has already freed by previous pointer
 		currentPointer = buffer;
-
-	stack_syncCounter++;
 }
 
 sp_size StackMemoryAllocator::deviceMemorySize() noexcept
@@ -46,10 +39,8 @@ sp_size StackMemoryAllocator::deviceMemorySize() noexcept
 #endif
 }
 
-void* StackMemoryAllocator::alloc(const sp_size size, sp_uint syncValue) noexcept
+void* StackMemoryAllocator::alloc(const sp_size size) noexcept
 {
-	while (stack_syncCounter != syncValue) { }
-
 	sp_assert(hasAvailableMemory(size), "OutOfMemoryException");
 
 	void* buffer = currentPointer;
@@ -58,7 +49,6 @@ void* StackMemoryAllocator::alloc(const sp_size size, sp_uint syncValue) noexcep
 
 	sp_assert(((sp_size)lastPointer) > ((sp_size)currentPointer), "OutOfMemoryException");
 
-	stack_syncCounter++;
 	return buffer;
 }
 
@@ -76,18 +66,14 @@ void StackMemoryAllocator::copy(const void* source, void* destiny, sp_size size)
 	std::memcpy(destiny, source, size);
 }
 
-void StackMemoryAllocator::resize(sp_size newSize, sp_uint syncValue) noexcept
+void StackMemoryAllocator::resize(sp_size newSize) noexcept
 {
-	while (stack_syncCounter != syncValue) { }
-
 	initialPointer = std::realloc(initialPointer, newSize);
 
 	sp_assert(initialPointer != NULL, "NullPointerException");
 
 	currentPointer = initialPointer;
 	lastPointer = (void*) ((sp_size)initialPointer + newSize);
-
-	stack_syncCounter++;
 }
 
 sp_bool StackMemoryAllocator::hasAvailableMemory(const sp_size size) noexcept
@@ -114,9 +100,6 @@ void StackMemoryAllocator::release() noexcept
 		initialPointer = NULL;
 		lastPointer = NULL;
 		currentPointer = NULL;
-
-		stack_syncCounter = ONE_SIZE;
-		stack_syncPreviousCounter = ZERO_SIZE;
 	}
 }
 

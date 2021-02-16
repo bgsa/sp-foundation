@@ -35,12 +35,53 @@
 namespace NAMESPACE_FOUNDATION
 {
 	#define SP_DEFAULT_ERROR_MARGIN 0.0001f
-	#define SP_EPSILON_THREE_DIGITS 0.0009f
-	#define SP_EPSILON_TWO_DIGITS   0.009f
+	#define SP_EPSILON_TWO_DIGITS   0.009999f
+	#define SP_EPSILON_THREE_DIGITS 0.000999f
+	#define SP_EPSILON_FOUR_DIGITS  0.000099f
+	#define SP_EPSILON_FIVE_DIGITS  0.000009f
 	const sp_float DefaultErrorMargin = SP_DEFAULT_ERROR_MARGIN;
+
+	#define ONE_OVER_THREE (0.333333f)
+	#define ONE_OVER_FOUR  (0.25f)
 
 #define sp_const(Type, value) (const Type)(value)
 #define sp_constless(Type, value) const_cast<const Type>(value)
+
+	/// <summary>
+	/// Check the number is close enough given a other number. It is used to check aproximation value and calculate the error measure.
+	/// </summary>
+	/// <param name="value">Value</param>
+	/// <param name="compare">Compare with</param>
+	/// <param name="epsilon">Threashold</param>
+	/// <returns>True if the value is closes to compare</returns>
+	API_INTERFACE inline sp_bool isCloseEnough(const sp_double value, const sp_double compare, const sp_double _epsilon = DefaultErrorMargin)
+	{
+		return abs(value - compare) < _epsilon;
+	}
+
+	/// <summary>
+	/// Check the number is close enough given a other number. It is used to check aproximation value and calculate the error measure.
+	/// </summary>
+	/// <param name="value">Value</param>
+	/// <param name="compare">Compare with</param>
+	/// <param name="epsilon">Threashold</param>
+	/// <returns>True if the value is closes to compare</returns>
+	API_INTERFACE inline sp_bool isCloseEnough(const sp_float value, const sp_float compare, const sp_float _epsilon = DefaultErrorMargin)
+	{
+		return fabsf(value - compare) < _epsilon;
+	}
+
+	/// <summary>
+	/// Divide a value1 by value2 safety
+	/// </summary>
+	/// <param name="value1">Numerator</param>
+	/// <param name="value2">Denominator</param>
+	/// <returns>Result of division</returns>
+	API_INTERFACE inline sp_float div(sp_float value1, sp_float value2)
+	{
+		sp_assert(!isCloseEnough(value2, ZERO_FLOAT), "DivisionByZeroException");
+		return value1 / value2;
+	}
 
 	API_INTERFACE SP_CONSTEXPR inline sp_float sp_pow2(sp_float value)
 	{
@@ -374,30 +415,6 @@ namespace NAMESPACE_FOUNDATION
 				value = maxValue;
 
 		return value;
-	}
-
-	/// <summary>
-	/// Check the number is close enough given a other number. It is used to check aproximation value and calculate the error measure.
-	/// </summary>
-	/// <param name="value">Value</param>
-	/// <param name="compare">Compare with</param>
-	/// <param name="epsilon">Threashold</param>
-	/// <returns>True if the value is closes to compare</returns>
-	API_INTERFACE inline sp_bool isCloseEnough(const sp_double value, const sp_double compare, const sp_double _epsilon = DefaultErrorMargin)
-	{
-		return abs(value - compare) < _epsilon;
-	}
-
-	/// <summary>
-	/// Check the number is close enough given a other number. It is used to check aproximation value and calculate the error measure.
-	/// </summary>
-	/// <param name="value">Value</param>
-	/// <param name="compare">Compare with</param>
-	/// <param name="epsilon">Threashold</param>
-	/// <returns>True if the value is closes to compare</returns>
-	API_INTERFACE inline sp_bool isCloseEnough(const sp_float value, const sp_float compare, const sp_float _epsilon = DefaultErrorMargin)
-	{
-		return fabsf(value - compare) < _epsilon;
 	}
 
 	///<summary>
