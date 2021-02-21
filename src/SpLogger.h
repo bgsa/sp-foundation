@@ -127,6 +127,14 @@ namespace NAMESPACE_FOUNDATION
 			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
 				item->value()->debug(text);
 		}
+		API_INTERFACE inline void debug(const sp_uint value)
+		{
+			sp_char text[32];
+			SpString::convert(value, text);
+
+			for (SpVectorItem<SpLogProvider*>* item = _providers->begin(); item != nullptr; item = item->next())
+				item->value()->debug(text);
+		}
 		API_INTERFACE inline void debug(const sp_float* list, const sp_uint listLength)
 		{
 			for (sp_uint i = 0u; i < listLength; i++)
@@ -222,6 +230,7 @@ namespace NAMESPACE_FOUNDATION
 	#define sp_log_debug1snl(text) SpLogger::instance()->debug(text); sp_log_newline();
 	#define sp_log_debug1ll(value) SpLogger::instance()->debug(value)
 	#define sp_log_debug1f(value) SpLogger::instance()->debug(value)
+	#define sp_log_debug1u(value) SpLogger::instance()->debug(value)
 	#define sp_log_debugXf(list, listLength) SpLogger::instance()->debug(list, listLength)
 	#define sp_log_debug1sfnl(text, value) SpLogger::instance()->debug(text, value)
 
