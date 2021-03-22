@@ -15,18 +15,18 @@ namespace NAMESPACE_FOUNDATION_TEST
 
 	API_INTERFACE void resetMemory()
 	{
-		PoolMemoryAllocator::main()->reset();
+		SpPoolMemoryAllocator::main()->reset();
 		tearDownModule();
 		setupModule();
 	}
 
 	API_INTERFACE void setupModule()
 	{
-		StackMemoryAllocator::main()->init(ONE_MEGABYTE * 512);
+		SpStackMemoryAllocator::main()->init(ONE_MEGABYTE * 512);
 	}
 	API_INTERFACE void tearDownModule()
 	{
-		StackMemoryAllocator::main()->release();
+		SpStackMemoryAllocator::main()->dispose();
 	}
 
 #ifdef MSTEST_ENABLED

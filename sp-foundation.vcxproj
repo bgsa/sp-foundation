@@ -173,7 +173,7 @@
     <ClCompile Include="src\PoolMemoryAllocator.cpp" />
     <ClCompile Include="src\SpLogger.cpp" />
     <ClCompile Include="src\SpString.cpp" />
-    <ClCompile Include="src\StackMemoryAllocator.cpp" />
+    <ClCompile Include="src\SpStackMemoryAllocator.cpp" />
     <ClCompile Include="src\RendererSize.cpp" />
     <ClCompile Include="src\SoundEffect.cpp" />
     <ClCompile Include="src\SoundSubSystem.cpp" />
@@ -193,9 +193,10 @@
     <ClInclude Include="src\SpLogger.h" />
     <ClInclude Include="src\SpLogMsTestProvider.h" />
     <ClInclude Include="src\SpLogProvider.h" />
+    <ClInclude Include="src\SpMemoryAllocator.h" />
     <ClInclude Include="src\SpMutexSpinLock.h" />
     <ClInclude Include="src\OSXPlatform.h" />
-    <ClInclude Include="src\PoolMemoryAllocator.h" />
+    <ClInclude Include="src\SpPoolMemoryAllocator.h" />
     <ClInclude Include="src\RendererSize.h" />
     <ClInclude Include="src\SpArray.h" />
     <ClInclude Include="src\SpArrayOfString.h" />
@@ -250,7 +251,7 @@
     <ClInclude Include="src\SpVectorOfReferences.h" />
     <ClInclude Include="src\SpWindowEvent.h" />
     <ClInclude Include="src\SpWindowGLFW.h" />
-    <ClInclude Include="src\StackMemoryAllocator.h" />
+    <ClInclude Include="src\SpStackMemoryAllocator.h" />
     <ClInclude Include="src\Object.h" />
     <ClInclude Include="src\SpMouse.h" />
     <ClInclude Include="src\SpMouseGLFW.h" />

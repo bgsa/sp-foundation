@@ -1,59 +1,49 @@
-#ifndef POOL_MEMORY_ALLOCATOR_HEADER
-#define POOL_MEMORY_ALLOCATOR_HEADER
+#ifndef SP_POOL_MEMORY_ALLOCATOR_HEADER
+#define SP_POOL_MEMORY_ALLOCATOR_HEADER
 
 #include "BasePlatform.h"
-
-#if defined(WINDOWS)
-	#include "WindowsPlatform.h"
-#elif defined(LINUX)
-	#include "LinuxPlatform.h"	
-#elif defined(OSX)
-	#include "OSXPlatform.h"	
-#endif
-#ifndef NAMESPACE_FOUNDATION
-	#define NAMESPACE_FOUNDATION SpFoundation
-#endif // NAMESPACE_FOUNDATION
-
+#include "SpMemoryAllocator.h"
 #include "Assertions.h"
 #include <cstdlib>
 #include <cstring>
 #include <vector>
 
-#ifndef SP_DEFAULT_MEMORY_SIZE
-	#define SP_DEFAULT_MEMORY_SIZE (ONE_MEGABYTE * 512)
+#ifndef SP_POOL_MEMORY_DEFAULT_SIZE
+	#define SP_POOL_MEMORY_DEFAULT_SIZE (ONE_MEGABYTE * 512)
 #endif
 
 #define SP_BYTE_ADDRESS_LENGTH(byteLength) sp_ceilBit(charLength, SIZEOF_WORD, SIZEOF_WORD_DIVISOR_BIT)
 
-#define sp_mem_header(buffer) ((MemoryPageHeader*)(((sp_size*)arr) - ONE_SIZE))
-#define sp_mem_alloc(size) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(size)
-#define sp_mem_calloc(length, size) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc( (length) * (size))
-#define sp_mem_release(buffer) NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->free( (sp_size*)(buffer) )
+#define sp_mem_header(address) NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->pageHeader(address)
+#define sp_mem_alloc(size) NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc(size)
+#define sp_mem_calloc(length, size) NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc( (length) * (size))
+#define sp_mem_release(address) NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->free((void*)address)
 
 #ifdef __cplusplus
-	#define sp_mem_new(Type) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type))) Type
-	#define sp_mem_new_array(Type, length) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type) * (length))) Type[ (length) ]
-	#define sp_mem_new_templated1(Type, Type1) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type))) Type<Type1>
-	#define sp_mem_new_templated2(Type, Type1, Type2) new (NAMESPACE_FOUNDATION::PoolMemoryAllocator::main()->alloc(sizeof(Type<Type1,Type2>))) Type<Type1, Type2>
-	#define sp_mem_delete(buffer, Type) (buffer)->~Type(); sp_mem_release(buffer);
+	#define sp_mem_new(Type) new (NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc(sizeof(Type))) Type
+	#define sp_mem_new_array(Type, length) new (NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc(sizeof(Type) * (length))) Type[ (length) ]
+	#define sp_mem_new_templated1(Type, Type1) new (NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc(sizeof(Type))) Type<Type1>
+	#define sp_mem_new_templated2(Type, Type1, Type2) new (NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc(sizeof(Type<Type1,Type2>))) Type<Type1, Type2>
+	#define sp_mem_delete(address, Type) (address)->~Type(); sp_mem_release(address);
 #endif
 
 namespace NAMESPACE_FOUNDATION
 {
-	class MemoryPageHeader
+	class SpMemoryPageHeader
 	{
 	public:
 		sp_size addressLength;
 		sp_size data;
 
-		API_INTERFACE inline MemoryPageHeader()
+		API_INTERFACE inline SpMemoryPageHeader()
 		{
 			this->addressLength = ZERO_SIZE;
 			this->data = ZERO_SIZE;
 		}
 	};
 
-	class PoolMemoryAllocator
+	class SpPoolMemoryAllocator
+		: public SpMemoryAllocator
 	{
 	private:
 		sp_size _initialPointer;
@@ -80,9 +70,9 @@ namespace NAMESPACE_FOUNDATION
 
 	public:
 
-		API_INTERFACE static PoolMemoryAllocator* main();
+		API_INTERFACE static SpPoolMemoryAllocator* main();
 
-		API_INTERFACE inline PoolMemoryAllocator(const sp_size size)
+		API_INTERFACE inline SpPoolMemoryAllocator(const sp_size size)
 		{
 			memoryAligned = false;
 			init(size);
@@ -97,7 +87,7 @@ namespace NAMESPACE_FOUNDATION
 			memoryAligned = false;
 		}
 
-		API_INTERFACE inline sp_size currentAddress() const noexcept
+		API_INTERFACE inline sp_size currentAddress() const noexcept override
 		{
 			return _currentPointer;
 		}
@@ -111,7 +101,7 @@ namespace NAMESPACE_FOUNDATION
 			return _currentPointer;
 		}
 
-		API_INTERFACE HEAP_PROFILING_ALLOC inline void* alloc(const sp_size size) noexcept
+		API_INTERFACE HEAP_PROFILING_ALLOC inline void* alloc(const sp_size size) noexcept override
 		{
 			sp_size addressLength = sp_ceilBit(size, SIZEOF_WORD, SIZEOF_WORD_DIVISOR_BIT);
 
@@ -151,27 +141,27 @@ namespace NAMESPACE_FOUNDATION
 			return (void*)newPointer;
 		}
 
-#define IS_LAST_ALLOCATION ((sp_size)*(buffer - ONE_SIZE)) * SIZEOF_WORD + (sp_size)buffer == _currentPointer
-		API_INTERFACE inline void free(sp_size* buffer) noexcept
+		API_INTERFACE inline void free(void* address) noexcept override
 		{
-			if (IS_LAST_ALLOCATION)
+			SpMemoryPageHeader* header = pageHeader(address);
+
+			if (header->addressLength * SIZEOF_WORD + (sp_size)address == _currentPointer)
 			{
-				_currentPointer = (sp_size)(buffer - ONE_SIZE);
+				_currentPointer = (sp_size)header;
 			}
 			else
 			{
 				freedMemoryLength++;
-				freedMemory.push_back(buffer);
+				freedMemory.push_back((sp_size*)address);
 			}
 		}
-#undef IS_LAST_ALLOCATION
 
-		API_INTERFACE inline MemoryPageHeader* pageHeader(void* address) noexcept
+		API_INTERFACE inline SpMemoryPageHeader* pageHeader(void* address) noexcept
 		{
-			return (MemoryPageHeader*)((sp_size*)address - ONE_SIZE);
+			return (SpMemoryPageHeader*)((sp_size*)address - ONE_SIZE);
 		}
 
-		API_INTERFACE inline sp_size memorySize() const noexcept
+		API_INTERFACE inline sp_size memorySize() const noexcept override
 		{
 			return lastPointer - _initialPointer;
 		}
@@ -218,12 +208,12 @@ namespace NAMESPACE_FOUNDATION
 		{
 			const sp_size size = memorySize();
 
-			release();
+			dispose();
 
 			init(size);
 		}
 
-		API_INTERFACE inline void release() noexcept
+		API_INTERFACE inline void dispose() noexcept override
 		{
 			if (_initialPointer != ZERO_SIZE)
 			{
@@ -238,11 +228,11 @@ namespace NAMESPACE_FOUNDATION
 			}
 		}
 
-		API_INTERFACE inline ~PoolMemoryAllocator() noexcept
+		API_INTERFACE inline ~SpPoolMemoryAllocator() noexcept
 		{
-			release();
+			dispose();
 		}
 	};
 }
 
-#endif // POOL_MEMORY_ALLOCATOR_HEADER
+#endif // SP_POOL_MEMORY_ALLOCATOR_HEADER

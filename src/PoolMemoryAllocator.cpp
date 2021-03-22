@@ -1,10 +1,10 @@
-#include "PoolMemoryAllocator.h"
+#include "SpPoolMemoryAllocator.h"
 
 namespace NAMESPACE_FOUNDATION
 {
-	static PoolMemoryAllocator* instance = new PoolMemoryAllocator(SP_DEFAULT_MEMORY_SIZE);
+	static SpPoolMemoryAllocator* instance = new SpPoolMemoryAllocator(SP_POOL_MEMORY_DEFAULT_SIZE);
 
-	PoolMemoryAllocator* PoolMemoryAllocator::main()
+	SpPoolMemoryAllocator* SpPoolMemoryAllocator::main()
 	{
 		return instance;
 	}

@@ -27,8 +27,8 @@
 #endif
 
 #include "Assertions.h"
-#include "StackMemoryAllocator.h"
-#include "PoolMemoryAllocator.h"
+#include "SpStackMemoryAllocator.h"
+#include "SpPoolMemoryAllocator.h"
 #include "Object.h"
 #include <cmath>
 

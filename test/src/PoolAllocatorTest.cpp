@@ -48,7 +48,7 @@ namespace NAMESPACE_FOUNDATION_TEST
 		sp_size* memoryAllocated3 = (sp_size*)sp_mem_alloc(TEN_UINT * SIZEOF_FLOAT);
 		memoryAllocated3[0] = 200;
 
-		Assert::AreEqual(ZERO_SIZE, PoolMemoryAllocator::main()->freedMemorySize());
+		Assert::AreEqual(ZERO_SIZE, SpPoolMemoryAllocator::main()->freedMemorySize());
 		Assert::AreEqual(memoryAllocated2, memoryAllocated3);
 		locker.unlock();
 	}
@@ -97,7 +97,7 @@ namespace NAMESPACE_FOUNDATION_TEST
 		
 		sp_mem_release(memoryAllocated2);
 
-		Assert::AreEqual(ONE_SIZE, PoolMemoryAllocator::main()->freedMemorySize());
+		Assert::AreEqual(ONE_SIZE, SpPoolMemoryAllocator::main()->freedMemorySize());
 		locker.unlock();
 	}
 
@@ -119,12 +119,12 @@ namespace NAMESPACE_FOUNDATION_TEST
 		memoryAllocated3[0] = 555;
 
 		sp_mem_release(memoryAllocated2);
-		Assert::AreEqual(ONE_SIZE, PoolMemoryAllocator::main()->freedMemorySize());
+		Assert::AreEqual(ONE_SIZE, SpPoolMemoryAllocator::main()->freedMemorySize());
 
 		sp_size* memoryAllocated4 = (sp_size*)sp_mem_alloc(SIZEOF_FLOAT);
 		Assert::AreEqual(memoryAllocated2, memoryAllocated4);
 
-		Assert::AreEqual(ONE_SIZE, PoolMemoryAllocator::main()->freedMemorySize());
+		Assert::AreEqual(ONE_SIZE, SpPoolMemoryAllocator::main()->freedMemorySize());
 		Assert::AreEqual(THREE_SIZE, (memoryAllocated4 + 1)[0]);
 		locker.unlock();
 	}
@@ -147,11 +147,11 @@ namespace NAMESPACE_FOUNDATION_TEST
 		memoryAllocated3[0] = 555;
 
 		sp_mem_release(memoryAllocated2);
-		Assert::AreEqual(ONE_SIZE, PoolMemoryAllocator::main()->freedMemorySize());
+		Assert::AreEqual(ONE_SIZE, SpPoolMemoryAllocator::main()->freedMemorySize());
 
 		sp_size* memoryAllocated4 = (sp_size*)sp_mem_calloc(FOUR_SIZE, SIZEOF_FLOAT);
 		Assert::AreEqual(memoryAllocated2, memoryAllocated4);
-		Assert::AreEqual(ZERO_SIZE, PoolMemoryAllocator::main()->freedMemorySize());
+		Assert::AreEqual(ZERO_SIZE, SpPoolMemoryAllocator::main()->freedMemorySize());
 		locker.unlock();
 	}
 
