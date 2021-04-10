@@ -3,6 +3,7 @@
 
 #include "SpectrumFoundation.h"
 #include "FileSystem.h"
+#include "SpString.h"
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -72,6 +73,30 @@ namespace NAMESPACE_FOUNDATION
 
 			buffer[currentBuffer + size] = SP_CSV_SEPARATOR[0];
 			currentBuffer += size + 1u;
+		}
+
+		/// <summary>
+		/// Add new value to the CSV file
+		/// </summary>
+		/// <param name="value">Content</param>
+		/// <returns></returns>
+		API_INTERFACE inline void addValue(const sp_uint value)
+		{
+			sp_char text[20];
+			SpString::convert(value, text);
+			addValue(text);
+		}
+
+		/// <summary>
+		/// Add new value to the CSV file
+		/// </summary>
+		/// <param name="value">Content</param>
+		/// <returns></returns>
+		API_INTERFACE inline void addValue(const sp_float value)
+		{
+			sp_char text[20];
+			SpString::convert(value, text);
+			addValue(text);
 		}
 
 		/// <summary>
