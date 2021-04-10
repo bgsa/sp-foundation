@@ -9,6 +9,13 @@ namespace NAMESPACE_FOUNDATION
 	{
 		file.open(filename, mode);
 
+		if (errno != NULL)
+		{
+			sp_char* errorMessage = strerror(errno);
+			sp_assert(false, errorMessage);
+			errno = NULL;
+		}
+
 		sp_assert(!file.bad(), "FileException");
 		sp_assert(!file.fail(), "FileException");
 		sp_assert(file.good(), "FileException");
