@@ -82,7 +82,7 @@ namespace NAMESPACE_FOUNDATION
 		/// <returns></returns>
 		API_INTERFACE inline void addValue(const sp_uint value)
 		{
-			sp_char text[20];
+			sp_char text[30];
 			SpString::convert(value, text);
 			addValue(text);
 		}
@@ -94,7 +94,7 @@ namespace NAMESPACE_FOUNDATION
 		/// <returns></returns>
 		API_INTERFACE inline void addValue(const sp_float value)
 		{
-			sp_char text[20];
+			sp_char text[30];
 			SpString::convert(value, text);
 			addValue(text);
 		}
