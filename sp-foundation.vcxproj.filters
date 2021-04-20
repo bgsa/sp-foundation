@@ -335,6 +335,9 @@
     <ClInclude Include="src\SpCSVFileWriter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\SpDynamicLibrary.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />

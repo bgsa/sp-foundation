@@ -190,6 +190,7 @@
     <ClInclude Include="src\FileSystem.h" />
     <ClInclude Include="src\LinuxPlatform.h" />
     <ClInclude Include="src\SpCSVFileWriter.h" />
+    <ClInclude Include="src\SpDynamicLibrary.h" />
     <ClInclude Include="src\SpLogConsoleProvider.h" />
     <ClInclude Include="src\SpLogger.h" />
     <ClInclude Include="src\SpLogMsTestProvider.h" />
