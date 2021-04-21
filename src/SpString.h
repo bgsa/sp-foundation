@@ -432,6 +432,19 @@ namespace NAMESPACE_FOUNDATION
 		return std::atol(_data);
 	}
 
+	API_INTERFACE inline sp_bool endsWith(const sp_char* str, const sp_char* suffix)
+	{
+		const sp_uint length = strlen(str);
+		const sp_uint lengthSuffix = strlen(suffix);
+
+		sp_uint suffixIndex = ZERO_UINT;
+
+		for (sp_uint i = length - lengthSuffix; i < length; i++, suffixIndex++)
+			if (str[i] != suffix[suffixIndex])
+				return false;
+
+		return true;
+	}
 
 	API_INTERFACE inline void convert(const sp_float floatValue, sp_char* output, sp_uint* length)
 	{
@@ -459,6 +472,31 @@ namespace NAMESPACE_FOUNDATION
 
 		output[*length] = END_OF_STRING;
 	}
+
+	API_INTERFACE inline void strReplace(const sp_char* input, sp_char pattern, sp_char newValue, sp_char* output)
+	{
+		const sp_uint length = strlen(input);
+
+		for (sp_uint i = 0; i < length; i++)
+			if (input[i] == pattern)
+				output[i] = newValue;
+			else
+				output[i] = input[i];
+
+		output[length] = END_OF_STRING;
+	}
+
+	API_INTERFACE inline sp_int strIndexOf(const sp_char* input, sp_char pattern)
+	{
+		const sp_uint length = strlen(input);
+
+		for (sp_uint i = 0; i < length; i++)
+			if (input[i] == pattern)
+				return i;
+
+		return -1;
+	}
+
 }
 
 #endif // SP_STRING_HEADER

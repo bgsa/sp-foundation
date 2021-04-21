@@ -71,6 +71,11 @@ namespace NAMESPACE_FOUNDATION
 			}
 		}
 
+		API_INTERFACE inline void add(const sp_char* line)
+		{
+
+		}
+
 		API_INTERFACE inline sp_uint countLinesStartWith(const sp_char character)
 		{
 			sp_uint counter = ZERO_UINT;

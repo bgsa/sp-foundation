@@ -3,6 +3,9 @@
 #ifndef WINDOWS_PLATFORM_HEADER
 #define WINDOWS_PLATFORM_HEADER
 
+# ifndef WIN32_LEAN_AND_MEAN
+	#define WIN32_LEAN_AND_MEAN
+# endif
 #define NOMINMAX
 #include <Windows.h>
 #undef near
@@ -147,7 +150,7 @@ typedef unsigned __int64 sp_size;
 
 #define SP_NOT_A_NUMBER     (INFINITY - INFINITY)
 
-#define SP_DIRECTORY_SEPARATOR "\\"
+#define SP_DIRECTORY_SEPARATOR '\\'
 #define SP_DIRECTORY_SEPARATOR_LENGTH (2)
 
 #endif // WINDOWS_PLATFORM_HEADER

@@ -14,6 +14,7 @@ namespace NAMESPACE_FOUNDATION
 #else
 		void* handler;
 #endif
+		sp_char _name[64];
 
 #ifdef WINDOWS
 		void getErrorMessage(const sp_char* filename, sp_char* message)
@@ -61,12 +62,17 @@ namespace NAMESPACE_FOUNDATION
 				sp_char message[256];
 				getErrorMessage(filename, message);
 				std::cerr << message << std::endl;
+				return;
 			}
 #else
 			handler = dlopen(filename, RTLD_LAZY)); // RTLD_NOW | RTLD_LAZY
 			if (handler == NULL)
+			{
 				std::cerr << dlerror() << std::endl;
+				return;
+			}
 #endif
+			filenameFromPath(filename, _name);
 		}
 
 		/// <summary>
