@@ -143,6 +143,18 @@ namespace NAMESPACE_FOUNDATION
 				debug(", ");
 			}
 		}
+		API_INTERFACE inline void debug(const sp_float* list, const sp_uint rows, const sp_uint columns)
+		{
+			for (sp_uint i = 0u; i < rows; i++)
+			{
+				for (sp_uint c = 0; c < columns; c++)
+				{
+					debug(list[i]);
+					debug(", ");
+				}
+				newLine();
+			}
+		}
 		API_INTERFACE inline void debug(const sp_char* text, const sp_float value)
 		{
 			locker.lock();
@@ -232,6 +244,7 @@ namespace NAMESPACE_FOUNDATION
 	#define sp_log_debug1f(value) SpLogger::instance()->debug(value)
 	#define sp_log_debug1u(value) SpLogger::instance()->debug(value)
 	#define sp_log_debugXf(list, listLength) SpLogger::instance()->debug(list, listLength)
+	#define sp_log_debug_matrix(values, rows, columns) SpLogger::instance()->debug(values, rows, columns)
 	#define sp_log_debug1sfnl(text, value) SpLogger::instance()->debug(text, value)
 
 	#define sp_log_error1s(text) SpLogger::instance()->error(text)
@@ -251,7 +264,9 @@ namespace NAMESPACE_FOUNDATION
 	#define sp_log_debug1snl(text)
 	#define sp_log_debug1ll(value)
 	#define sp_log_debug1f(value) 
+	#define sp_log_debug1u(value)
 	#define sp_log_debugXf(list, listLength)
+	#define sp_log_debug_matrix(values, rows, columns)
 	#define sp_log_debug1sfnl(text, value)
 
 	#define sp_log_error1s(text)

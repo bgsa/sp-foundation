@@ -507,6 +507,17 @@ namespace NAMESPACE_FOUNDATION
 		return value;  
 	} 
 
+	/// <summary>
+	/// Find square root of float number
+	/// </summary>
+	/// <param name="value">Input element</param>
+	/// <returns>Square root</returns>
+	API_INTERFACE inline sp_float sp_sqrt(const sp_float value)
+	{
+		sp_assert(value >= ZERO_FLOAT, "InvalidArgumentException");
+		return sqrtf(value);
+	}
+
 }
 
 
