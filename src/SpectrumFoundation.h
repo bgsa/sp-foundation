@@ -518,6 +518,16 @@ namespace NAMESPACE_FOUNDATION
 		return sqrtf(value);
 	}
 
+	/// <summary>
+	/// Get the absolute value of float number
+	/// </summary>
+	/// <param name="float number">Input element</param>
+	/// <returns>Abs value</returns>
+	API_INTERFACE inline sp_float sp_abs(const sp_float value)
+	{
+		return fabsf(value);
+	}
+
 }
 
 
