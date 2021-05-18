@@ -99,6 +99,20 @@ namespace NAMESPACE_FOUNDATION
 			addValue(text);
 		}
 
+#ifdef ENV_64BITS
+		/// <summary>
+		/// Add new value to the CSV file
+		/// </summary>
+		/// <param name="value">Content</param>
+		/// <returns></returns>
+		API_INTERFACE inline void addValue(const sp_size value)
+		{
+			sp_char text[30];
+			SpString::convert(value, text);
+			addValue(text);
+		}
+#endif
+
 		/// <summary>
 		/// Add new record/line to CSV file
 		/// </summary>

@@ -3,6 +3,10 @@
 
 #include "SpectrumFoundation.h"
 
+#ifdef LINUX
+	#include <dlfcn.h>
+#endif
+
 namespace NAMESPACE_FOUNDATION
 {
 	class SpDynamicLibrary
@@ -65,7 +69,7 @@ namespace NAMESPACE_FOUNDATION
 				return;
 			}
 #else
-			handler = dlopen(filename, RTLD_LAZY)); // RTLD_NOW | RTLD_LAZY
+			handler = dlopen(filename, RTLD_LAZY); // RTLD_NOW | RTLD_LAZY
 			if (handler == NULL)
 			{
 				std::cerr << dlerror() << std::endl;
