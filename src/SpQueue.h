@@ -5,25 +5,25 @@
 
 namespace NAMESPACE_FOUNDATION
 {
-	template <typename T>
+	template <typename TItem>
 	class SpQueueItem
 	{
 		template <typename T> 
 		friend class SpQueue;
 
 	private:
-		T _value;
+		TItem _value;
 		SpQueueItem* _next;
 
 	public:
 
-		API_INTERFACE SpQueueItem(const T& item)
+		API_INTERFACE SpQueueItem(const TItem& item)
 		{
 			this->_value = item;
 			_next = nullptr;
 		}
 
-		API_INTERFACE inline T& value()
+		API_INTERFACE inline TItem& value()
 		{
 			return _value;
 		}

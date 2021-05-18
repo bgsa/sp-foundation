@@ -64,13 +64,14 @@ namespace NAMESPACE_FOUNDATION
 				sp_mem_delete(_next, SpVectorItem<T*>);
 				_next = nullptr;
 			}
-
+/*
 			if (_data != NULL)
 			{
 				sp_mem_delete(_data, T);
 				_data = nullptr;
 				_previous = nullptr;
 			}
+			*/
 		}
 
 		API_INTERFACE ~SpVectorItem()

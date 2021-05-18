@@ -1,9 +1,11 @@
 #ifndef SPECTRUM_FOUNDATION_HEADER
 #define SPECTRUM_FOUNDATION_HEADER
 
-#define SSE4_ENABLED
-#define SSE_ENABLED
-#define AVX_ENABLED
+#ifdef SIMD_ENABLED
+	#define SSE_ENABLED
+	#define SSE4_ENABLED
+	#define AVX_ENABLED
+#endif
 
 #ifdef DEBUG
 	#ifndef LOG_ENABLED
@@ -526,6 +528,77 @@ namespace NAMESPACE_FOUNDATION
 	API_INTERFACE inline sp_float sp_abs(const sp_float value)
 	{
 		return fabsf(value);
+	}
+
+	/// <summary>
+	/// Get the sine value
+	/// </summary>
+	/// <param name="value">Input element</param>
+	/// <returns>Sine value</returns>
+	API_INTERFACE inline sp_float sp_sin(const sp_float value)
+	{
+		return sinf(value);
+	}
+
+	/// <summary>
+	/// Get the arc-sine value
+	/// </summary>
+	/// <param name="value">Input element</param>
+	/// <returns>Arc-sine value</returns>
+	API_INTERFACE inline sp_float sp_arcsin(const sp_float value)
+	{
+		return asinf(value);
+	}
+
+	/// <summary>
+	/// Get the cosine value
+	/// </summary>
+	/// <param name="value">Input element</param>
+	/// <returns>Cosine value</returns>
+	API_INTERFACE inline sp_float sp_cos(const sp_float value)
+	{
+		return cosf(value);
+	}
+
+	/// <summary>
+	/// Get the arc-cosine value
+	/// </summary>
+	/// <param name="value">Input element</param>
+	/// <returns>Arc-cosine value</returns>
+	API_INTERFACE inline sp_float sp_arcsos(const sp_float value)
+	{
+		return acosf(value);
+	}
+
+	/// <summary>
+	/// Get the arc-tangent of value
+	/// </summary>
+	/// <param name="value">Input element</param>
+	/// <returns>Arc-tangent value</returns>
+	API_INTERFACE inline sp_float sp_arctan(const sp_float value)
+	{
+		return atanf(value);
+	}
+
+	/// <summary>
+	/// Get the arc-tangent of value
+	/// </summary>
+	/// <param name="value1">Input element</param>
+	/// <param name="value2">Input element</param>
+	/// <returns>Arc-tangent value</returns>
+	API_INTERFACE inline sp_float sp_arctan2(const sp_float y, const sp_float x)
+	{
+		return atan2f(y, x);
+	}
+
+	/// <summary>
+	/// Get the ceil of value
+	/// </summary>
+	/// <param name="value">Input element</param>
+	/// <returns>Ceil value</returns>
+	API_INTERFACE inline sp_float sp_ceil(const sp_float value)
+	{
+		return ceilf(value);
 	}
 
 }

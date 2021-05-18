@@ -32,6 +32,7 @@
 
 #include <stdint.h>
 #include <cfloat>
+#include <cstdarg>
 
 #define ZERO_INT  0
 #define ONE_INT   1
