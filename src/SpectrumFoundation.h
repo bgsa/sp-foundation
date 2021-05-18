@@ -88,13 +88,13 @@ namespace NAMESPACE_FOUNDATION
 	{
 		return value * value;
 	}
-
+/*
 	template <typename T>
 	API_INTERFACE SP_CONSTEXPR inline T epsilon()
 	{
 		return std::numeric_limits<T>::epsilon();
 	}
-
+*/
 	API_INTERFACE SP_CONSTEXPR inline sp_float degreesToRadians(sp_float value)
 	{
 		return value * PI_DIV_180;

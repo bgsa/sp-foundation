@@ -1,6 +1,7 @@
 #ifndef SP_LOGGER_HEADER
 #define SP_LOGGER_HEADER
 
+#include <stdio.h>
 #include "SpectrumFoundation.h"
 #include "SpLogProvider.h"
 #include "SpString.h"

@@ -11,17 +11,18 @@ namespace NAMESPACE_FOUNDATION
 {
 	sp_bool checkFile(std::ifstream& file, const sp_char* filename)
 	{
-		if ( file.fail() || file.bad() || ! file.is_open() ) 
-		{
-			sp_char* errorMessage = strerror(errno);
+		if (errno == NULL)
+			return true;
 
-			Log::error(errorMessage);
-			Log::error(filename);
+		sp_char* errorMessage = strerror(errno);
+		sp_assert(false, errorMessage);
+		errno = NULL;
 
-			return false;
-		}
+		sp_assert(!file.bad(), "FileException");
+		sp_assert(!file.fail(), "FileException");
+		sp_assert(file.good(), "FileException");
 		
-		return true;
+		return false;
 	}
 
 	std::vector<std::string> FileManagerLinux::getFilesFromResource()
@@ -43,8 +44,8 @@ namespace NAMESPACE_FOUNDATION
 
 			sp_char* errorMessage = strerror(errno);
 
-			Log::error(errorMessage);
-			Log::error(search_path.c_str());
+			sp_log_error1s(errorMessage);
+			sp_log_error1s(search_path.c_str());
 
 			return files;
 		}
@@ -86,8 +87,8 @@ namespace NAMESPACE_FOUNDATION
 	{
 		std::ifstream file(filename, std::ios::in);
 
-		assert(file.is_open());
-		assert(file.good());
+		sp_assert(file.is_open(), "FileException");
+		sp_assert(file.good(), "FileException");
 
 		file.seekg(0, file.end);
 
@@ -112,8 +113,8 @@ namespace NAMESPACE_FOUNDATION
 	{
 		std::ifstream file(filename, std::ios::in | std::ios::binary | std::ios::ate);
 
-		assert(file.is_open());
-		assert(file.good());
+		sp_assert(file.is_open(), "FileException");
+		sp_assert(file.good(), "FileException");
 
 		size = (sp_uint) file.tellg();
 

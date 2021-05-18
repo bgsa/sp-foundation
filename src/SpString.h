@@ -5,6 +5,8 @@
 #include "Object.h"
 #include "SpArray.h"
 #include <stdlib.h>
+#include <limits>
+#include <stdio.h>
 
 namespace NAMESPACE_FOUNDATION
 {

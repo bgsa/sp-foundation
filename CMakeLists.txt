@@ -80,7 +80,7 @@ endif()
 
 include_directories(
 	/usr/local/include
-	${SOLUTION_DIR}/vendor/glfw/include
+	${SOLUTION_DIR}/vendor/include
 	src
 )
 

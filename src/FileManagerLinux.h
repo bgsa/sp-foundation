@@ -13,6 +13,7 @@
 #include "IFileManager.h"
 #include "IFile.h"
 #include "FileLinux.h"
+#include "SpLogger.h"
 
 namespace NAMESPACE_FOUNDATION
 {
