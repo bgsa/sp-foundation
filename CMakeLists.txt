@@ -34,14 +34,15 @@ if ( ${ARCH_BITS} STREQUAL "64" )
 	set (CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -m64 -fPIC -std=c11"   )
 	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64 -fPIC -std=c++11" )
 	set (CMAKE_LDFLAGS   "${CMAKE_CXX_FLAGS} -m64 -fPIC -std=c++11" )
-	set (LIB_DIR ${SOLUTION_DIR}/vendor/lib/x86_64)
 else()
 	set (ARCH "x86")	
 	set (CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -m32 -fPIC -std=c11"   )
 	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32 -fPIC -std=c++11" )
 	set (CMAKE_LDFLAGS   "${CMAKE_CXX_FLAGS} -m32 -fPIC -std=c++11" )
-	set (LIB_DIR ${SOLUTION_DIR}/vendor/lib/x86)
 endif()
+
+set (LIB_DIR ${SOLUTION_DIR}/vendor/lib/${ARCH}/${CMAKE_BUILD_TYPE})
+
 
 if ( ${OPERATING_SYSTEM} STREQUAL "WINDOWS" )
 
@@ -64,7 +65,7 @@ endif()
 
 find_package(OpenGL REQUIRED)
 
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_CURRENT_LIST_DIR}/lib/${ARCH}/${CMAKE_BUILD_TYPE})
 
 file(GLOB HEADERS "src/*.h")
 file(GLOB SOURCES "src/*.cpp")
@@ -109,5 +110,5 @@ endif()
 
 target_link_libraries(${PROJECT_NAME}
     ${OPENGL_LIBRARY}
-    ${LIB_DIR}/${GLFW_LIB_NAME}
+    ${GLFW_LIB_NAME}
 )
