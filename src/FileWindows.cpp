@@ -49,7 +49,7 @@ namespace NAMESPACE_FOUNDATION
 		return file.eof();
 	}
 
-	void FileWindows::read(sp_char* buffer, sp_uint size)
+	void FileWindows::read(sp_char* buffer, sp_size size)
 	{
 		file.read(buffer, size);
 		buffer[size] = END_OF_STRING;
@@ -64,20 +64,20 @@ namespace NAMESPACE_FOUNDATION
 	{
 		open(filename, std::ios::in | std::ios::binary);
 
-		const sp_uint len = length();
+		const sp_size len = length();
 
 		sp_char* content = (sp_char*)sp_mem_alloc(len + 1u);
 		read(content, len);
 
-		sp_uint updateLength = ZERO_UINT;
-		for (sp_uint i = 1; i < len; i++)
+		sp_size updateLength = ZERO_SIZE;
+		for (sp_size i = ONE_SIZE; i < len; i++)
 		{
 			const sp_char value[2] = { content[i - 1]  , content[i] };
 			if ( std::strcmp(value, END_OF_LINE_CRLF) == 0)
 				updateLength++;
 		}
 
-		for (sp_uint i = len - 1; i > 0 && content[i] == 'Í'; i--)
+		for (sp_size i = len - ONE_SIZE; i > ZERO_SIZE && content[i] == 'Í'; i--)
 			updateLength++;
 		
 		content[len - updateLength] = END_OF_STRING;

@@ -29,7 +29,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE void seek(const sp_size position, std::ios_base::seekdir direction = std::ios::cur) override;
 
-		API_INTERFACE void read(sp_char* buffer, sp_uint size) override;
+		API_INTERFACE void read(sp_char* buffer, sp_size size) override;
 
 		API_INTERFACE void write(const sp_char* buffer) override;
 

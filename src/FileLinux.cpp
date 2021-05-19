@@ -34,7 +34,7 @@ namespace NAMESPACE_FOUNDATION
 		return file.eof();
 	}
 
-	void FileLinux::read(sp_char* buffer, sp_uint size)
+	void FileLinux::read(sp_char* buffer, sp_size size)
 	{
 		file.read(buffer, size);
 	}

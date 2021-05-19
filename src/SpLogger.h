@@ -91,13 +91,13 @@ namespace NAMESPACE_FOUNDATION
 
 			SpString::convert(value1, text);
 
-			sp_uint len = strlen(text);
+			sp_size len = std::strlen(text);
 			text[len]   = ',';
 			text[len+1] = ' ';
 
 			SpString::convert(value2, &text[len + 2]);
 			
-			len = strlen(text);
+			len = std::strlen(text);
 			text[len] = ',';
 			text[len + 1] = ' ';
 
@@ -160,7 +160,7 @@ namespace NAMESPACE_FOUNDATION
 		{
 			locker.lock();
 
-			const sp_uint length = strlen(text);
+			const sp_size length = std::strlen(text);
 			
 			sp_char* result = ALLOC_ARRAY(sp_char, length + 20);
 			std::memcpy(result, text, length);
@@ -182,7 +182,7 @@ namespace NAMESPACE_FOUNDATION
 
 			SpString::convert(value1, text);
 
-			sp_uint len = strlen(text);
+			sp_size len = std::strlen(text);
 			text[len] = ',';
 			text[len + 1] = ' ';
 

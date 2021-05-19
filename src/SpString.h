@@ -25,8 +25,8 @@ namespace NAMESPACE_FOUNDATION
 		: public Object
 	{
 	private:
-		sp_uint _allocatedLength;
-		sp_uint _length;
+		sp_size _allocatedLength;
+		sp_size _length;
 		sp_char* _data;
 
 		friend class SpText;
@@ -41,7 +41,7 @@ namespace NAMESPACE_FOUNDATION
 			_data = (sp_char*)sp_mem_alloc(SP_DEFAULT_STRING_SIZE);
 		}
 
-		API_INTERFACE SpString(const sp_uint length, const sp_uint reserved = ZERO_UINT) 
+		API_INTERFACE SpString(const sp_size length, const sp_size reserved = ZERO_UINT)
 		{
 			sp_assert(length >= reserved, "IndexOutOfRangeException");
 
@@ -54,7 +54,7 @@ namespace NAMESPACE_FOUNDATION
 		API_INTERFACE SpString(const sp_char* str) // implicit conversion
 		{
 			_length = std::strlen(str);
-			_allocatedLength = _length + ONE_UINT;
+			_allocatedLength = _length + ONE_SIZE;
 			_data = (sp_char*)sp_mem_alloc(_allocatedLength);
 			std::memcpy(_data, str, _allocatedLength);
 		}
@@ -91,13 +91,13 @@ namespace NAMESPACE_FOUNDATION
 			return *this;
 		}
 
-		API_INTERFACE inline void reserve(const sp_uint value)
+		API_INTERFACE inline void reserve(const sp_size value)
 		{
 			sp_assert(value <= _allocatedLength, "IndexOutOfRange");
 			_length = value;
 		}
 
-		API_INTERFACE inline void resize(const sp_uint newLength)
+		API_INTERFACE inline void resize(const sp_size newLength)
 		{
 			_allocatedLength = newLength;
 
@@ -109,9 +109,9 @@ namespace NAMESPACE_FOUNDATION
 			_data = newChar;
 		}
 
-		API_INTERFACE inline void append(const sp_char* content, const sp_uint index = ZERO_UINT)
+		API_INTERFACE inline void append(const sp_char* content, const sp_size index = ZERO_UINT)
 		{
-			const sp_uint contentLength = std::strlen(content);
+			const sp_size contentLength = std::strlen(content);
 
 			std::memcpy(&_data[contentLength + index], &_data[index], SIZEOF_CHAR * _length);
 			std::memcpy(&_data[index], content, SIZEOF_CHAR * contentLength);
@@ -120,21 +120,21 @@ namespace NAMESPACE_FOUNDATION
 			_data[_length] = END_OF_STRING;
 		}
 
-		API_INTERFACE inline sp_uint length() const
+		API_INTERFACE inline sp_size length() const
 		{
 			return _length;
 		}
 
-		API_INTERFACE inline sp_uint allocatedLength() const
+		API_INTERFACE inline sp_size allocatedLength() const
 		{
 			return _allocatedLength;
 		}
 
-		API_INTERFACE inline SpString* substring(const sp_uint start, sp_uint end = ZERO_UINT)
+		API_INTERFACE inline SpString* substring(const sp_size start, sp_size end = ZERO_SIZE)
 		{
-			sp_assert(start >= ZERO_UINT && end < _length, "IndexOutOfRange");
+			sp_assert(start >= ZERO_SIZE && end < _length, "IndexOutOfRange");
 
-			if (end == ZERO_UINT)
+			if (end == ZERO_SIZE)
 				end = _length;
 
 			SpString* str = sp_mem_new(SpString)(end - start + ONE_UINT, end - start);
@@ -146,7 +146,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline sp_size hashCode() const noexcept override
 		{
-			sp_size hash = 0;
+			sp_size hash = ZERO_SIZE;
 			sp_char* str = _data;
 
 			for (; *str; ++str)
@@ -191,7 +191,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline SpString* add(const sp_char* content) noexcept
 		{
-			const sp_uint len = std::strlen(content);
+			const sp_size len = std::strlen(content);
 
 			sp_assert(_length + len < _allocatedLength, "InvalidArgumentException");
 
@@ -229,9 +229,9 @@ namespace NAMESPACE_FOUNDATION
 		}
 		API_INTERFACE inline sp_bool startWith(const sp_char* characteres) const
 		{
-			sp_uint charLength = std::strlen(characteres);
+			sp_size charLength = std::strlen(characteres);
 
-			for (sp_uint j = 0; j < charLength; j++)
+			for (sp_size j = 0; j < charLength; j++)
 				if (_data[j] != characteres[j])
 					return false;
 
@@ -361,15 +361,15 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE static inline EndOfLineType endOfLineType(const sp_char* text)
 		{
-			const sp_uint length = std::strlen(text);
+			const sp_size length = std::strlen(text);
 			
-			if (length == ZERO_UINT)
+			if (length == ZERO_SIZE)
 				return EndOfLineType::LF;
 
 			sp_char value[2];	
 			value[0] = text[0];
 
-			for (sp_uint i = 1; i < length; i++)
+			for (sp_size i = 1; i < length; i++)
 			{
 				value[1] = text[i];
 
@@ -436,12 +436,12 @@ namespace NAMESPACE_FOUNDATION
 
 	API_INTERFACE inline sp_bool endsWith(const sp_char* str, const sp_char* suffix)
 	{
-		const sp_uint length = strlen(str);
-		const sp_uint lengthSuffix = strlen(suffix);
+		const sp_size length = strlen(str);
+		const sp_size lengthSuffix = strlen(suffix);
 
-		sp_uint suffixIndex = ZERO_UINT;
+		sp_size suffixIndex = ZERO_SIZE;
 
-		for (sp_uint i = length - lengthSuffix; i < length; i++, suffixIndex++)
+		for (sp_size i = length - lengthSuffix; i < length; i++, suffixIndex++)
 			if (str[i] != suffix[suffixIndex])
 				return false;
 
@@ -452,7 +452,7 @@ namespace NAMESPACE_FOUNDATION
 	{
 		sprintf(output, "%f", floatValue);
 
-		length[0] = strlen(output);
+		length[0] = (sp_uint) std::strlen(output);
 
 		output[*length] = END_OF_STRING;
 	}
@@ -461,7 +461,7 @@ namespace NAMESPACE_FOUNDATION
 	{
 		sprintf(output, "%i", intValue);
 
-		length[0] = strlen(output);
+		length[0] = (sp_uint) std::strlen(output);
 
 		output[*length] = END_OF_STRING;
 	}
@@ -470,16 +470,16 @@ namespace NAMESPACE_FOUNDATION
 	{
 		sprintf(output, "%u", uintValue);
 		
-		length[0] = strlen(output);
+		length[0] = (sp_uint) std::strlen(output);
 
 		output[*length] = END_OF_STRING;
 	}
 
 	API_INTERFACE inline void strReplace(const sp_char* input, sp_char pattern, sp_char newValue, sp_char* output)
 	{
-		const sp_uint length = strlen(input);
+		const sp_size length = std::strlen(input);
 
-		for (sp_uint i = 0; i < length; i++)
+		for (sp_size i = 0; i < length; i++)
 			if (input[i] == pattern)
 				output[i] = newValue;
 			else
@@ -490,11 +490,11 @@ namespace NAMESPACE_FOUNDATION
 
 	API_INTERFACE inline sp_int strIndexOf(const sp_char* input, sp_char pattern)
 	{
-		const sp_uint length = strlen(input);
+		const sp_size length = std::strlen(input);
 
-		for (sp_uint i = 0; i < length; i++)
+		for (sp_size i = 0; i < length; i++)
 			if (input[i] == pattern)
-				return i;
+				return (sp_int) i;
 
 		return -1;
 	}
