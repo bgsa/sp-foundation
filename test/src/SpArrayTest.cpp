@@ -17,8 +17,8 @@ namespace NAMESPACE_FOUNDATION_TEST
 	{
 		SpArray<sp_char> arr(TEN_SIZE);
 
-		Assert::AreEqual(ZERO_SIZE, arr.length());
-		Assert::AreEqual(TEN_SIZE, arr.allocatedLength());
+		Assert::AreEqual(ZERO_UINT, arr.length());
+		Assert::AreEqual(TEN_UINT, arr.allocatedLength());
 	}
 
 	SP_TEST_METHOD(CLASS_NAME, length_Test1)
@@ -27,7 +27,7 @@ namespace NAMESPACE_FOUNDATION_TEST
 		arr.add('1');
 		arr.add('2');
 
-		Assert::AreEqual(TWO_SIZE, arr.length());
+		Assert::AreEqual(TWO_UINT, arr.length());
 	}
 
 	SP_TEST_METHOD(CLASS_NAME, add_Test1)

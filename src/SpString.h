@@ -64,7 +64,7 @@ namespace NAMESPACE_FOUNDATION
 			_length = source._length;
 			_allocatedLength = source._allocatedLength;
 			_data = (sp_char*)sp_mem_alloc(_allocatedLength);
-			std::memcpy(_data, source._data, _allocatedLength * SIZEOF_CHAR);
+			std::memcpy(_data, source._data, _allocatedLength * sizeof(sp_char));
 		}
 
 		API_INTERFACE SpString& operator=(sp_char* source)
@@ -101,8 +101,8 @@ namespace NAMESPACE_FOUNDATION
 		{
 			_allocatedLength = newLength;
 
-			sp_char* newChar = (sp_char*) sp_mem_alloc(SIZEOF_CHAR * newLength);
-			std::memcpy(newChar, _data, SIZEOF_CHAR * _length);
+			sp_char* newChar = (sp_char*) sp_mem_alloc(sizeof(sp_char) * newLength);
+			std::memcpy(newChar, _data, sizeof(sp_char) * _length);
 			newChar[_length] = END_OF_STRING;
 
 			sp_mem_release(_data);
@@ -113,8 +113,8 @@ namespace NAMESPACE_FOUNDATION
 		{
 			const sp_size contentLength = std::strlen(content);
 
-			std::memcpy(&_data[contentLength + index], &_data[index], SIZEOF_CHAR * _length);
-			std::memcpy(&_data[index], content, SIZEOF_CHAR * contentLength);
+			std::memcpy(&_data[contentLength + index], &_data[index], sizeof(sp_char) * _length);
+			std::memcpy(&_data[index], content, sizeof(sp_char) * contentLength);
 
 			_length += contentLength;
 			_data[_length] = END_OF_STRING;
@@ -310,6 +310,16 @@ namespace NAMESPACE_FOUNDATION
 
 			return str;
 		}
+
+#ifdef ENV_64BITS
+		API_INTERFACE inline static void convert(const sp_size sizeValue, sp_char* value)
+		{
+			const sp_int maxSize = std::numeric_limits<sp_size>::digits10 + 1 /*0-terminator*/;
+
+			sprintf(value, "%zu", sizeValue);
+			value[maxSize] = END_OF_STRING;
+		}
+#endif
 
 		API_INTERFACE inline static void convert(const sp_uint uintValue, sp_char* value)
 		{

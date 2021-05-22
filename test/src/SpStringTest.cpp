@@ -61,7 +61,7 @@ namespace NAMESPACE_FOUNDATION_TEST
 
 		Assert::AreEqual(arr[0], '1');
 		Assert::AreEqual(arr[1], '2');
-		Assert::AreEqual(TWO_UINT, arr.length());
+		Assert::AreEqual(TWO_SIZE, arr.length());
 	}
 
 	SP_TEST_METHOD(CLASS_NAME, operatorSubscript_Test1)
@@ -97,10 +97,10 @@ namespace NAMESPACE_FOUNDATION_TEST
 	SP_TEST_METHOD(CLASS_NAME, reserve_Test1)
 	{
 		SpString arr(TEN_UINT);
-		Assert::AreEqual(arr.length(), ZERO_UINT);
+		Assert::AreEqual(arr.length(), ZERO_SIZE);
 
 		arr.reserve(THREE_UINT);		
-		Assert::AreEqual(arr.length(), THREE_UINT);
+		Assert::AreEqual(arr.length(), THREE_SIZE);
 	}
 
 	SP_TEST_METHOD(CLASS_NAME, count_Test1)

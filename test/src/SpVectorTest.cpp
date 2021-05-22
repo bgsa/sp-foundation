@@ -90,9 +90,8 @@ namespace NAMESPACE_FOUNDATION_TEST
 
 		vec1.dispose();
 
-
-		sp_int* arrInt1 = (sp_int*)sp_mem_calloc(2u, SIZEOF_INT);
-		sp_int* arrInt2 = (sp_int*)sp_mem_calloc(2u, SIZEOF_INT);
+		sp_int* arrInt1 = (sp_int*)sp_mem_calloc(2u, sizeof(sp_int));
+		sp_int* arrInt2 = (sp_int*)sp_mem_calloc(2u, sizeof(sp_int));
 		arrInt1[0] = 1;
 		arrInt1[1] = 2;
 		arrInt2[0] = 3;

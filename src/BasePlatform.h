@@ -16,7 +16,9 @@
 	#define FREED_MEMORY_ADDRESS 0xDDDDDDDD
 
 	#if defined(_M_X64) || defined(_M_AMD64)
-		#define ENV_64BITS
+		#ifndef ENV_64BITS
+			#define ENV_64BITS
+		#endif
 	#else
 		#define ENV_32BITS
 	#endif
@@ -217,26 +219,13 @@ __INTEL_CXXLIB_ICC
 
 #define SP_CONSTEXPR constexpr
 
-#define SIZEOF_BOOL      (1)
-#define SIZEOF_CHAR      (1)
-#define SIZEOF_SHORT     (2)
-#define SIZEOF_INT       (4)
-#define SIZEOF_LONG      (8)
-#define SIZEOF_LONG_LONG (8)
-#define SIZEOF_FLOAT     (4)
-#define SIZEOF_DOUBLE    (8)
-#define SIZEOF_LDOUBLE   (10)
-
-#define SIZEOF_UCHAR     (1)
-#define SIZEOF_USHORT    (2)
-#define SIZEOF_UINT      (4)
-#define SIZEOF_TWO_UINT  (8)
-#define SIZEOF_ULONG     (8)
-#define SIZEOF_ULONGLONG (8)
-
-#define SIZEOF_WORD              (4)
-#define SIZEOF_TWO_WORDS         (8)
-#define SIZEOF_WORD_DIVISOR_BIT  (2)
+#ifdef ENV_32BITS
+	#define SIZEOF_WORD              (4)
+	#define SIZEOF_TWO_WORDS         (8)
+#else
+	#define SIZEOF_WORD              (8)
+	#define SIZEOF_TWO_WORDS         (16)
+#endif
 
 #define SP_SHORT_MAX        SHRT_MAX
 #define SP_USHORT_MAX       USHRT_MAX
@@ -254,19 +243,17 @@ __INTEL_CXXLIB_ICC
 #define SP_DOUBLE_MIN       (-DBL_MAX)
 
 #ifdef ENV_32BITS
-#define SIZEOF_SIZE      (4)
-#define SP_SIZE_MAX      UINT32_MAX
-#define SP_SIZE_MIN      (-SP_SIZE_MAX)
+	#define SP_SIZE_MAX      UINT32_MAX
+	#define SP_SIZE_MIN      (-SP_SIZE_MAX)
 #else
-#define SIZEOF_SIZE      (8)
-#define SP_SIZE_MAX      UINT64_MAX
-#define SP_SIZE_MIN      (-SP_SIZE_MAX)
+	#define SP_SIZE_MAX      UINT64_MAX
+	#define SP_SIZE_MIN      (-SP_SIZE_MAX)
 #endif
 
 #define SP_HUGE_VALUE_FLOAT ((sp_float) 1e50)
 #define SP_INFINITY         SP_HUGE_VALUE_FLOAT
 
-#define ONE_KILOBYTE SIZEOF_CHAR * 1024
+#define ONE_KILOBYTE sizeof(sp_char) * 1024
 #define ONE_MEGABYTE ONE_KILOBYTE * 1024
 #define ONE_GIGABYTE ONE_MEGABYTE * 1024
 
@@ -301,11 +288,23 @@ __INTEL_CXXLIB_ICC
 #define multiplyBy12(value) (multiplyBy8(value) + multiplyBy4(value))
 #define multiplyBy16(value) multiplyBy(value, SHIFT_BIT_FOUR)
 
-#define sp_ceilBit(value, divisor, bit)   \
-	((value % divisor == ZERO_DOUBLE) ?   \
-		divideBy(value, bit)              \
-	:                                     \
-		divideBy(value, bit) + 1)
+#ifdef ENV_32BITS
+	#define SIZEOF_WORD_DIVISOR_BIT (2)
+
+	#define sp_ceilBit(value, divisor)      \
+		((value % divisor == ZERO_DOUBLE) ? \
+			divideBy(value, 2)              \
+		:                                   \
+			divideBy(value, 2) + 1)
+#else
+	#define SIZEOF_WORD_DIVISOR_BIT (3)
+
+	#define sp_ceilBit(value, divisor)      \
+		((value % divisor == ZERO_DOUBLE) ? \
+			divideBy(value, 3)              \
+		:                                   \
+			divideBy(value, 3) + 1)
+#endif
 
 #define sp_isHeapInitialized(value) \
 	value != UNINITIALIZED_HEAP_ADDRESS

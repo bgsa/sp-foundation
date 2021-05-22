@@ -19,7 +19,7 @@ namespace NAMESPACE_FOUNDATION
 				counter++;
 			}
 
-			sp_char* str = (sp_char*) sp_mem_calloc(charCounter + ONE_UINT, SIZEOF_CHAR);
+			sp_char* str = (sp_char*) sp_mem_calloc(charCounter + ONE_UINT, sizeof(sp_char));
 			std::memcpy(str, &_data[counter - charCounter], charCounter);
 			str[charCounter] = END_OF_STRING;
 

@@ -77,21 +77,21 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE static void buildPath(const sp_char* path1, const sp_char* path2, sp_char* output)
 		{
-			sp_uint length = strlen(path1);
+			sp_size length = std::strlen(path1);
 			std::memcpy(output, path1, sizeof(sp_char) * length);
 
 			output[length++] = SP_DIRECTORY_SEPARATOR;
 
-			const sp_uint length2 = strlen(path2);
+			const sp_size length2 = std::strlen(path2);
 			std::memcpy(&output[length], path2, sizeof(sp_char) * length2);
 			output[length + length2] = END_OF_STRING;
 		}
 
 		API_INTERFACE static void directoryFromFile(const sp_char* filename, sp_char* directory)
 		{
-			sp_uint filenameLength = strlen(filename);
+			sp_size filenameLength = std::strlen(filename);
 
-			for (sp_uint i = filenameLength - 1u; i > 0; i--)
+			for (sp_size i = filenameLength - ONE_SIZE; i > ZERO_SIZE; i--)
 			{
 				if (filename[i] == SP_DIRECTORY_SEPARATOR)
 				{
@@ -107,7 +107,7 @@ namespace NAMESPACE_FOUNDATION
 #ifdef WINDOWS
 #define isDirectory(win32Data) (win32Data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			sp_char pattern[512];
-			sp_uint length = strlen(_name->data());
+			sp_size length = std::strlen(_name->data());
 
 			std::memcpy(pattern, _name->data(), (sizeof(sp_char) + 1u) * length);
 			pattern[length] = END_OF_STRING;
@@ -116,7 +116,7 @@ namespace NAMESPACE_FOUNDATION
 
 			WIN32_FIND_DATAA data;
 			HANDLE hFind;
-			length = ZERO_UINT;
+			length = ZERO_SIZE;
 
 			if ((hFind = FindFirstFileA(pattern, &data)) != INVALID_HANDLE_VALUE) 
 			{
@@ -125,7 +125,7 @@ namespace NAMESPACE_FOUNDATION
 					if (isDirectory(data))
 						continue;
 
-					sp_uint strLength = strlen(data.cFileName);
+					sp_size strLength = std::strlen(data.cFileName);
 
 					std::memcpy(&files[length], data.cFileName, (sizeof(sp_char) + 1) * strLength);
 					length += strLength;
@@ -135,10 +135,10 @@ namespace NAMESPACE_FOUNDATION
 
 				FindClose(hFind);
 
-				if (length == ZERO_UINT)
+				if (length == ZERO_SIZE)
 					length++;
 
-				files[length - 1u] = END_OF_STRING;
+				files[length - ONE_SIZE] = END_OF_STRING;
 			}
 #undef isDirectory
 #else
@@ -166,7 +166,7 @@ namespace NAMESPACE_FOUNDATION
 #ifdef WINDOWS
 #define isDirectory(win32Data) (win32Data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			sp_char pattern[512];
-			sp_uint length = strlen(_name->data());
+			sp_size length = std::strlen(_name->data());
 
 			std::memcpy(pattern, _name->data(), (sizeof(sp_char) + 1u) * length);
 			pattern[length] = END_OF_STRING;
@@ -175,7 +175,7 @@ namespace NAMESPACE_FOUNDATION
 
 			WIN32_FIND_DATAA data;
 			HANDLE hFind;
-			length = ZERO_UINT;
+			length = ZERO_SIZE;
 
 			if ((hFind = FindFirstFileA(pattern, &data)) != INVALID_HANDLE_VALUE)
 			{
@@ -184,7 +184,7 @@ namespace NAMESPACE_FOUNDATION
 					if (!isDirectory(data))
 						continue;
 
-					sp_uint strLength = strlen(data.cFileName);
+					sp_size strLength = std::strlen(data.cFileName);
 
 					std::memcpy(&directories[length], data.cFileName, (sizeof(sp_char) + 1) * strLength);
 					length += strLength;
@@ -193,10 +193,10 @@ namespace NAMESPACE_FOUNDATION
 
 				FindClose(hFind);
 
-				if (length == ZERO_UINT)
+				if (length == ZERO_SIZE)
 					length++;
 
-				directories[length - 1u] = END_OF_STRING;
+				directories[length - ONE_SIZE] = END_OF_STRING;
 			}
 #undef isDirectory
 #else
@@ -270,14 +270,14 @@ namespace NAMESPACE_FOUNDATION
 
 	API_INTERFACE inline void filenameFromPath(const sp_char* path, sp_char* filename)
 	{
-		sp_uint pathLength = strlen(path);
+		sp_size pathLength = std::strlen(path);
 
-		for (sp_uint i = pathLength - 1u; i > 0; i--)
+		for (sp_size i = pathLength - ONE_SIZE; i > ZERO_SIZE; i--)
 		{
 			if (path[i] == SP_DIRECTORY_SEPARATOR)
 			{
-				std::memcpy(filename, &path[i + 1u], sizeof(sp_char) * (pathLength - i - 1u));
-				filename[pathLength - i - 1u] = END_OF_STRING;
+				std::memcpy(filename, &path[i + ONE_SIZE], sizeof(sp_char) * (pathLength - i - ONE_SIZE));
+				filename[pathLength - i - ONE_SIZE] = END_OF_STRING;
 				return;
 			}
 		}

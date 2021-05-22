@@ -87,7 +87,7 @@
 
 typedef bool   sp_bool;
 typedef char   sp_char;
-typedef float  sp_float  __attribute__((aligned(SIZEOF_FLOAT)));
+typedef float  sp_float  __attribute__((aligned(sizeof(sp_float))));
 typedef double sp_double __attribute__((aligned(SIZEOF_DOUBLE)));
 
 typedef int8_t    sp_int8;

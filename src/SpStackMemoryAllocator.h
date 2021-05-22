@@ -21,7 +21,7 @@
 #endif
 
 // 512MB
-#define SP_STACK_MEMORY_DEFAULT_SIZE SIZEOF_CHAR * 1024 * 1024 * 512 
+#define SP_STACK_MEMORY_DEFAULT_SIZE (sizeof(sp_char) * 1024 * 1024 * 512)
 
 namespace NAMESPACE_FOUNDATION
 {

@@ -103,7 +103,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE HEAP_PROFILING_ALLOC inline void* alloc(const sp_size size) noexcept override
 		{
-			sp_size addressLength = sp_ceilBit(size, SIZEOF_WORD, SIZEOF_WORD_DIVISOR_BIT);
+			sp_size addressLength = sp_ceilBit(size, SIZEOF_WORD);
 
 			sp_assert(lastPointer > _currentPointer + SIZEOF_WORD + multiplyBy(addressLength, SIZEOF_WORD_DIVISOR_BIT), "OutOfMemoryException");
 

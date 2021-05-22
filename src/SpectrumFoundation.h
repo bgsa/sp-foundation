@@ -361,6 +361,15 @@ namespace NAMESPACE_FOUNDATION
 
 		return rval;
 	}
+
+	API_INTERFACE inline sp_size nextDivisorOf(sp_size n, sp_size startFrom)
+	{
+		for (sp_size i = startFrom; i <= n; i++)
+			if (n % i == 0)
+				return i;
+
+		return n;
+	}
 #endif
 
 	API_INTERFACE inline sp_uint nextDivisorOf(sp_uint n, sp_uint startFrom)
