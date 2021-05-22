@@ -130,8 +130,8 @@ namespace NAMESPACE_FOUNDATION
 
 			fseek(file, fileHeader.offBits, SEEK_SET);
 			
-			image->_data = (sp_uchar*) sp_mem_calloc(size, SIZEOF_UCHAR);
-			fread(image->_data, SIZEOF_UCHAR, size, file);
+			image->_data = (sp_uchar*) sp_mem_calloc(size, sizeof(sp_uchar));
+			fread(image->_data, sizeof(sp_uchar), size, file);
 
 			fclose(file);
 	#endif

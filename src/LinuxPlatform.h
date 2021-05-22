@@ -87,34 +87,38 @@
 
 typedef bool   sp_bool;
 typedef char   sp_char;
-typedef float  sp_float  __attribute__((aligned(sizeof(sp_float))));
-typedef double sp_double __attribute__((aligned(SIZEOF_DOUBLE)));
+typedef float  sp_float  __attribute__((aligned(sizeof(float))));
+typedef double sp_double __attribute__((aligned(sizeof(double))));
 
 typedef int8_t    sp_int8;
-typedef int16_t   sp_int16     __attribute__((aligned(SIZEOF_SHORT)));
-typedef int16_t   sp_short     __attribute__((aligned(SIZEOF_SHORT)));
-typedef int32_t   sp_int32     __attribute__((aligned(SIZEOF_INT)));
-typedef int32_t   sp_int       __attribute__((aligned(SIZEOF_INT)));
-typedef int64_t   sp_int64     __attribute__((aligned(SIZEOF_LONG)));
-typedef int64_t   sp_long      __attribute__((aligned(SIZEOF_LONG)));
-typedef long long sp_longlong  __attribute__((aligned(SIZEOF_LONG_LONG)));
+typedef int16_t   sp_int16     __attribute__((aligned(sizeof(int16_t))));
+typedef int16_t   sp_short     __attribute__((aligned(sizeof(int16_t))));
+typedef int32_t   sp_int32     __attribute__((aligned(sizeof(int32_t))));
+typedef int32_t   sp_int       __attribute__((aligned(sizeof(int32_t))));
+typedef int64_t   sp_int64     __attribute__((aligned(sizeof(int64_t))));
+typedef int64_t   sp_long      __attribute__((aligned(sizeof(int64_t))));
+typedef long long sp_longlong  __attribute__((aligned(sizeof(long long))));
 
 typedef uint8_t        sp_uint8;
 typedef uint8_t        sp_byte;
 typedef uint8_t        sp_uchar;
-typedef uint16_t       sp_uint16     __attribute__((aligned(SIZEOF_SHORT)));;
-typedef uint16_t       sp_ushort     __attribute__((aligned(SIZEOF_SHORT)));;
-typedef uint16_t       sp_half       __attribute__((aligned(SIZEOF_SHORT)));
-typedef uint32_t       sp_uint32     __attribute__((aligned(SIZEOF_INT)));
-typedef uint32_t       sp_uint       __attribute__((aligned(SIZEOF_INT)));
-typedef uint64_t       sp_uint64     __attribute__((aligned(SIZEOF_LONG)));
-typedef uint64_t       sp_ulong      __attribute__((aligned(SIZEOF_LONG)));
-typedef uint_least64_t sp_long_size  __attribute__((aligned(SIZEOF_LONG_LONG)));
+typedef uint16_t       sp_uint16     __attribute__((aligned(sizeof(uint16_t))));;
+typedef uint16_t       sp_ushort     __attribute__((aligned(sizeof(uint16_t))));;
+typedef uint16_t       sp_half       __attribute__((aligned(sizeof(uint16_t))));
+typedef uint32_t       sp_uint32     __attribute__((aligned(sizeof(uint32_t))));
+typedef uint32_t       sp_uint       __attribute__((aligned(sizeof(uint32_t))));
+typedef uint64_t       sp_uint64     __attribute__((aligned(sizeof(uint64_t))));
+typedef uint64_t       sp_ulong      __attribute__((aligned(sizeof(uint64_t))));
+typedef uint_least64_t sp_long_size  __attribute__((aligned(sizeof(long long))));
 
 #ifdef ENV_32BITS
-typedef uint32_t sp_size;
+	typedef uint32_t sp_size;
 #else
-typedef uint64_t sp_size;
+	#ifdef ENV_64BITS
+		typedef uint64_t sp_size;
+	#else
+		#error "ENV undefined"
+	#endif
 #endif
 
 #if defined( __GNUC__ )
