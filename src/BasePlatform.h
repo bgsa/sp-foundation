@@ -71,13 +71,19 @@
 	#define DEPRECATED __attribute__((deprecated))
 
 	#if defined(__x86_64__)
-		#define ENV_64BITS
+
+		#ifndef ENV_64BITS
+			#define ENV_64BITS
+		#endif
 
 		#if defined(__ia64__) || defined(_IA64) || defined(__IA64__)
 			#define INTEL_PROCESSOR
 		#endif
 	#else
-		#define ENV_32BITS
+	
+		#ifndef ENV_32BITS
+			#define ENV_32BITS
+		#endif
 
 		#if defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)
 			#define INTEL_PROCESSOR

@@ -65,7 +65,7 @@ namespace NAMESPACE_FOUNDATION
 
 			freedMemory.reserve(100);
 
-			sp_assert(_initialPointer != NULL, "NullPointerException");
+			sp_assert(_initialPointer != 0, "NullPointerException");
 		}
 
 	public:
@@ -175,7 +175,7 @@ namespace NAMESPACE_FOUNDATION
 		{
 			_initialPointer = (sp_size)std::realloc((void*)_initialPointer, newSize);
 
-			sp_assert(_initialPointer != NULL, "NullPointerException");
+			sp_assert(_initialPointer != 0, "NullPointerException");
 
 			_currentPointer = _initialPointer;
 			lastPointer = _initialPointer + newSize;

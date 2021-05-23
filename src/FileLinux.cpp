@@ -8,6 +8,13 @@ namespace NAMESPACE_FOUNDATION
 	{
 		file.open(filename, mode);
 
+		if (errno != NULL)
+		{
+			sp_char* errorMessage = strerror(errno);
+			sp_assert(false, errorMessage);
+			errno = NULL;
+		}
+
 		sp_assert(!file.bad(), "FileException");
 		sp_assert(!file.fail(), "FileException");
 		sp_assert(file.good(), "FileException");
@@ -20,8 +27,15 @@ namespace NAMESPACE_FOUNDATION
 
 	sp_size FileLinux::length()
 	{
+		std::streampos currentPoision = file.tellg();	
+
 		file.seekg(ZERO_SIZE, std::ios_base::end);
-		return file.tellg();
+
+		sp_size value = (sp_size)file.tellg();
+
+		file.seekg(currentPoision, std::ios_base::beg);
+
+		return value;
 	}
 
 	void FileLinux::seek(const sp_size position, std::ios_base::seekdir direction)
@@ -37,6 +51,7 @@ namespace NAMESPACE_FOUNDATION
 	void FileLinux::read(sp_char* buffer, sp_size size)
 	{
 		file.read(buffer, size);
+		buffer[size] = END_OF_STRING;
 	}
 
 	void FileLinux::write(const sp_char* buffer)

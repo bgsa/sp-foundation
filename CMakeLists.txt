@@ -34,15 +34,20 @@ if ( ${ARCH_BITS} STREQUAL "64" )
 	set (CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -m64 -fPIC -std=c11"   )
 	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m64 -fPIC -std=c++11" )
 	set (CMAKE_LDFLAGS   "${CMAKE_CXX_FLAGS} -m64 -fPIC -std=c++11" )
+
+	list(APPEND CUSTOM_DEFINITIONS "-DENV_64BITS")
 else()
 	set (ARCH "x86")	
 	set (CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -m32 -fPIC -std=c11"   )
 	set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -m32 -fPIC -std=c++11" )
 	set (CMAKE_LDFLAGS   "${CMAKE_CXX_FLAGS} -m32 -fPIC -std=c++11" )
+
+	list(APPEND CUSTOM_DEFINITIONS "-DENV_32BITS")
 endif()
 
 set (LIB_DIR ${SOLUTION_DIR}/vendor/lib/${ARCH}/${CMAKE_BUILD_TYPE})
 
+list(APPEND CUSTOM_DEFINITIONS "-DAPI_EXPORT")
 
 if ( ${OPERATING_SYSTEM} STREQUAL "WINDOWS" )
 
@@ -55,12 +60,25 @@ if ( ${OPERATING_SYSTEM} STREQUAL "WINDOWS" )
 	endif()
 
     set (GLFW_LIB_NAME "glfw3.lib")
-	set (CUSTOM_DEFINITIONS "-D_CRT_SECURE_NO_WARNINGS")
-elseif ( ${OPERATING_SYSTEM} STREQUAL "LINUX" OR ${OPERATING_SYSTEM} STREQUAL "UNIX" )
+	list(APPEND CUSTOM_DEFINITIONS "-DWINDOWS")
+	list(APPEND CUSTOM_DEFINITIONS "-D_CRT_SECURE_NO_WARNINGS")
+
+elseif ( ${OPERATING_SYSTEM} STREQUAL "LINUX")
     set (GLFW_LIB_NAME "libglfw3.a")
-	set (CUSTOM_DEFINITIONS "-Wno-dangling-else")
+	list(APPEND CUSTOM_DEFINITIONS "-DLINUX")
+	list(APPEND CUSTOM_DEFINITIONS "-Wno-dangling-else")
+
+elseif ( ${OPERATING_SYSTEM} STREQUAL "UNIX" )
+    set (GLFW_LIB_NAME "libglfw3.a")
+	list(APPEND CUSTOM_DEFINITIONS "-DUNIX")
+	list(APPEND CUSTOM_DEFINITIONS "-Wno-dangling-else")
+
 else()
     message(FATAL_ERROR "Operating System not defined!")
+endif()
+
+if ( ${CMAKE_BUILD_TYPE} STREQUAL "Debug" )
+	list(APPEND CUSTOM_DEFINITIONS "-DDEBUG")
 endif()
 
 find_package(OpenGL REQUIRED)
@@ -98,15 +116,9 @@ endif()
 
 #set_target_properties(${PROJECT_NAME} PROPERTIES COMPILE_FLAGS "-m32" LINK_FLAGS "-m32")
 
-if ( ${OPERATING_SYSTEM} STREQUAL "WINDOWS" )
-    add_definitions(-DAPI_EXPORT ${CUSTOM_DEFINITIONS} -DWINDOWS)
-elseif ( ${OPERATING_SYSTEM} STREQUAL "LINUX" )
-    add_definitions(-DAPI_EXPORT ${CUSTOM_DEFINITIONS} -DLINUX)
-elseif ( ${OPERATING_SYSTEM} STREQUAL "UNIX" )
-    add_definitions(-DAPI_EXPORT ${CUSTOM_DEFINITIONS} -DUNIX)
-else()
-    message(FATAL_ERROR "Operating System not defined!")
-endif()
+list(JOIN CUSTOM_DEFINITIONS " " CUSTOM_DEFINITIONS)
+message(STATUS "FLAGS: " ${CUSTOM_DEFINITIONS})
+add_definitions(${CUSTOM_DEFINITIONS})
 
 target_link_libraries(${PROJECT_NAME}
     ${OPENGL_LIBRARY}

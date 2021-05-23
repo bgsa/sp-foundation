@@ -12,17 +12,17 @@
 
 #ifdef WINDOWS
 	#include "FileWindows.h"
-#elif LINUX
+#elif defined(LINUX)
 	#include "FileLinux.h"
-#elif OSX
+#elif defined(OSX)
 	#include "FileOSX.h"
 #endif
 
-#ifdef WINDOWS
+#if defined(WINDOWS)
 	#define SP_FILE FileWindows
-#elif LINUX
+#elif defined(LINUX)
 	#define SP_FILE FileLinux
-#elif OSX
+#elif defined(OSX)
 	#define SP_FILE FileOSX
 #endif
 
