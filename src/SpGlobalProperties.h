@@ -74,31 +74,25 @@ namespace NAMESPACE_FOUNDATION
 	extern SpGlobalProperties* SpGlobalPropertiesInscance;
 
 	// TODO: REMOVE
-#define ID_buildDOP18Time 0
-#define ID_paresDOP18 1
-#define ID_sapDOP18Time 2
-#define ID_buildElementsDOP18Time 3
+#define ID_buildVolumeTime 0
 
-#define ID_buildAABBTime 4
-#define ID_paresAABB 5
-#define ID_sapAABBTime 6
-#define ID_buildElementsAABBTime 7
+#define ID_buildElementsTime 1
+#define ID_radixSortingTime 2
+#define ID_pruneTime 3
 
-#define ID_buildSphereTime 8
-#define ID_paresSphere 9
-#define ID_sapSphereTime 10
-#define ID_buildElementsSphereTime 11
+#define ID_paresSAP 4
 
-#define ID_radixSortingTime 12
-#define ID_gjkEpaCount 13
-#define ID_gjkEpaTime 14
-#define ID_shapeMatchingTime 15
+#define ID_gjkEpaCount 5
+#define ID_gjkEpaTime  6
 
-#define ID_pcaTime 16
-#define ID_qtdAlteracoesPCA 17
-#define ID_eixoPCA 18
+#define ID_shapeMatchingCount 7
+#define ID_shapeMatchingTime 8
 
-#define ID_renderingTime 19
+#define ID_pcaTime 9
+#define ID_qtdAlteracoesPCA 10
+#define ID_eixoPCA 11
+
+#define ID_renderingTime 12
 }
 
 #endif // SP_GLOBAL_PROPERTIES_HEADER
