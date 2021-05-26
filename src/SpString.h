@@ -418,6 +418,16 @@ namespace NAMESPACE_FOUNDATION
 
 };
 
+	/// <summary>
+	/// Convert a text content to a float
+	/// </summary>
+	/// <param name="text">C style string</param>
+	/// <returns>Float value</returns>
+	API_INTERFACE inline sp_float convert(const sp_char* text)
+	{
+		return (sp_float)std::atof(text);
+	}
+
 	template <>
 	API_INTERFACE inline sp_double SpString::to()
 	{
