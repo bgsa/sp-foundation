@@ -8,7 +8,10 @@
 namespace NAMESPACE_FOUNDATION
 {
 #define SP_CSV_FILE_DEFAULT_BUFFER_SIZE 1024
-#define SP_CSV_SEPARATOR ";"
+
+#ifndef SP_CSV_SEPARATOR
+	#define SP_CSV_SEPARATOR ','
+#endif
 
 	class SpCSVFileWriter
 	{
@@ -50,7 +53,7 @@ namespace NAMESPACE_FOUNDATION
 
 			std::memcpy(&buffer[currentBuffer], headerName, size);
 
-			buffer[currentBuffer + size] = SP_CSV_SEPARATOR[0];
+			buffer[currentBuffer + size] = SP_CSV_SEPARATOR;
 			currentBuffer += size + 1u;
 
 			return this;
@@ -71,7 +74,7 @@ namespace NAMESPACE_FOUNDATION
 
 			std::memcpy(&buffer[currentBuffer], value, size);
 
-			buffer[currentBuffer + size] = SP_CSV_SEPARATOR[0];
+			buffer[currentBuffer + size] = SP_CSV_SEPARATOR;
 			currentBuffer += size + 1u;
 		}
 

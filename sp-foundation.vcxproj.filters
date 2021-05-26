@@ -347,6 +347,9 @@
     <ClInclude Include="src\SpVariablesEnvironment.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\SpCSVFileReader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="CMakeLists.txt" />

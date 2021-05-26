@@ -90,14 +90,15 @@ namespace NAMESPACE_FOUNDATION
 #define ID_buildElementsSphereTime 11
 
 #define ID_radixSortingTime 12
-#define ID_gjkEpaTime 13
-#define ID_shapeMatchingTime 14
+#define ID_gjkEpaCount 13
+#define ID_gjkEpaTime 14
+#define ID_shapeMatchingTime 15
 
-#define ID_pcaTime 15
-#define ID_qtdAlteracoesPCA 16
-#define ID_eixoPCA 17
+#define ID_pcaTime 16
+#define ID_qtdAlteracoesPCA 17
+#define ID_eixoPCA 18
 
-#define ID_renderingTime 18
+#define ID_renderingTime 19
 }
 
 #endif // SP_GLOBAL_PROPERTIES_HEADER

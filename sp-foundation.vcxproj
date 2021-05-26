@@ -190,6 +190,7 @@
     <ClInclude Include="src\FileLinux.h" />
     <ClInclude Include="src\FileSystem.h" />
     <ClInclude Include="src\LinuxPlatform.h" />
+    <ClInclude Include="src\SpCSVFileReader.h" />
     <ClInclude Include="src\SpCSVFileWriter.h" />
     <ClInclude Include="src\SpDynamicLibrary.h" />
     <ClInclude Include="src\SpGlobalProperties.h" />
