@@ -19,9 +19,13 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE virtual sp_bool isAtEnd() = 0;
 
+		API_INTERFACE virtual sp_size position() = 0;
+
 		API_INTERFACE virtual void seek(const sp_size position, std::ios_base::seekdir direction = std::ios::cur) = 0;
 
 		API_INTERFACE virtual void read(sp_char* buffer, sp_size size) = 0;
+
+		API_INTERFACE virtual void read(sp_char& buffer) = 0;
 
 		API_INTERFACE virtual void write(const sp_char* buffer) = 0;
 

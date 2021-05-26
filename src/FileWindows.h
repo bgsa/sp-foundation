@@ -27,7 +27,17 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE sp_size length() override;
 
+		API_INTERFACE inline sp_size position() override
+		{
+			return (sp_size)file.tellg();
+		}
+
 		API_INTERFACE void seek(const sp_size position, std::ios_base::seekdir direction = std::ios::cur) override;
+
+		API_INTERFACE inline void read(sp_char& buffer) override
+		{
+			file.read(&buffer, 1);
+		}
 
 		API_INTERFACE void read(sp_char* buffer, sp_size size) override;
 
