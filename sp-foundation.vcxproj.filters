@@ -81,7 +81,7 @@
     <ClCompile Include="src\SpGlobalProperties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SpApplicationArgumentsInstance.cpp">
+    <ClCompile Include="src\SpApplicationArguments.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

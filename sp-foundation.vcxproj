@@ -171,7 +171,7 @@
     <ClCompile Include="src\ImagePNG.cpp" />
     <ClCompile Include="src\KeyboardInputDeviceQT.cpp" />
     <ClCompile Include="src\PoolMemoryAllocator.cpp" />
-    <ClCompile Include="src\SpApplicationArgumentsInstance.cpp" />
+    <ClCompile Include="src\SpApplicationArguments.cpp" />
     <ClCompile Include="src\SpGlobalProperties.cpp" />
     <ClCompile Include="src\SpLogger.cpp" />
     <ClCompile Include="src\SpString.cpp" />
