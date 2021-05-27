@@ -423,10 +423,32 @@ namespace NAMESPACE_FOUNDATION
 	/// </summary>
 	/// <param name="text">C style string</param>
 	/// <returns>Float value</returns>
-	API_INTERFACE inline sp_float convert(const sp_char* text)
+	API_INTERFACE inline void convert(const sp_char* text, sp_float& value)
 	{
-		return (sp_float)std::atof(text);
+		value = (sp_float)std::atof(text);
 	}
+
+	/// <summary>
+	/// Convert a text content to a uint
+	/// </summary>
+	/// <param name="text">C style string</param>
+	/// <returns>Unsigned Int value</returns>
+	API_INTERFACE inline void convert(const sp_char* text, sp_uint& value)
+	{
+		value = (sp_uint)std::strtoul(text, nullptr, 0);
+	}
+
+#ifdef ENV_64BITS
+	/// <summary>
+	/// Convert a text content to a size
+	/// </summary>
+	/// <param name="text">C style string</param>
+	/// <returns>Size value</returns>
+	API_INTERFACE inline void convert(const sp_char* text, sp_size& value)
+	{
+		value = (sp_size)_atoi64(text);
+	}
+#endif
 
 	template <>
 	API_INTERFACE inline sp_double SpString::to()

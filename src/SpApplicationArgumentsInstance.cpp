@@ -13,7 +13,7 @@ namespace NAMESPACE_FOUNDATION
 
 			SpApplicationArgumentsInstace->_parameters = sp_mem_new(SpArray<sp_char*>)(parametersLength);
 
-			for (sp_uint i = 0; i < parametersLength; i++)
+			for (sp_int i = 0; i < parametersLength; i++)
 				SpApplicationArgumentsInstace->_parameters->add(parameters[i]);
 		}
 	}
