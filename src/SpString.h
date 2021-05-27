@@ -530,6 +530,45 @@ namespace NAMESPACE_FOUNDATION
 		output[length] = END_OF_STRING;
 	}
 
+	/// <summary>
+	/// Find all patterns in input string and replace by newValue
+	/// </summary>
+	/// <param name="input">Input String</param>
+	/// <param name="pattern">Pattern to be searched</param>
+	/// <param name="newValue">New Value to be replaced</param>
+	/// <param name="output">New String</param>
+	/// <returns>output parameter</returns>
+	API_INTERFACE inline void strReplace(const sp_char* input, const sp_char* pattern, const sp_char* newValue, sp_char* output)
+	{
+		const sp_size inputLength = std::strlen(input);
+		const sp_size patternLength = std::strlen(pattern);
+		const sp_size newValueLength = std::strlen(newValue);
+
+		sp_size index = SP_SIZE_MAX;
+		sp_size patternIndex = 0;
+		sp_size outputIndex = 0;
+
+		for (sp_size i = 0; i < inputLength; i++)
+		{
+			if (input[i] == pattern[patternIndex])
+				patternIndex++;
+			else
+			{
+				patternIndex = 0;
+				output[outputIndex++] = input[i];
+			}
+
+			if (patternIndex == patternLength) // match ?
+			{
+				std::memcpy(&output[outputIndex], newValue, sizeof(sp_char) * newValueLength);
+				outputIndex += newValueLength;
+				patternIndex = 0;
+			}
+		}
+
+		output[outputIndex] = END_OF_STRING;
+	}
+
 	API_INTERFACE inline sp_int strIndexOf(const sp_char* input, sp_char pattern)
 	{
 		const sp_size length = std::strlen(input);
