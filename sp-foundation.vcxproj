@@ -171,6 +171,7 @@
     <ClCompile Include="src\ImagePNG.cpp" />
     <ClCompile Include="src\KeyboardInputDeviceQT.cpp" />
     <ClCompile Include="src\PoolMemoryAllocator.cpp" />
+    <ClCompile Include="src\SpApplicationArgumentsInstance.cpp" />
     <ClCompile Include="src\SpGlobalProperties.cpp" />
     <ClCompile Include="src\SpLogger.cpp" />
     <ClCompile Include="src\SpString.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="src\FileLinux.h" />
     <ClInclude Include="src\FileSystem.h" />
     <ClInclude Include="src\LinuxPlatform.h" />
+    <ClInclude Include="src\SpApplicationArguments.h" />
     <ClInclude Include="src\SpCSVFileReader.h" />
     <ClInclude Include="src\SpCSVFileWriter.h" />
     <ClInclude Include="src\SpDynamicLibrary.h" />
