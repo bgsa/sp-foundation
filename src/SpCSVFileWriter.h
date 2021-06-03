@@ -45,7 +45,7 @@ namespace NAMESPACE_FOUNDATION
 		/// <returns>void</returns>
 		API_INTERFACE inline SpCSVFileWriter* addHeader(const sp_char* headerName)
 		{
-			const sp_uint length = strlen(headerName);
+			const sp_size length = std::strlen(headerName);
 			const sp_size size = length * sizeof(sp_char);
 
 			if (currentBuffer + size + 1u > bufferSize)
@@ -66,7 +66,7 @@ namespace NAMESPACE_FOUNDATION
 		/// <returns></returns>
 		API_INTERFACE inline void addValue(const sp_char* value)
 		{
-			const sp_uint length = strlen(value);
+			const sp_size length = std::strlen(value);
 			const sp_size size = length * sizeof(sp_char);
 
 			if (currentBuffer + size + 1u > bufferSize)
