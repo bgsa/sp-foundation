@@ -8,6 +8,7 @@ namespace NAMESPACE_FOUNDATION_TEST
 	SP_TEST_CLASS(CLASS_NAME)
 	{
 	public:
+		SP_TEST_METHOD_DEF(strHashTest);
 		SP_TEST_METHOD_DEF(constructor_Test1);
 		SP_TEST_METHOD_DEF(length_Test1);
 		SP_TEST_METHOD_DEF(add_Test1);
@@ -24,6 +25,15 @@ namespace NAMESPACE_FOUNDATION_TEST
 		SP_TEST_METHOD_DEF(dispose_Test1);
 	};
 	
+	SP_TEST_METHOD(CLASS_NAME, strHashTest)
+	{
+		sp_size hash = strHash("123456789", 9);
+		Assert::AreEqual(16845390139448941002, hash);
+
+		hash = strHash("123456789", 9, 3);
+		Assert::AreEqual(14431994221761381414, hash);
+	}
+
 	SP_TEST_METHOD(CLASS_NAME, constructor_Test1)
 	{
 		SpString* arr = sp_mem_new(SpString)(TEN_SIZE);

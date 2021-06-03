@@ -243,6 +243,7 @@
     <ClInclude Include="src\SpQueue.h" />
     <ClInclude Include="src\SpSize.h" />
     <ClInclude Include="src\SpPoint2.h" />
+    <ClInclude Include="src\SpStringId.h" />
     <ClInclude Include="src\SpThreadPool.h" />
     <ClInclude Include="src\SpVariablesEnvironment.h" />
     <ClInclude Include="src\SpWindow.h" />

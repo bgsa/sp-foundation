@@ -38,7 +38,7 @@ namespace NAMESPACE_FOUNDATION_TEST
 
 	SP_TEST_METHOD(CLASS_NAME, find)
 	{
-		SpMap<sp_uint, SpString*>* map = sp_mem_new_templated2(SpMap, sp_uint, SpString*)();
+		SpMap<sp_size, SpString*>* map = sp_mem_new_templated2(SpMap, sp_size, SpString*)();
 		SpString* str1 = sp_mem_new(SpString)("Value 1");
 		map->add(str1->hashCode(), str1);
 
@@ -52,7 +52,7 @@ namespace NAMESPACE_FOUNDATION_TEST
 
 	SP_TEST_METHOD(CLASS_NAME, remove)
 	{
-		SpMap<sp_uint, SpString*>* map = sp_mem_new_templated2(SpMap, sp_uint, SpString*)();
+		SpMap<sp_size, SpString*>* map = sp_mem_new_templated2(SpMap, sp_size, SpString*)();
 		SpString* str1 = sp_mem_new(SpString)("Value 1");
 		map->add(str1->hashCode(), str1);
 
@@ -66,7 +66,7 @@ namespace NAMESPACE_FOUNDATION_TEST
 
 	SP_TEST_METHOD(CLASS_NAME, operator_subscript)
 	{
-		SpMap<sp_uint, SpString*>* map = sp_mem_new_templated2(SpMap, sp_uint, SpString*)();
+		SpMap<sp_size, SpString*>* map = sp_mem_new_templated2(SpMap, sp_size, SpString*)();
 		SpString* str1 = sp_mem_new(SpString)("Value 1");
 		map->add(str1->hashCode(), str1);
 
