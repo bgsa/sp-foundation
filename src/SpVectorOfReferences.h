@@ -115,12 +115,12 @@ namespace NAMESPACE_FOUNDATION
 			_last = nullptr;
 		}
 
-		API_INTERFACE inline sp_uint length() noexcept
+		API_INTERFACE inline sp_uint length() const noexcept
 		{
 			return _length;
 		}
 
-		API_INTERFACE inline sp_bool isEmpty() noexcept
+		API_INTERFACE inline sp_bool isEmpty() const noexcept
 		{
 			return _length == ZERO_UINT;
 		}

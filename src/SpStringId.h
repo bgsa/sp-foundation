@@ -12,9 +12,13 @@ namespace NAMESPACE_FOUNDATION
 		sp_size id;
 		sp_char* name;
 
+		API_INTERFACE inline SpStringId()
+		{
+		}
+
 		API_INTERFACE inline SpStringId(const sp_char* name, const sp_size initialCRC = ZERO_SIZE)
 		{
-			const sp_size length = std::strlen(name);
+			const sp_size length = std::strlen(name) + 1;
 
 			id = strHash(name, length, initialCRC);
 
