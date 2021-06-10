@@ -22,7 +22,7 @@ namespace NAMESPACE_FOUNDATION
 		: public SpEvent
 	{
 	public:
-		SpWindowState previousState = SpWindowState(ZERO_INT, ZERO_INT, ZERO_INT, ZERO_INT);
+		SpWindowState previousState = SpWindowState(ZERO_INT, ZERO_INT, ZERO_INT, ZERO_INT, SpSize<sp_int>());
 		SpWindowState* state;
 
 		API_INTERFACE SpWindowEvent(const SpWindowEventType& type)

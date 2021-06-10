@@ -35,7 +35,10 @@ namespace NAMESPACE_FOUNDATION
 			SpDevices* devices = (SpDevices*)glfwGetWindowUserPointer(window);
 			SpWindowState* currentState = devices->window->state();
 
-			evt->previousState = SpWindowState(currentState->x, currentState->y, currentState->width, currentState->height);
+			const sp_int titleBarHeight = getTitleBarHeight();
+
+			evt->previousState = SpWindowState(currentState->x, currentState->y, currentState->width, currentState->height, 
+				SpSize<sp_int>(currentState->width, currentState->height - titleBarHeight));
 
 			currentState->width = width;
 			currentState->height = height;
@@ -50,7 +53,7 @@ namespace NAMESPACE_FOUNDATION
 			SpDevices* devices = (SpDevices*)glfwGetWindowUserPointer(window);
 			SpWindowState* currentState = devices->window->state();
 
-			evt->previousState = SpWindowState(currentState->x, currentState->y, currentState->width, currentState->height);
+			evt->previousState = SpWindowState(currentState->x, currentState->y, currentState->width, currentState->height, currentState->availableRegion);
 
 			currentState->x = x;
 			currentState->y = y;
@@ -61,6 +64,16 @@ namespace NAMESPACE_FOUNDATION
 		static void error(sp_int error, const sp_char* description)
 		{
 			fprintf(stderr, "Glfw Error %d: %s\n", error, description);
+		}
+
+		static sp_int getTitleBarHeight()
+		{
+#ifdef WINDOWS
+			return GetSystemMetrics(SM_CYCAPTION);
+#else
+			titleBarHeight = 0;
+		TODO: get title bar of window for Linux / MacOS
+#endif
 		}
 
 	public:
@@ -83,17 +96,19 @@ namespace NAMESPACE_FOUNDATION
 			
 			sp_int xpos, ypos, width, height;
 			glfwGetMonitorWorkarea(glfwMonitor, &xpos, &ypos, &width, &height);
-			const sp_int windowHeaderSize = 30;
 
-			_state = sp_mem_new(SpWindowState)(0, 0, width, height);
-			window = glfwCreateWindow(_state->width, _state->height, "Spectrum Engine", NULL, NULL);
-			glfwSetWindowPos(window, xpos, ypos + windowHeaderSize);
+			titleBarHeight = getTitleBarHeight();
+
+			window = glfwCreateWindow(width, height, "Spectrum Engine", NULL, NULL);
 
 			if (window == NULL)
 			{
 				glfwTerminate();
 				return;
 			}
+
+			glfwSetWindowPos(window, xpos, ypos + titleBarHeight);
+
 
 			glfwMakeContextCurrent(window);
 			//glfwSwapInterval(1); // Enable v-sync
@@ -102,6 +117,8 @@ namespace NAMESPACE_FOUNDATION
 			glfwSetWindowCloseCallback(window, onClose);
 			glfwSetWindowSizeCallback(window, onResize);
 			glfwSetWindowPosCallback(window, onWindowMove);
+
+			_state = sp_mem_new(SpWindowState)(0, 0, width, height, SpSize<sp_int>(width, height - titleBarHeight));
 
 			mouse = sp_mem_new(SpMouseGLFW)(window);
 			mouse->init();

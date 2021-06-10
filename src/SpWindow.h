@@ -3,6 +3,7 @@
 
 #include "SpectrumFoundation.h"
 #include "SpString.h"
+#include "SpSize.h"
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -12,13 +13,15 @@ namespace NAMESPACE_FOUNDATION
 	public:
 
 		sp_int x, y, width, height;
+		SpSize<sp_int> availableRegion;
 
-		SpWindowState(sp_int x, sp_int y, sp_int width, sp_int height)
+		API_INTERFACE inline SpWindowState(sp_int x, sp_int y, sp_int width, sp_int height, const SpSize<sp_int>& availableRegion)
 		{
 			this->x = x;
 			this->y = y;
 			this->width = width;
 			this->height = height;
+			this->availableRegion = availableRegion;
 		}
 
 		API_INTERFACE inline sp_float aspectRatio()
@@ -35,6 +38,7 @@ namespace NAMESPACE_FOUNDATION
 		SpWindowState* _state;
 
 	public:
+		sp_int titleBarHeight;
 
 		API_INTERFACE inline SpWindowState* state() const noexcept
 		{
