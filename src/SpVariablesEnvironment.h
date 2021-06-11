@@ -8,14 +8,14 @@ namespace NAMESPACE_FOUNDATION
 {
 
 #ifdef WINDOWS
-	API_INTERFACE inline sp_bool getVariableEnvirontmentLength(const sp_char* name, sp_uint& length)
+	API_INTERFACE inline sp_bool getVariableEnvirontmentLength(const sp_char* name, sp_size& length)
 	{
 		return getenv_s(&length, NULL, 0, name);
 	}
 
 	API_INTERFACE inline sp_bool getVariableEnvirontmentValue(const sp_char* name, sp_char* value)
 	{
-		sp_uint len;
+		sp_size len;
 		return getenv_s(&len, NULL, 0, name);
 	}
 
