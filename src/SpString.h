@@ -581,7 +581,52 @@ namespace NAMESPACE_FOUNDATION
 		return -1;
 	}
 
+	API_INTERFACE inline sp_size strIndexOf(const sp_char* input, const sp_char* pattern)
+	{
+		const sp_size length = std::strlen(input);
+		const sp_size patternLength = std::strlen(pattern);
+		sp_size patternIndex = ZERO_SIZE;
+		sp_size idx = ZERO_SIZE;
 
+		for (sp_size i = ZERO_SIZE; i < length; i++)
+		{
+			if (input[i] == pattern[patternIndex])
+			{
+				if (patternIndex == ZERO_SIZE)
+					idx = i;
+
+				patternIndex++;
+
+				if (patternIndex > patternLength)
+					return idx;
+			}
+			else
+				idx = ZERO_SIZE;
+		}
+
+		return SP_SIZE_MAX;
+	}
+
+	API_INTERFACE inline sp_bool strContains(const sp_char* input, const sp_char* pattern)
+	{
+		return strIndexOf(input, pattern) != SP_SIZE_MAX;
+	}
+
+	API_INTERFACE inline void strCountChar(const sp_char* value, sp_char character, sp_size& parameterSize, sp_size* indexes)
+	{
+		parameterSize = ZERO_SIZE;
+		sp_size indexesLength = ZERO_SIZE;
+		const sp_size valueLength = std::strlen(value);
+		
+		for (sp_size i = 0; i < valueLength; i++)
+		{
+			if (value[i] == character)
+			{
+				indexes[indexesLength++] = i;
+				parameterSize++;
+			}
+		}
+	}
 
 
 #ifdef ENV_64BITS
