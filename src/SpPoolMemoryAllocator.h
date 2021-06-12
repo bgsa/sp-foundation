@@ -87,6 +87,11 @@ namespace NAMESPACE_FOUNDATION
 			memoryAligned = false;
 		}
 
+		API_INTERFACE inline sp_size firstAddress() const noexcept override
+		{
+			return _initialPointer;
+		}
+
 		API_INTERFACE inline sp_size currentAddress() const noexcept override
 		{
 			return _currentPointer;

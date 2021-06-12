@@ -51,6 +51,15 @@ namespace NAMESPACE_FOUNDATION
 		API_INTERFACE sp_size memorySize() const noexcept override;
 
 		/// <summary>
+		/// Get the first address
+		/// </summary>
+		/// <returns></returns>
+		API_INTERFACE inline sp_size firstAddress() const noexcept override
+		{
+			return (sp_size)initialPointer;
+		}
+
+		/// <summary>
 		/// Get the current pointer address
 		/// </summary>
 		/// <returns>Memory address value</returns>

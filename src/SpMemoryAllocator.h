@@ -24,6 +24,8 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE virtual void init(const sp_size size) = 0;
 
+		API_INTERFACE virtual sp_size firstAddress() const noexcept = 0;
+
 		API_INTERFACE virtual sp_size currentAddress() const noexcept = 0;
 
 		API_INTERFACE virtual void* alloc(const sp_size size) noexcept = 0;
