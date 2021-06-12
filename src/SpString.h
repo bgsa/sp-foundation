@@ -8,6 +8,8 @@
 #include <limits>
 #include <stdio.h>
 #include <stdint.h>
+#include <iomanip>
+#include <sstream>
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -628,6 +630,52 @@ namespace NAMESPACE_FOUNDATION
 		}
 	}
 
+	/// <summary>
+	/// Convert a size value to Hex String
+	/// </summary>
+	/// <param name="value">Size Value</param>
+	/// <param name="output">String in Hex</param>
+	/// <returns>output parameter</returns>
+	API_INTERFACE inline void strToHex(const sp_size value, sp_char* output)
+	{
+		std::stringstream stream;
+		stream << std::hex << value;
+		const sp_size len = stream.str().length();
+
+		std::memcpy(output, "0x", 2);
+		std::memcpy(&output[2], stream.str().c_str(), len);
+		output[len + 2] = END_OF_STRING;
+	}
+
+	/// <summary>
+	/// Convert a size value to Memory Address as string
+	/// </summary>
+	/// <param name="value">Size Value</param>
+	/// <param name="output">Memory Address as string</param>
+	/// <returns>output parameter</returns>
+	API_INTERFACE inline void strToMemoryAddress(const sp_size value, sp_char* output, sp_uint& outputLength)
+	{
+		std::stringstream stream;
+		stream << std::hex << value;
+		const sp_uint len = (sp_uint)stream.str().length();
+
+		const sp_uint complement = multiplyBy2(SIZEOF_WORD) - len;
+
+		sp_uint shift = 2u;
+		std::memcpy(output, "0x", shift);
+
+		if (complement > ZERO_UINT)
+		{
+			for (sp_uint i = 0; i < complement; i++)
+				output[shift + i] = '0';
+
+			shift += complement;
+		}
+
+		std::memcpy(&output[shift], stream.str().c_str(), len);
+		output[len + shift] = END_OF_STRING;
+		outputLength = len + shift;
+	}
 
 #ifdef ENV_64BITS
 
