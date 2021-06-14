@@ -41,7 +41,7 @@ namespace NAMESPACE_FOUNDATION
 #endif
 	}
 
-	void* SpStackMemoryAllocator::alloc(const sp_size size) noexcept
+	void* SpStackMemoryAllocator::alloc(const sp_size size, const sp_char* filename, const sp_char* functionName, const sp_uint line) noexcept
 	{
 		sp_assert(hasAvailableMemory(size), "OutOfMemoryException");
 

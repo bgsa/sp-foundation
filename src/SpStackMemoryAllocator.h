@@ -86,7 +86,7 @@ namespace NAMESPACE_FOUNDATION
 		/// <summary>
 		/// Alloc in the memory
 		/// </summary>
-		API_INTERFACE void* alloc(const sp_size size) noexcept override;
+		API_INTERFACE void* alloc(const sp_size size, const sp_char* filename = nullptr, const sp_char* functionName = nullptr, const sp_uint line = 0) noexcept override;
 
 		/// <summary>
 		/// Copy the source to a new memory buffer

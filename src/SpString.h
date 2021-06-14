@@ -520,6 +520,26 @@ namespace NAMESPACE_FOUNDATION
 		output[*length] = END_OF_STRING;
 	}
 
+#ifdef ENV_64BITS
+
+	/// <summary>
+	/// Convert SIZE value to string
+	/// </summary>
+	/// <param name="sizeValue"></param>
+	/// <param name="output">String</param>
+	/// <param name="length">String Length</param>
+	/// <returns>output parameter</returns>
+	API_INTERFACE inline void convert(const sp_size sizeValue, sp_char* output, sp_size& length)
+	{
+		sprintf(output, "%zu", sizeValue);
+
+		length = std::strlen(output);
+
+		output[length] = END_OF_STRING;
+	}
+
+#endif
+
 	API_INTERFACE inline void strReplace(const sp_char* input, sp_char pattern, sp_char newValue, sp_char* output)
 	{
 		const sp_size length = std::strlen(input);

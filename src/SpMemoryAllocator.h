@@ -15,6 +15,9 @@
 	#define NAMESPACE_FOUNDATION SpFoundation
 #endif
 
+#ifndef __FILENAME__
+	#define __FILENAME__ (std::strrchr(__FILE__, SP_DIRECTORY_SEPARATOR) ? std::strrchr(__FILE__, SP_DIRECTORY_SEPARATOR) + 1 : __FILE__)
+#endif
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -28,7 +31,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE virtual sp_size currentAddress() const noexcept = 0;
 
-		API_INTERFACE virtual void* alloc(const sp_size size) noexcept = 0;
+		API_INTERFACE virtual void* alloc(const sp_size size, const sp_char* filename = nullptr, const sp_char* functionName = nullptr, const sp_uint line = 0) noexcept = 0;
 
 		API_INTERFACE virtual void free(void* buffer) noexcept = 0;
 

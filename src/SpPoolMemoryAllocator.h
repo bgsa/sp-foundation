@@ -8,6 +8,10 @@
 #include <cstring>
 #include <vector>
 
+#ifdef MEMORY_PROFILING_ENABLED
+	#include "SpMemoryProfiling.h"
+#endif
+
 #ifndef SP_POOL_MEMORY_DEFAULT_SIZE
 	#define SP_POOL_MEMORY_DEFAULT_SIZE (ONE_MEGABYTE * 512)
 #endif
@@ -15,15 +19,15 @@
 #define SP_BYTE_ADDRESS_LENGTH(byteLength) sp_ceilBit(charLength, SIZEOF_WORD, SIZEOF_WORD_DIVISOR_BIT)
 
 #define sp_mem_header(address) NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->pageHeader(address)
-#define sp_mem_alloc(size) NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc(size)
-#define sp_mem_calloc(length, size) NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc( (length) * (size))
+#define sp_mem_alloc(size) NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc(size, __FILENAME__, __func__, __LINE__)
+#define sp_mem_calloc(length, size) NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc( (length) * (size), __FILENAME__, __func__, __LINE__)
 #define sp_mem_release(address) NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->free((void*)address)
 
 #ifdef __cplusplus
-	#define sp_mem_new(Type) new (NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc(sizeof(Type))) Type
-	#define sp_mem_new_array(Type, length) new (NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc(sizeof(Type) * (length))) Type[ (length) ]
-	#define sp_mem_new_templated1(Type, Type1) new (NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc(sizeof(Type))) Type<Type1>
-	#define sp_mem_new_templated2(Type, Type1, Type2) new (NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc(sizeof(Type<Type1,Type2>))) Type<Type1, Type2>
+	#define sp_mem_new(Type) new (NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc(sizeof(Type), __FILENAME__, __func__, __LINE__)) Type
+	#define sp_mem_new_array(Type, length) new (NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc(sizeof(Type) * (length), __FILENAME__, __func__, __LINE__)) Type[ (length) ]
+	#define sp_mem_new_templated1(Type, Type1) new (NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc(sizeof(Type), __FILENAME__, __func__, __LINE__)) Type<Type1>
+	#define sp_mem_new_templated2(Type, Type1, Type2) new (NAMESPACE_FOUNDATION::SpPoolMemoryAllocator::main()->alloc(sizeof(Type<Type1,Type2>), __FILENAME__, __func__, __LINE__)) Type<Type1, Type2>
 	#define sp_mem_delete(address, Type) (address)->~Type(); sp_mem_release(address);
 #endif
 
@@ -106,7 +110,7 @@ namespace NAMESPACE_FOUNDATION
 			return _currentPointer;
 		}
 
-		API_INTERFACE HEAP_PROFILING_ALLOC inline void* alloc(const sp_size size) noexcept override
+		API_INTERFACE HEAP_PROFILING_ALLOC inline void* alloc(const sp_size size, const sp_char* filename = nullptr, const sp_char* functionName = nullptr, const sp_uint line = 0) noexcept override
 		{
 			sp_size addressLength = sp_ceilBit(size, SIZEOF_WORD);
 
@@ -143,6 +147,10 @@ namespace NAMESPACE_FOUNDATION
 
 			sp_size newPointer = (_currentPointer - multiplyBy(addressLength, SIZEOF_WORD_DIVISOR_BIT));
 
+#ifdef MEMORY_PROFILING_ENABLED	
+			SpMemoryProfilingInstance->alloc(newPointer, addressLength, filename, functionName, line);
+#endif
+
 			return (void*)newPointer;
 		}
 
@@ -159,6 +167,10 @@ namespace NAMESPACE_FOUNDATION
 				freedMemoryLength++;
 				freedMemory.push_back((sp_size*)address);
 			}
+
+#ifdef MEMORY_PROFILING_ENABLED
+			SpMemoryProfilingInstance->free((sp_size)address);
+#endif
 		}
 
 		API_INTERFACE inline SpMemoryPageHeader* pageHeader(void* address) noexcept
