@@ -37,6 +37,10 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE virtual sp_size memorySize() const noexcept = 0;
 
+		API_INTERFACE virtual sp_size usedMemorySize() const noexcept = 0;
+
+		API_INTERFACE virtual sp_size availableMemorySize() const noexcept = 0;
+
 		API_INTERFACE virtual void dispose() = 0;
 
 	};

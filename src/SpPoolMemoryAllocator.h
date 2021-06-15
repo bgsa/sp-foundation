@@ -183,6 +183,16 @@ namespace NAMESPACE_FOUNDATION
 			return lastPointer - _initialPointer;
 		}
 
+		API_INTERFACE inline sp_size usedMemorySize() const noexcept override
+		{
+			return _currentPointer - _initialPointer;
+		}
+
+		API_INTERFACE inline sp_size availableMemorySize() const noexcept override
+		{
+			return lastPointer - _currentPointer;
+		}
+
 		API_INTERFACE inline sp_bool hasAvailableMemory(const sp_size size) const noexcept
 		{
 			return (lastPointer - _currentPointer - size) > ZERO_SIZE;

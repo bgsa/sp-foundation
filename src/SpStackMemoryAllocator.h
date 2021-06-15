@@ -79,6 +79,24 @@ namespace NAMESPACE_FOUNDATION
 		API_INTERFACE sp_size availableMemorySize() noexcept;
 
 		/// <summary>
+		/// Get the amount of used memory
+		/// </summary>
+		/// <returns></returns>
+		API_INTERFACE inline sp_size usedMemorySize() const noexcept override
+		{
+			return (sp_size)currentPointer - (sp_size)initialPointer;
+		}
+
+		/// <summary>
+		/// Get the amount of available memory
+		/// </summary>
+		/// <returns></returns>
+		API_INTERFACE inline sp_size availableMemorySize() const noexcept override
+		{
+			return (sp_size)lastPointer - (sp_size)currentPointer;
+		}
+
+		/// <summary>
 		/// Check if the manager has available memory
 		/// </summary>
 		API_INTERFACE sp_bool hasAvailableMemory(sp_size size) noexcept;
