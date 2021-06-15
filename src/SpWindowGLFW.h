@@ -71,8 +71,7 @@ namespace NAMESPACE_FOUNDATION
 #ifdef WINDOWS
 			return GetSystemMetrics(SM_CYCAPTION);
 #else
-			titleBarHeight = 0;
-		TODO: get title bar of window for Linux / MacOS
+			return 30; // TODO: get title bar of window for Linux / MacOS
 #endif
 		}
 

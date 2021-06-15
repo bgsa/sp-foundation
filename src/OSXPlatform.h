@@ -38,6 +38,20 @@
 #include <stdint.h>
 #include <cfloat>
 
+#define ZERO_SHORT   0
+#define ONE_SHORT    1
+#define TWO_SHORT    2
+#define THREE_SHORT  3
+#define FOUR_SHORT   4
+#define TEN_SHORT   10
+
+#define ZERO_USHORT   0u
+#define ONE_USHORT    1u
+#define TWO_USHORT    2u
+#define THREE_USHORT  3u
+#define FOUR_USHORT   4u
+#define TEN_USHORT   10u
+
 #define ZERO_INT  0
 #define ONE_INT   1
 #define TWO_INT   2

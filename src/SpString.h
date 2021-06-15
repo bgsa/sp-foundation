@@ -449,7 +449,8 @@ namespace NAMESPACE_FOUNDATION
 	/// <returns>Size value</returns>
 	API_INTERFACE inline void convert(const sp_char* text, sp_size& value)
 	{
-		value = (sp_size)_atoi64(text);
+		value = (sp_size)std::strtoull(text, NULL, 10);
+		//value = (sp_size)_atoi64(text);
 	}
 #endif
 
@@ -830,17 +831,22 @@ namespace NAMESPACE_FOUNDATION
 		UINT64_C(0x536fa08fdfd90e51), UINT64_C(0x29b7d047efec8728),
 	};
 
-	API_INTERFACE SP_CONSTEXPR inline sp_size strHash(const sp_char* text, sp_size textLength, sp_size crc = ZERO_SIZE)
+// If CPP is greater than 11 (14, 17, 20, ...), it supports constspr with condicional and looping!
+#if isCppGreatherThanCpp11
+	#define USE_CONSTEXPR SP_CONSTEXPR
+#else
+	#define USE_CONSTEXPR
+#endif
+	API_INTERFACE USE_CONSTEXPR inline sp_size strHash(const sp_char* text, sp_size textLength, sp_size crc = ZERO_SIZE)
 	{
 		for (sp_size j = 0; j < textLength; j++) 
 			crc = crc64Table[(uint8_t)crc ^ text[j]] ^ (crc >> 8);
 
 		return crc;
 	}
+#undef USE_CONSTEXPR
 
 #endif
-
-
 
 }
 

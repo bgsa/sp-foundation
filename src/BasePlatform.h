@@ -318,6 +318,9 @@ __INTEL_CXXLIB_ICC
 #define sp_isStackInitialized(value) \
 	value != UNINITIALIZED_STACK_ADDRESS
 
+#define isCppGreatherThanCpp11 (__STDC_VERSION__ > 201400L)
+#define isCppGreatherThanCpp14 (__STDC_VERSION__ > 201700L)
+
 extern "C" {
 	typedef unsigned char  sp_byte;  // 1byte
 	typedef unsigned short sp_word;  // 2bytes
