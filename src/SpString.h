@@ -619,7 +619,7 @@ namespace NAMESPACE_FOUNDATION
 
 				patternIndex++;
 
-				if (patternIndex > patternLength)
+				if (patternIndex == patternLength)
 					return idx;
 			}
 			else
