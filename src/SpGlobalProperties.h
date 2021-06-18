@@ -93,6 +93,8 @@ namespace NAMESPACE_FOUNDATION
 #define ID_eixoPCA 11
 
 #define ID_renderingTime 12
+
+#define ID_paresReais 13
 }
 
 #endif // SP_GLOBAL_PROPERTIES_HEADER
