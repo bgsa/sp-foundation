@@ -47,6 +47,11 @@ namespace NAMESPACE_FOUNDATION
 				}
 		}
 
+		API_INTERFACE inline SpVectorItem<SpPair<KEY, VALUE>>* begin() const noexcept
+		{
+			return map.begin();
+		}
+
 		API_INTERFACE inline VALUE find(const KEY& key) const noexcept
 		{
 			for (SpVectorItem<SpPair<KEY,VALUE>>* item = map.begin(); item != NULL; item = item->next())
