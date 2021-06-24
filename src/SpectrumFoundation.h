@@ -80,7 +80,7 @@ namespace NAMESPACE_FOUNDATION
 	/// <param name="value1">Numerator</param>
 	/// <param name="value2">Denominator</param>
 	/// <returns>Result of division</returns>
-	API_INTERFACE inline sp_float div(sp_float value1, sp_float value2)
+	API_INTERFACE inline sp_float div(const sp_float value1, const sp_float value2)
 	{
 		sp_assert(!isCloseEnough(value2, ZERO_FLOAT), "DivisionByZeroException");
 		return value1 / value2;
@@ -97,25 +97,28 @@ namespace NAMESPACE_FOUNDATION
 		return std::numeric_limits<T>::epsilon();
 	}
 */
-	API_INTERFACE SP_CONSTEXPR inline sp_float degreesToRadians(sp_float value)
+
+	/// <summary>
+	/// Convert the angle in degree to radians
+	/// </summary>
+	/// <param name="degreeAngle"></param>
+	/// <returns></returns>
+	API_INTERFACE SP_CONSTEXPR inline sp_float radians(const sp_float degreeAngle)
 	{
-		return value * PI_DIV_180;
-	}
-	API_INTERFACE SP_CONSTEXPR inline sp_float degreesToRadians(sp_int value)
-	{
-		return value * PI_DIV_180;
+		return degreeAngle * PI_DIV_180;
 	}
 
-	API_INTERFACE SP_CONSTEXPR inline sp_float radiansToDegrees(sp_float value)
+	/// <summary>
+	/// Convert the angle in radians to degree
+	/// </summary>
+	/// <param name="radiansAngle">Angle</param>
+	/// <returns>Degree angle</returns>
+	API_INTERFACE SP_CONSTEXPR inline sp_float degree(const sp_float radiansAngle)
 	{
-		return value * INV_PI_DIV_180;
-	}
-	API_INTERFACE SP_CONSTEXPR inline sp_float radiansToDegrees(sp_int value)
-	{
-		return value * INV_PI_DIV_180;
+		return radiansAngle * INV_PI_DIV_180;
 	}
 
-	API_INTERFACE SP_CONSTEXPR inline sp_float dxdt(sp_float x, sp_float t)
+	API_INTERFACE SP_CONSTEXPR inline sp_float dxdt(const sp_float x, const sp_float t)
 	{
 		return (t - x) * 0.5f;
 	}
@@ -574,7 +577,7 @@ namespace NAMESPACE_FOUNDATION
 	/// </summary>
 	/// <param name="value">Input element</param>
 	/// <returns>Arc-cosine value</returns>
-	API_INTERFACE inline sp_float sp_arcsos(const sp_float value)
+	API_INTERFACE inline sp_float sp_arccos(const sp_float value)
 	{
 		return acosf(value);
 	}

@@ -28,10 +28,10 @@ namespace NAMESPACE_FOUNDATION_TEST
 	SP_TEST_METHOD(CLASS_NAME, strHashTest)
 	{
 		sp_size hash = strHash("123456789", 9);
-		Assert::AreEqual(16845390139448941002, hash);
+		Assert::AreEqual((sp_size)16845390139448941002, hash);
 
 		hash = strHash("123456789", 9, 3);
-		Assert::AreEqual(14431994221761381414, hash);
+		Assert::AreEqual((sp_size)14431994221761381414, hash);
 	}
 
 	SP_TEST_METHOD(CLASS_NAME, constructor_Test1)

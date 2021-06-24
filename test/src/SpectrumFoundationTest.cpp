@@ -22,11 +22,13 @@ namespace NAMESPACE_FOUNDATION_TEST
 
 	API_INTERFACE void setupModule()
 	{
+		SpMemoryProfiling::init();
 		SpStackMemoryAllocator::main()->init(ONE_MEGABYTE * 512);
 	}
 	API_INTERFACE void tearDownModule()
 	{
 		SpStackMemoryAllocator::main()->dispose();
+		SpMemoryProfiling::release();
 	}
 
 #ifdef MSTEST_ENABLED

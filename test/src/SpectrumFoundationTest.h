@@ -5,6 +5,7 @@
 #include "SpPerformanceCounter.h"
 #include "SpLogger.h"
 #include "SpLogMsTestProvider.h"
+#include "SpMemoryProfiling.h"
 #include <mutex>
 
 #ifndef NAMESPACE_FOUNDATION_TEST
