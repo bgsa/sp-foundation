@@ -10,7 +10,7 @@ namespace NAMESPACE_FOUNDATION
 	{
 	private:
 
-		void init(const sp_char* name)
+		void init(const sp_char* name, const sp_size initialCRC = ZERO_SIZE)
 		{
 			const sp_size length = std::strlen(name) + 1;
 
@@ -32,7 +32,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline SpStringId(const sp_char* name, const sp_size initialCRC = ZERO_SIZE)
 		{
-			init(name);
+			init(name, initialCRC);
 		}
 
 		API_INTERFACE inline SpStringId& operator=(const sp_char* name)
