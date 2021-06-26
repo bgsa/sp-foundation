@@ -244,6 +244,7 @@
     <ClInclude Include="src\SpProcessorInfo.h" />
     <ClInclude Include="src\SpPropertyInfo.h" />
     <ClInclude Include="src\SpQueue.h" />
+    <ClInclude Include="src\SpRect.h" />
     <ClInclude Include="src\SpRegion.h" />
     <ClInclude Include="src\SpSize.h" />
     <ClInclude Include="src\SpPoint2.h" />
