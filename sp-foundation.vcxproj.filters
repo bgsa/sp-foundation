@@ -92,7 +92,7 @@
     <ClInclude Include="src\ColorRGB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\ColorRGBA.h">
+    <ClInclude Include="src\SpColorRGBA.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\IEquatable.h">

@@ -216,7 +216,7 @@
     <ClInclude Include="src\SpDirectory.h" />
     <ClInclude Include="src\SpectrumFoundation.h" />
     <ClInclude Include="src\ColorRGB.h" />
-    <ClInclude Include="src\ColorRGBA.h" />
+    <ClInclude Include="src\SpColorRGBA.h" />
     <ClInclude Include="src\DisplayDevice.h" />
     <ClInclude Include="src\DisplayDeviceGLFW.h" />
     <ClInclude Include="src\FileManagerWindows.h" />
