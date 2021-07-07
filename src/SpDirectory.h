@@ -93,7 +93,7 @@ namespace NAMESPACE_FOUNDATION
 
 			for (sp_size i = filenameLength - ONE_SIZE; i > ZERO_SIZE; i--)
 			{
-				if (filename[i] == SP_DIRECTORY_SEPARATOR)
+				if (filename[i] == SP_DIRECTORY_SEPARATOR || filename[i] == '/')
 				{
 					std::memcpy(directory, filename, sizeof(sp_char) * i);
 					directory[i] = END_OF_STRING;

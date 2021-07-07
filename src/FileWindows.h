@@ -21,6 +21,8 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE void open(const sp_char* filename, std::ios_base::openmode mode) override;
 
+		API_INTERFACE sp_size sizeOfFile(const sp_char* filename) override;
+
 		API_INTERFACE sp_bool isOpened() override;
 
 		API_INTERFACE sp_bool isAtEnd() override;
@@ -44,6 +46,8 @@ namespace NAMESPACE_FOUNDATION
 		API_INTERFACE void write(const sp_char* buffer) override;
 
 		API_INTERFACE SpString* readTextFile(const sp_char* filename) override;
+
+		API_INTERFACE void readTextFile(const sp_char* filename, sp_char* text) override;
 
 		API_INTERFACE void close();
 

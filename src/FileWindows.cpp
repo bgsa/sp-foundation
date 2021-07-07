@@ -5,6 +5,17 @@
 namespace NAMESPACE_FOUNDATION
 {
 
+	sp_size FileWindows::sizeOfFile(const sp_char* filename)
+	{
+		open(filename, std::ios::in | std::ios::ate);
+
+		const sp_size value = (sp_size)file.tellg();
+
+		close();
+
+		return value;
+	}
+
 	void FileWindows::open(const sp_char* filename, std::ios_base::openmode mode)
 	{
 		file.open(filename, mode);
@@ -85,6 +96,30 @@ namespace NAMESPACE_FOUNDATION
 		close();
 
 		return sp_mem_new(SpString)(content);
+	}
+
+	void FileWindows::readTextFile(const sp_char* filename, sp_char* text)
+	{
+		open(filename, std::ios::in);
+
+		const sp_size len = length();
+		read(text, len);
+
+		// get the "real" length of file
+		sp_size updateLength = ZERO_SIZE;
+		for (sp_size i = ONE_SIZE; i < len; i++)
+		{
+			const sp_char value[2] = { text[i - 1]  , text[i] };
+			if (std::strcmp(value, END_OF_LINE_CRLF) == 0)
+				updateLength++;
+		}
+
+		for (sp_size i = len - ONE_SIZE; i > ZERO_SIZE && text[i] == 'Í'; i--)
+			updateLength++;
+
+		text[len - updateLength] = END_OF_STRING;
+
+		close();
 	}
 
 	void FileWindows::close()

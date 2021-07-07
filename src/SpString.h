@@ -541,6 +541,20 @@ namespace NAMESPACE_FOUNDATION
 
 #endif
 
+	/// <summary>
+	/// Remove a content from input string by indexes (begin to end)
+	/// </summary>
+	/// <param name="input">Input String</param>
+	/// <param name="inputLength">Input String Length</param>
+	/// <param name="begin">Index Begin</param>
+	/// <param name="end">Index End</param>
+	/// <returns>void</returns>
+	API_INTERFACE inline void strRemove(sp_char* input, const sp_size inputLength, const sp_size begin, const sp_size end)
+	{
+		std::memcpy(&input[begin], &input[end + 1], inputLength - end);
+		input[inputLength - (end - begin) - 1] = END_OF_STRING;
+	}
+
 	API_INTERFACE inline void strReplace(const sp_char* input, sp_char pattern, sp_char newValue, sp_char* output)
 	{
 		const sp_size length = std::strlen(input);
@@ -649,6 +663,25 @@ namespace NAMESPACE_FOUNDATION
 				parameterSize++;
 			}
 		}
+	}
+
+	API_INTERFACE inline sp_bool strStartWith(const sp_char* text, const sp_size textLength, const sp_char* content, const sp_size contentLength)
+	{
+		for (sp_size j = 0; j < textLength; j++)
+			if (text[j] != content[j])
+				if (j == contentLength)
+					return true;
+				else
+					return false;
+
+		return true;
+	}
+
+	API_INTERFACE inline void strInsert(const sp_char* text, const sp_size textLength, const sp_char* content,  const sp_size contentLength, const sp_size index, sp_char* newText)
+	{
+		std::memcpy(newText, text, sizeof(sp_char) * index);
+		std::memcpy(&newText[index], content, sizeof(sp_char) * contentLength);
+		std::memcpy(&newText[index + contentLength], &text[index], textLength - index);
 	}
 
 	/// <summary>

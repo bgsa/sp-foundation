@@ -13,6 +13,8 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE virtual void open(const sp_char* filename, std::ios_base::openmode mode) = 0;
 
+		API_INTERFACE virtual sp_size sizeOfFile(const sp_char* filename) = 0;
+
 		API_INTERFACE virtual sp_bool isOpened() = 0;
 
 		API_INTERFACE virtual sp_size length() = 0;
@@ -30,6 +32,8 @@ namespace NAMESPACE_FOUNDATION
 		API_INTERFACE virtual void write(const sp_char* buffer) = 0;
 
 		API_INTERFACE virtual SpString* readTextFile(const sp_char* filename) = 0;
+
+		API_INTERFACE virtual void readTextFile(const sp_char* filename, sp_char* text) = 0;
 
 		API_INTERFACE virtual void close() = 0;
 
