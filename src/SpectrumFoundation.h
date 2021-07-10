@@ -583,6 +583,16 @@ namespace NAMESPACE_FOUNDATION
 	}
 
 	/// <summary>
+	/// Get the tangent of value
+	/// </summary>
+	/// <param name="value">Input element</param>
+	/// <returns>Arc-tangent value</returns>
+	API_INTERFACE inline sp_float sp_tan(const sp_float value)
+	{
+		return tanf(value);
+	}
+
+	/// <summary>
 	/// Get the arc-tangent of value
 	/// </summary>
 	/// <param name="value">Input element</param>
