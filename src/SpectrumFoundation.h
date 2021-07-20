@@ -50,6 +50,9 @@ namespace NAMESPACE_FOUNDATION
 #define sp_const(Type, value) (const Type)(value)
 #define sp_constless(Type, value) const_cast<const Type>(value)
 
+#define sp_min(v1, v2) std::min(v1, v2)
+#define sp_max(v1, v2) std::max(v1, v2)
+
 	/// <summary>
 	/// Check the number is close enough given a other number. It is used to check aproximation value and calculate the error measure.
 	/// </summary>
@@ -421,7 +424,7 @@ namespace NAMESPACE_FOUNDATION
 	///
 	///</summary>
 	template <typename T>
-	API_INTERFACE inline T clamp(T value, T minValue, T maxValue)
+	API_INTERFACE inline T sp_clamp(T value, T minValue, T maxValue)
 	{
 		if (value < minValue)
 			value = minValue;
@@ -533,6 +536,16 @@ namespace NAMESPACE_FOUNDATION
 	}
 
 	/// <summary>
+	/// Get the absolute value of integer number
+	/// </summary>
+	/// <param name="value">Input element</param>
+	/// <returns>Abs value</returns>
+	API_INTERFACE inline sp_int sp_abs(const sp_int value)
+	{
+		return (sp_int)abs(value);
+	}
+
+	/// <summary>
 	/// Get the absolute value of float number
 	/// </summary>
 	/// <param name="float number">Input element</param>
@@ -540,6 +553,16 @@ namespace NAMESPACE_FOUNDATION
 	API_INTERFACE inline sp_float sp_abs(const sp_float value)
 	{
 		return fabsf(value);
+	}
+
+	/// <summary>
+	/// Get the absolute value of double number
+	/// </summary>
+	/// <param name="float number">Input element</param>
+	/// <returns>Abs value</returns>
+	API_INTERFACE inline sp_double sp_abs(const sp_double value)
+	{
+		return fabs(value);
 	}
 
 	/// <summary>
