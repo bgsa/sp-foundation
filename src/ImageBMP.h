@@ -70,7 +70,7 @@ namespace NAMESPACE_FOUNDATION
 		API_INTERFACE static void save(const sp_char* filename, sp_uchar* data, SpSize<sp_int> size);
 		API_INTERFACE void save(const sp_char* filename);
 
-		API_INTERFACE ColorRGB getPixelRGB(sp_int x, sp_int y) override;
+		API_INTERFACE SpColorRGB getPixelRGB(sp_int x, sp_int y) override;
 		
 		API_INTERFACE static ImageBMP* load(const sp_char* filename)
 		{

@@ -2,7 +2,7 @@
 #define IMAGE_HEADER
 
 #include "SpectrumFoundation.h"
-#include "ColorRGB.h"
+#include "SpColorRGB.h"
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -42,7 +42,7 @@ namespace NAMESPACE_FOUNDATION
 			return colorFormat;
 		}
 
-		API_INTERFACE virtual ColorRGB getPixelRGB(sp_int x, sp_int y) = 0;
+		API_INTERFACE virtual SpColorRGB getPixelRGB(sp_int x, sp_int y) = 0;
 	};
 }
 

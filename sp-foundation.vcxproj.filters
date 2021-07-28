@@ -89,7 +89,7 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\ColorRGB.h">
+    <ClInclude Include="src\SpColorRGB.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\SpColorRGBA.h">
