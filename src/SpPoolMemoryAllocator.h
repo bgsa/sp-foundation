@@ -156,6 +156,8 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline void free(void* address) noexcept override
 		{
+			sp_assert(address != nullptr, "InvalidArgumentException");
+
 			SpMemoryPageHeader* header = pageHeader(address);
 
 			if (header->addressLength * SIZEOF_WORD + (sp_size)address == _currentPointer)
