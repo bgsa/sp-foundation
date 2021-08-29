@@ -542,6 +542,16 @@ namespace NAMESPACE_FOUNDATION
 #endif
 
 	/// <summary>
+	/// Check the input string is null or empty
+	/// </summary>
+	/// <param name="input">Input string</param>
+	/// <returns></returns>
+	API_INTERFACE inline sp_bool strIsNullOrEmpty(const sp_char* input)
+	{
+		return input == nullptr || std::strlen(input) == 0;
+	}
+
+	/// <summary>
 	/// Remove a content from input string by indexes (begin to end)
 	/// </summary>
 	/// <param name="input">Input String</param>

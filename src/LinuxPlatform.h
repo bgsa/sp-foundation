@@ -144,7 +144,8 @@ typedef uint_least64_t sp_long_size  __attribute__((aligned(sizeof(long long))))
 	#define SP_NOT_A_NUMBER   nanf( "" )  
 #endif
 
-#define SP_DIRECTORY_SEPARATOR '/'
+#define SP_DIRECTORY_SEPARATOR     '/'
+#define SP_DIRECTORY_SEPARATOR_STR "/"
 #define SP_DIRECTORY_SEPARATOR_LENGTH (1)
 
 #endif // LINUX_PLATFORM_HEADER

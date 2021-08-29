@@ -11,6 +11,14 @@
 #define SP_FILE_MODE_TRUNC  std::ios::trunc // if the file is opened for output operationsand it already existed, its previous content is deletedand replaced by the new one.
 #define SP_FILE_MODE_END    std::ios::ate   // seek to the end of stream immediately after open
 
+namespace NAMESPACE_FOUNDATION
+{
+	sp_bool fileExists(const sp_char* filename);
+
+	sp_size fileSize(const sp_char* filename);
+
+	void readTextFile(const sp_char* filename, sp_char* buffer, const sp_size bufferLength);
+}
 
 #ifdef WINDOWS
 	#include "FileWindows.h"

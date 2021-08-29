@@ -5,6 +5,66 @@
 namespace NAMESPACE_FOUNDATION
 {
 
+	sp_bool fileExists(const sp_char* filename)
+	{
+		DWORD handler = GetFileAttributesA(filename);
+
+		if (handler != INVALID_FILE_ATTRIBUTES)
+			return true;
+
+		return GetLastError() != ERROR_FILE_NOT_FOUND;
+	}
+
+	sp_size fileSize(const sp_char* filename)
+	{
+		WIN32_FILE_ATTRIBUTE_DATA attributes;
+
+		if (!GetFileAttributesExA(filename, GetFileExInfoStandard, &attributes))
+			return -1; // error condition, could call GetLastError to find out more
+
+		LARGE_INTEGER size;
+		size.HighPart = attributes.nFileSizeHigh;
+		size.LowPart = attributes.nFileSizeLow;
+
+		return (sp_size)size.QuadPart;
+	}
+
+	void readTextFile(const sp_char* filename, sp_char* buffer, const sp_size bufferLength)
+	{
+		std::ifstream file;
+		file.open(filename, std::ios::in | std::ios::binary);
+
+		if (errno != NULL)
+		{
+			sp_char* errorMessage = strerror(errno);
+			sp_assert(false, errorMessage);
+			errno = NULL;
+		}
+
+		sp_assert(!file.bad(), "FileException");
+		sp_assert(!file.fail(), "FileException");
+		sp_assert(file.good(), "FileException");
+
+		file.read(buffer, bufferLength);
+		buffer[bufferLength] = END_OF_STRING;
+
+		sp_size updateLength = ZERO_SIZE;
+		for (sp_size i = ONE_SIZE; i < bufferLength; i++)
+		{
+			const sp_char value[2] = { buffer[i - 1]  , buffer[i] };
+			if (std::strcmp(value, END_OF_LINE_CRLF) == 0)
+				updateLength++;
+		}
+
+		for (sp_size i = bufferLength - ONE_SIZE; i > ZERO_SIZE && buffer[i] == 'Í'; i--)
+			updateLength++;
+
+		buffer[bufferLength - updateLength] = END_OF_STRING;
+
+		file.close();
+	}
+
+
 	sp_size FileWindows::sizeOfFile(const sp_char* filename)
 	{
 		open(filename, std::ios::in | std::ios::ate);

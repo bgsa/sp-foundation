@@ -4,6 +4,23 @@
 
 namespace NAMESPACE_FOUNDATION
 {
+
+	sp_bool fileExists(const sp_char* filename)
+	{
+		struct stat status;
+
+		return stat(filename, &status) == 0;
+	}
+
+	inline sp_size fileSize(const sp_char* filename)
+	{
+		struct stat st;
+
+		stat(filename, &st);
+
+		return  st.st_size;
+	}
+
 	void FileLinux::open(const sp_char* filename, std::ios_base::openmode mode)
 	{
 		file.open(filename, mode);
