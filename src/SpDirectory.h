@@ -27,6 +27,223 @@
 namespace NAMESPACE_FOUNDATION
 {
 
+#ifdef WINDOWS
+
+	API_INTERFACE inline void buildWindowsSearchPattern(const sp_char* folder, const sp_size folderLength, sp_char* pattern)
+	{
+		std::memcpy(pattern, folder, (sizeof(sp_char) + 1u) * folderLength);
+		pattern[folderLength] = END_OF_STRING;
+
+		if (endsWith(pattern, SP_DIRECTORY_SEPARATOR_STR))
+			strcat(pattern, "*");
+		else
+			if (endsWith(pattern, "/"))
+				strcat(pattern, "*");
+			else
+			{
+				strcat(pattern, SP_DIRECTORY_SEPARATOR_STR);
+				strcat(pattern, "*");
+			}
+	}
+
+#endif
+
+	/// <summary>
+	/// Check whether the folder is parent ('.' or '..') or not
+	/// </summary>
+	/// <param name="folder">Folder</param>
+	/// <returns></returns>
+	API_INTERFACE inline sp_bool isParentFolder(const sp_char* folder)
+	{
+		return std::strcmp(folder, ".") == 0 || std::strcmp(folder, "..") == 0;
+	}
+
+	/// <summary>
+	/// Get the length or files in the folder
+	/// </summary>
+	/// <param name="folder">Folder</param>
+	/// <param name="folderLength">Characteres Folder length</param>
+	/// <returns>Files length in folder</returns>
+	API_INTERFACE inline sp_uint filesLength(const sp_char* folder, const sp_size folderLength)
+	{
+		sp_size output = 0;
+
+#ifdef WINDOWS
+#define isFile(win32Data) (win32Data.dwFileAttributes & FILE_ATTRIBUTE_ARCHIVE)
+
+		sp_char pattern[SP_DIRECTORY_MAX_LENGTH];
+		buildWindowsSearchPattern(folder, folderLength, pattern);
+
+		WIN32_FIND_DATAA data;
+		HANDLE hFind = FindFirstFileA(pattern, &data);
+		sp_bool keep = true;
+
+		while (hFind != INVALID_HANDLE_VALUE && keep)
+		{
+			if (isFile(data))
+				output++;
+
+			keep = FindNextFileA(hFind, &data);
+		}
+
+		FindClose(hFind);
+#undef isFile
+#else
+		DIR* dir;
+		struct dirent* dirEntry;
+
+		if ((dir = opendir(name)) != nullptr)
+		{
+			const sp_bool hasEntry = (dirEntry = readdir(dir)) != nullptr;
+
+			closedir(dir);
+		}
+#endif
+		return output;
+	}
+
+	/// <summary>
+	/// Get files in the folder
+	/// </summary>
+	/// <param name="folder">Folder</param>
+	/// <param name="folderLength">Characteres folder length</param>
+	/// <param name="files">Files in the folder</param>
+	/// <returns></returns>
+	API_INTERFACE inline void files(const sp_char* folder, const sp_size folderLength, sp_char* files)
+	{
+#ifdef WINDOWS		
+#define isFile(win32Data) (win32Data.dwFileAttributes & FILE_ATTRIBUTE_ARCHIVE)
+
+		sp_char pattern[SP_DIRECTORY_MAX_LENGTH];
+		buildWindowsSearchPattern(folder, folderLength, pattern);
+
+		WIN32_FIND_DATAA data;
+		HANDLE hFind = FindFirstFileA(pattern, &data);
+		sp_bool keep = true;
+		sp_size counter = 0;
+
+		while (hFind != INVALID_HANDLE_VALUE && keep)
+		{
+			if (isFile(data))
+			{
+				const sp_size dirLength = std::strlen(data.cFileName);
+
+				std::memcpy(&files[counter * SP_DIRECTORY_MAX_LENGTH], data.cFileName, dirLength);
+				files[counter * SP_DIRECTORY_MAX_LENGTH + dirLength] = END_OF_STRING;
+				counter++;
+			}
+
+			keep = FindNextFileA(hFind, &data);
+		}
+
+		FindClose(hFind);
+#undef isFile
+#else
+		DIR* dir;
+		struct dirent* dirEntry;
+
+		if ((dir = opendir(name)) != nullptr)
+		{
+			const sp_bool hasEntry = (dirEntry = readdir(dir)) != nullptr;
+
+			closedir(dir);
+		}
+#endif
+	}
+
+	/// <summary>
+	/// Get the length or subdirectories given a folder
+	/// </summary>
+	/// <param name="folder">Folder</param>
+	/// <param name="folderLength">Charracteres Folder length</param>
+	/// <returns>Subdirectories length</returns>
+	API_INTERFACE inline sp_uint subdirectoriesLength(const sp_char* folder, const sp_size folderLength)
+	{
+		sp_size output = 0;
+
+#ifdef WINDOWS
+#define isDirectory(win32Data) (win32Data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+
+		sp_char pattern[SP_DIRECTORY_MAX_LENGTH];
+		buildWindowsSearchPattern(folder, folderLength, pattern);
+
+		WIN32_FIND_DATAA data;
+		HANDLE hFind = FindFirstFileA(pattern, &data);
+		sp_bool keep = true;
+
+		while (hFind != INVALID_HANDLE_VALUE && keep)
+		{
+			if (isDirectory(data) && !isParentFolder(data.cFileName))
+				output++;
+
+			keep = FindNextFileA(hFind, &data);
+		}
+
+		FindClose(hFind);
+#undef isDirectory
+#else
+		DIR* dir;
+		struct dirent* dirEntry;
+
+		if ((dir = opendir(name)) != nullptr)
+		{
+			const sp_bool hasEntry = (dirEntry = readdir(dir)) != nullptr;
+
+			closedir(dir);
+		}
+#endif
+		return output;
+	}
+
+	/// <summary>
+	/// Get subdirectories from a folder
+	/// </summary>
+	/// <param name="folder">Folder</param>
+	/// <param name="folderLength">Characteres folder length</param>
+	/// <param name="directories">Subdirectories from folder</param>
+	/// <returns></returns>
+	API_INTERFACE inline void subdirectories(const sp_char* folder, const sp_size folderLength, sp_char* directories)
+	{
+#ifdef WINDOWS		
+#define isDirectory(win32Data) (win32Data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
+
+		sp_char pattern[SP_DIRECTORY_MAX_LENGTH];
+		buildWindowsSearchPattern(folder, folderLength, pattern);
+
+		WIN32_FIND_DATAA data;
+		HANDLE hFind = FindFirstFileA(pattern, &data);
+		sp_bool keep = true;
+		sp_size counter = 0;
+
+		while (hFind != INVALID_HANDLE_VALUE && keep)
+		{
+			if (isDirectory(data) && !isParentFolder(data.cFileName))
+			{
+				const sp_size dirLength = std::strlen(data.cFileName);
+
+				std::memcpy(&directories[counter * SP_DIRECTORY_MAX_LENGTH], data.cFileName, dirLength);
+				directories[counter * SP_DIRECTORY_MAX_LENGTH + dirLength] = END_OF_STRING;
+				counter++;
+			}
+
+			keep = FindNextFileA(hFind, &data);
+		}
+
+		FindClose(hFind);
+#undef isDirectory
+#else
+		DIR* dir;
+		struct dirent* dirEntry;
+
+		if ((dir = opendir(name)) != nullptr)
+		{
+			const sp_bool hasEntry = (dirEntry = readdir(dir)) != nullptr;
+
+			closedir(dir);
+		}
+#endif
+	}
+
 	/// <summary>
 	/// Get the current folder
 	/// </summary>
