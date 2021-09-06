@@ -12,7 +12,11 @@ namespace NAMESPACE_FOUNDATION
 		if (handler != INVALID_FILE_ATTRIBUTES)
 			return true;
 
-		return GetLastError() != ERROR_FILE_NOT_FOUND;
+		DWORD lastError = GetLastError();
+
+		return (lastError != ERROR_INVALID_NAME)
+			&& (lastError != ERROR_PATH_NOT_FOUND)
+			&& (lastError != ERROR_FILE_NOT_FOUND);
 	}
 
 	sp_size fileSize(const sp_char* filename)
