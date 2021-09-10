@@ -422,6 +422,29 @@ namespace NAMESPACE_FOUNDATION
 		directory[length + pathLength] = END_OF_STRING;
 	}
 
+	/// <summary>
+	/// Rename a directory
+	/// </summary>
+	/// <param name="directory">Previous Directory</param>
+	/// <param name="newDirectory">New Directory</param>
+	/// <returns></returns>
+	API_INTERFACE inline sp_bool directoryRename(sp_char* directory, const sp_char* newDirectory)
+	{
+#ifdef WINDOWS
+		if (MoveFileA(directory, newDirectory))
+			return true;
+
+		sp_char message[512];
+		getLastErrorMessage(message, sizeof(message));
+
+		sp_log_debug1s(message);
+#else
+		NotImplementedException!
+#endif
+		return false;
+	}
+
+
 	class SpDirectory :
 		public Object
 	{

@@ -654,6 +654,15 @@ namespace NAMESPACE_FOUNDATION
 		return SP_SIZE_MAX;
 	}
 
+	API_INTERFACE inline sp_size strLastIndexOf(const sp_char* input, const sp_size inputLength, sp_char pattern)
+	{
+		for (sp_size i = inputLength; i != 0; i--)
+			if (input[i] == pattern)
+				return i;
+
+		return SP_SIZE_MAX;
+	}
+
 	API_INTERFACE inline sp_bool strContains(const sp_char* input, const sp_char* pattern)
 	{
 		return strIndexOf(input, pattern) != SP_SIZE_MAX;

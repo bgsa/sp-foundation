@@ -154,6 +154,18 @@ typedef unsigned __int64 sp_size;
 #define SP_DIRECTORY_SEPARATOR_STR "\\"
 #define SP_DIRECTORY_SEPARATOR_LENGTH (2)
 
+inline void getLastErrorMessage(sp_char* message, const sp_size messageSize)
+{
+	FormatMessageA(
+		FORMAT_MESSAGE_FROM_SYSTEM,
+		nullptr,
+		GetLastError(),
+		LOCALE_USER_DEFAULT,
+		message,
+		messageSize,
+		nullptr);
+}
+
 #endif // WINDOWS_PLATFORM_HEADER
 
 #endif // WINDOWS
