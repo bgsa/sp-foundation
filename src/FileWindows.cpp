@@ -68,6 +68,13 @@ namespace NAMESPACE_FOUNDATION
 		file.close();
 	}
 
+	void writeTextFile(const sp_char* filename, const sp_char* buffer, const sp_size bufferLength)
+	{
+		FileWindows file;
+		file.open(filename, std::ios_base::out);
+		file.write(buffer);
+		file.close();
+	}
 
 	sp_size FileWindows::sizeOfFile(const sp_char* filename)
 	{

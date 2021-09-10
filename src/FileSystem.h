@@ -18,6 +18,8 @@ namespace NAMESPACE_FOUNDATION
 	sp_size fileSize(const sp_char* filename);
 
 	void readTextFile(const sp_char* filename, sp_char* buffer, const sp_size bufferLength);
+
+	void writeTextFile(const sp_char* filename, const sp_char* buffer, const sp_size bufferLength);
 }
 
 #ifdef WINDOWS
