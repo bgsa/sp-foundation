@@ -38,10 +38,11 @@
 	#error "Environment not 32 or 64-bit"
 #endif
 
-typedef bool   sp_bool;
-typedef char   sp_char;
-typedef float  sp_float;
-typedef double sp_double;
+typedef bool    sp_bool;
+typedef char    sp_char;
+typedef wchar_t sp_wchar;
+typedef float   sp_float;
+typedef double  sp_double;
 
 typedef signed __int8    sp_int8;
 typedef signed __int16   sp_short;

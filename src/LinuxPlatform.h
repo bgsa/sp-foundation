@@ -99,10 +99,11 @@
 #define FOUR_DOUBLE  4.0
 #define TEN_DOUBLE  10.0
 
-typedef bool   sp_bool;
-typedef char   sp_char;
-typedef float  sp_float  __attribute__((aligned(sizeof(float))));
-typedef double sp_double __attribute__((aligned(sizeof(double))));
+typedef bool    sp_bool;
+typedef char    sp_char;
+typedef wchar_t sp_wchar;
+typedef float   sp_float  __attribute__((aligned(sizeof(float))));
+typedef double  sp_double __attribute__((aligned(sizeof(double))));
 
 typedef int8_t    sp_int8;
 typedef int16_t   sp_int16     __attribute__((aligned(sizeof(int16_t))));

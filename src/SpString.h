@@ -422,6 +422,18 @@ namespace NAMESPACE_FOUNDATION
 };
 
 	/// <summary>
+	/// Convert a char string to wchar string
+	/// </summary>
+	/// <param name="str"></param>
+	/// <param name="wstr"></param>
+	/// <param name="strLength"></param>
+	/// <returns></returns>
+	API_INTERFACE inline void convert(const sp_char* str, sp_wchar* wstr, const sp_size strLength)
+	{
+		mbstowcs(wstr, str, strLength);
+	}
+
+	/// <summary>
 	/// Convert a text content to a float
 	/// </summary>
 	/// <param name="text">C style string</param>
