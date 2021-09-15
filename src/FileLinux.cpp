@@ -12,7 +12,7 @@ namespace NAMESPACE_FOUNDATION
 		return stat(filename, &status) == 0;
 	}
 
-	inline sp_size fileSize(const sp_char* filename)
+	sp_size fileSize(const sp_char* filename)
 	{
 		struct stat st;
 
@@ -21,15 +21,63 @@ namespace NAMESPACE_FOUNDATION
 		return  st.st_size;
 	}
 
+	sp_size FileLinux::sizeOfFile(const sp_char* filename)
+	{
+		return fileSize(filename);
+	}
+
+	void readTextFile(const sp_char* filename, sp_char* buffer, const sp_size bufferLength)
+	{
+		std::ifstream file;
+		file.open(filename, std::ios::in | std::ios::binary);
+
+		if (errno != 0)
+		{
+			sp_char* errorMessage = strerror(errno);
+			sp_assert(false, errorMessage);
+			errno = 0;
+		}
+
+		sp_assert(!file.bad(), "FileException");
+		sp_assert(!file.fail(), "FileException");
+		sp_assert(file.good(), "FileException");
+
+		file.read(buffer, bufferLength);
+		buffer[bufferLength] = END_OF_STRING;
+
+		sp_size updateLength = ZERO_SIZE;
+		for (sp_size i = ONE_SIZE; i < bufferLength; i++)
+		{
+			const sp_char value[2] = { buffer[i - 1]  , buffer[i] };
+			if (std::strcmp(value, END_OF_LINE_CRLF) == 0)
+				updateLength++;
+		}
+
+		for (sp_size i = bufferLength - ONE_SIZE; i > ZERO_SIZE && buffer[i] == '�'; i--)
+			updateLength++;
+
+		buffer[bufferLength - updateLength] = END_OF_STRING;
+
+		file.close();	
+	}
+
+	void writeTextFile(const sp_char* filename, const sp_char* buffer, const sp_size bufferLength)
+	{
+		FileLinux file;
+		file.open(filename, std::ios_base::out);
+		file.write(buffer);
+		file.close();
+	}
+
 	void FileLinux::open(const sp_char* filename, std::ios_base::openmode mode)
 	{
 		file.open(filename, mode);
 
-		if (errno != NULL)
+		if (errno != 0)
 		{
 			sp_char* errorMessage = strerror(errno);
 			sp_assert(false, errorMessage);
-			errno = NULL;
+			errno = 0;
 		}
 
 		sp_assert(!file.bad(), "FileException");
@@ -88,6 +136,30 @@ namespace NAMESPACE_FOUNDATION
 		close();
 
 		return sp_mem_new(SpString)(content);
+	}
+
+	void FileLinux::readTextFile(const sp_char* filename, sp_char* text)
+	{
+		open(filename, std::ios::in);
+
+		const sp_size len = length();
+		read(text, len);
+
+		// get the "real" length of file
+		sp_size updateLength = ZERO_SIZE;
+		for (sp_size i = ONE_SIZE; i < len; i++)
+		{
+			const sp_char value[2] = { text[i - 1]  , text[i] };
+			if (std::strcmp(value, END_OF_LINE_CRLF) == 0)
+				updateLength++;
+		}
+
+		for (sp_size i = len - ONE_SIZE; i > ZERO_SIZE && text[i] == '�'; i--)
+			updateLength++;
+
+		text[len - updateLength] = END_OF_STRING;
+
+		close();
 	}
 
 	void FileLinux::close()

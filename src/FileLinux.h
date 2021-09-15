@@ -6,6 +6,7 @@
 #include "SpectrumFoundation.h"
 #include <fstream>
 #include "IFile.h"
+#include <sys/stat.h>
 
 namespace NAMESPACE_FOUNDATION
 {
@@ -16,6 +17,10 @@ namespace NAMESPACE_FOUNDATION
 		std::fstream file;
 
 	public:
+
+		API_INTERFACE sp_size sizeOfFile(const sp_char* filename) override;
+
+		API_INTERFACE void readTextFile(const sp_char* filename, sp_char* text) override;
 
 		API_INTERFACE void open(const sp_char* filename, std::ios_base::openmode mode) override;
 

@@ -35,7 +35,9 @@ namespace NAMESPACE_FOUNDATION
 		status.dwLength = sizeof(status);
 		GlobalMemoryStatusEx(&status);
 		return (sp_size)status.ullTotalPhys;
-#elif UNIX
+#elif LINUX
+		return 0;
+#elif OSX
 		//return vmsize.t_rm;
 		return 0;
 #endif

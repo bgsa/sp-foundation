@@ -96,7 +96,7 @@ namespace NAMESPACE_FOUNDATION
 				std::cerr << message << std::endl;
 			}
 #else
-			if (dlclose(handler) != NULL)
+			if (dlclose(handler) != 0)
 				std::cerr << dlerror() << std::endl;
 #endif
 

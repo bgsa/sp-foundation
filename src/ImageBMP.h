@@ -98,8 +98,15 @@ namespace NAMESPACE_FOUNDATION
 			FILE *file;
 			fopen_s(&file, filename, "rb");
 			
-			fread(&fileHeader, sizeof(BMPFileHeader), 1, file);
-			fread(&headerInfo, sizeof(BMPHeaderInfo), 1, file);
+			const sp_size fileHeaderRead = fread(&fileHeader, sizeof(BMPFileHeader), 1, file);
+
+			if (fileHeaderRead != sizeof(BMPFileHeader))
+				sp_assert("Erro", "IOException");
+
+			const sp_size bmpHeaderRead = fread(&headerInfo, sizeof(BMPHeaderInfo), 1, file);
+
+			if (bmpHeaderRead != sizeof(BMPHeaderInfo))
+				sp_assert("Erro", "IOException");
 
 			//sp_assert(headerInfo.bitCount == 8); // BMP images should be 8 bits ?!
 
@@ -118,8 +125,16 @@ namespace NAMESPACE_FOUNDATION
 	#if defined(LINUX) || defined(OSX)
 			FILE *file = fopen(filename, "rb");
 			
-			fread(&fileHeader, sizeof(BMPFileHeader), 1, file);
-			fread(&headerInfo, sizeof(BMPHeaderInfo), 1, file);
+			const sp_size fileHeaderRead = fread(&fileHeader, sizeof(BMPFileHeader), 1, file);
+
+			if (fileHeaderRead == 0 || fileHeaderRead != sizeof(BMPFileHeader))
+				sp_assert("Erro", "IOException");
+
+			const sp_size bmpHeaderRead = fread(&headerInfo, sizeof(BMPHeaderInfo), 1, file);
+
+			if (bmpHeaderRead == 0 || bmpHeaderRead != sizeof(BMPHeaderInfo))
+				sp_assert("Erro", "IOException");
+
 
 			//sp_assert(headerInfo.bitCount == 8); // BMP images should be 8 bits ?!
 
@@ -131,7 +146,10 @@ namespace NAMESPACE_FOUNDATION
 			fseek(file, fileHeader.offBits, SEEK_SET);
 			
 			image->_data = (sp_uchar*) sp_mem_calloc(size, sizeof(sp_uchar));
-			fread(image->_data, sizeof(sp_uchar), size, file);
+			const sp_size bytesRead = fread(image->_data, sizeof(sp_uchar), size, file);
+
+			if (bytesRead == 0 || bytesRead != size)
+				sp_assert("Erro", "IOException");
 
 			fclose(file);
 	#endif

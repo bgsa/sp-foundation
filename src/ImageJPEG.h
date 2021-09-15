@@ -33,7 +33,11 @@ namespace NAMESPACE_FOUNDATION
 			FILE *file = fopen(filename, "rb");
 
 			JFIFHeader fileHeader;
-			fread(&fileHeader, sizeof(JFIFHeader), 1, file);
+			const sp_size fileHeaderRead = fread(&fileHeader, sizeof(JFIFHeader), 1, file);
+
+			if (fileHeaderRead == 0 || fileHeaderRead != sizeof(JFIFHeader))
+				sp_assert("Erro", "IOException");
+
 
 			fclose(file);
 			ALLOC_DELETE(image, ImageJPEG);

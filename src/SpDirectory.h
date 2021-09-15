@@ -7,12 +7,11 @@
 
 #ifdef WINDOWS
 	#include <direct.h>
-	#define GetCurrentDir _getcwd
 #else
     #include <sys/stat.h>
     #include <unistd.h>
-	
-	#define GetCurrentDir getcwd
+	#include <sys/types.h>
+	#include <dirent.h>
 #endif
 
 #ifdef WINDOWS
@@ -92,7 +91,7 @@ namespace NAMESPACE_FOUNDATION
 		DIR* dir;
 		struct dirent* dirEntry;
 
-		if ((dir = opendir(name)) != nullptr)
+		if ((dir = opendir(folder)) != nullptr)
 		{
 			const sp_bool hasEntry = (dirEntry = readdir(dir)) != nullptr;
 
@@ -142,7 +141,7 @@ namespace NAMESPACE_FOUNDATION
 		DIR* dir;
 		struct dirent* dirEntry;
 
-		if ((dir = opendir(name)) != nullptr)
+		if ((dir = opendir(folder)) != nullptr)
 		{
 			const sp_bool hasEntry = (dirEntry = readdir(dir)) != nullptr;
 
@@ -185,7 +184,7 @@ namespace NAMESPACE_FOUNDATION
 		DIR* dir;
 		struct dirent* dirEntry;
 
-		if ((dir = opendir(name)) != nullptr)
+		if ((dir = opendir(folder)) != nullptr)
 		{
 			const sp_bool hasEntry = (dirEntry = readdir(dir)) != nullptr;
 
@@ -235,7 +234,7 @@ namespace NAMESPACE_FOUNDATION
 		DIR* dir;
 		struct dirent* dirEntry;
 
-		if ((dir = opendir(name)) != nullptr)
+		if ((dir = opendir(folder)) != nullptr)
 		{
 			const sp_bool hasEntry = (dirEntry = readdir(dir)) != nullptr;
 
@@ -249,9 +248,17 @@ namespace NAMESPACE_FOUNDATION
 	/// </summary>
 	/// <param name="output">Current folder</param>
 	/// <returns></returns>
-	API_INTERFACE inline void currentDirectory(sp_char* output, const sp_size maxLength = SP_DIRECTORY_MAX_LENGTH)
+	API_INTERFACE inline sp_bool currentDirectory(sp_char* output, const sp_size maxLength = SP_DIRECTORY_MAX_LENGTH)
 	{
-		GetCurrentDir(output, maxLength);
+#ifdef WINDOWS
+		if (_getcwd(output, maxLength) != nullptr)
+			return true;	
+#else
+		if (getcwd(output, maxLength) != nullptr)
+			return true;
+#endif
+		std::cerr << "Error getting current folder: " << strerror(errno) << std::endl;
+		return false;
 	}
 
 	/// <summary>
@@ -302,7 +309,7 @@ namespace NAMESPACE_FOUNDATION
 #else
 		struct stat info;
 
-		sp_int statRC = stat(path, &info);
+		sp_int statRC = stat(name, &info);
 		if (statRC != 0)
 		{
 			if (errno == ENOENT) 
@@ -439,7 +446,10 @@ namespace NAMESPACE_FOUNDATION
 
 		sp_log_debug1s(message);
 #else
-		NotImplementedException!
+		sp_int errorCode = rename(directory, newDirectory);
+
+		if (errorCode == 0)
+			return true;
 #endif
 		return false;
 	}
@@ -578,11 +588,13 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline void subdirectories(sp_char* directories)
 		{
+			sp_size length;
+
 #ifdef WINDOWS
 
 #define isDirectory(win32Data) (win32Data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
 			sp_char pattern[SP_DIRECTORY_MAX_LENGTH];
-			sp_size length = std::strlen(_name->data());
+			length = std::strlen(_name->data());
 
 			std::memcpy(pattern, _name->data(), (sizeof(sp_char) + 1u) * length);
 			pattern[length] = END_OF_STRING;
@@ -620,10 +632,18 @@ namespace NAMESPACE_FOUNDATION
 			DIR* dir;
 			struct dirent* dirEntry;
 
+			length = 0;
+
 			if ((dir = opendir(_name->data())) != nullptr) 
 			{
 				while ((dirEntry = readdir(dir)) != nullptr) {
-					files.add(dirEntry->d_name);
+
+					const sp_size strLength = std::strlen(dirEntry->d_name);
+
+					std::memcpy(&directories[length * SP_DIRECTORY_MAX_LENGTH], dirEntry->d_name, (sizeof(sp_char) + 1) * strLength);
+					directories[length * SP_DIRECTORY_MAX_LENGTH + strLength] = END_OF_LINE;
+
+					length++;
 				}
 
 				closedir(dir);

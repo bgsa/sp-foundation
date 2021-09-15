@@ -207,7 +207,7 @@ namespace NAMESPACE_FOUNDATION
 
 		API_INTERFACE inline SpString* add(const sp_uint uintValue) noexcept
 		{
-			const sp_uint len = std::numeric_limits<sp_uint>::digits10 + 1u /*0-terminator*/;
+			SP_CONSTEXPR sp_uint len = std::numeric_limits<sp_uint>::digits10 + 1u /*0-terminator*/;
 
 			sp_assert(_length + len < _allocatedLength, "InvalidArgumentException");
 
