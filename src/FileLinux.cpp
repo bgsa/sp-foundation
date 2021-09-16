@@ -9,7 +9,12 @@ namespace NAMESPACE_FOUNDATION
 	{
 		struct stat status;
 
-		return stat(filename, &status) == 0;
+		const sp_bool exists = stat(filename, &status) == 0;
+
+		if (!exists)
+			errno = 0;
+
+		return exists;
 	}
 
 	sp_size fileSize(const sp_char* filename)
