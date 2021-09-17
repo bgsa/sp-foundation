@@ -4,6 +4,7 @@
 #include "SpectrumFoundation.h"
 #include "SpString.h"
 #include "SpText.h"
+#include "SpLogger.h"
 
 #ifdef WINDOWS
 	#include <direct.h>
@@ -65,7 +66,7 @@ namespace NAMESPACE_FOUNDATION
 	/// <returns>Files length in folder</returns>
 	API_INTERFACE inline sp_uint filesLength(const sp_char* folder, const sp_size folderLength)
 	{
-		sp_size output = 0;
+		sp_uint output = 0;
 
 #ifdef WINDOWS
 #define isFile(win32Data) (win32Data.dwFileAttributes & FILE_ATTRIBUTE_ARCHIVE)
@@ -158,7 +159,7 @@ namespace NAMESPACE_FOUNDATION
 	/// <returns>Subdirectories length</returns>
 	API_INTERFACE inline sp_uint subdirectoriesLength(const sp_char* folder, const sp_size folderLength)
 	{
-		sp_size output = 0;
+		sp_uint output = 0;
 
 #ifdef WINDOWS
 #define isDirectory(win32Data) (win32Data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
@@ -251,7 +252,7 @@ namespace NAMESPACE_FOUNDATION
 	API_INTERFACE inline sp_bool currentDirectory(sp_char* output, const sp_size maxLength = SP_DIRECTORY_MAX_LENGTH)
 	{
 #ifdef WINDOWS
-		if (_getcwd(output, maxLength) != nullptr)
+		if (_getcwd(output, (sp_int)maxLength) != nullptr)
 			return true;	
 #else
 		if (getcwd(output, maxLength) != nullptr)
@@ -443,7 +444,6 @@ namespace NAMESPACE_FOUNDATION
 
 		sp_char message[512];
 		getLastErrorMessage(message, sizeof(message));
-
 		sp_log_debug1s(message);
 #else
 		sp_int errorCode = rename(directory, newDirectory);

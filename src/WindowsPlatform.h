@@ -163,7 +163,7 @@ inline void getLastErrorMessage(sp_char* message, const sp_size messageSize)
 		GetLastError(),
 		LOCALE_USER_DEFAULT,
 		message,
-		messageSize,
+		(DWORD)messageSize,
 		nullptr);
 }
 
