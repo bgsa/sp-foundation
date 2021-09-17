@@ -11,12 +11,12 @@ namespace NAMESPACE_FOUNDATION
 {
 	sp_bool checkFile(std::ifstream& file, const sp_char* filename)
 	{
-		if (errno == NULL)
+		if (errno == 0)
 			return true;
 
 		sp_char* errorMessage = strerror(errno);
 		sp_assert(false, errorMessage);
-		errno = NULL;
+		errno = 0;
 
 		sp_assert(!file.bad(), "FileException");
 		sp_assert(!file.fail(), "FileException");
